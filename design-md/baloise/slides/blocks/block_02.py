@@ -30,8 +30,7 @@ def slide_15(prs):
 
 def slide_16(prs):
     s = new_slide(prs)
-    title(s, "Some instructions belong to the task. Others apply again and "
-             "again.")
+    title(s, "Some instructions change every time. Others never do.")
     lead(s, "Some information is needed for one task; some should shape many.")
 
     task = card(s, COL2_X[0], 150, COL2_W, 232, NEUTRAL.surface, pad=18)
@@ -128,10 +127,9 @@ def slide_18(prs):
 
 def slide_19(prs):
     s = new_slide(prs)
-    title(s, "Repeated output requirements do not need to be rewritten every "
-             "time.")
+    title(s, "Describe your standard format once, not every time.")
 
-    eyebrow(s, "Example — management decision note")
+    eyebrow(s, "Example")
     prompt = card(s, MARGIN, 146, CONTENT_W, 262, NEUTRAL.surface, pad=20)
     write(prompt, [
         ("When I ask for a management decision note, use exactly these "
@@ -198,10 +196,9 @@ def slide_20(prs):
 
 def slide_21(prs):
     s = new_slide(prs)
-    title(s, "How much can the same short prompt improve when the context is "
-             "already there?")
+    title(s, "Does the same short prompt get better with context?")
 
-    eyebrow(s, "Scenario — claims operations notes", w=MAIN_W)
+    eyebrow(s, "Scenario", w=MAIN_W)
     notes = card(s, MARGIN, 146, MAIN_W, 200, NEUTRAL.surface, pad=16)
     write(notes, [(t, T_BODY, False, BLUE, None if i == 0 else 6)
                   for i, t in enumerate((
@@ -233,8 +230,8 @@ def slide_22(prs):
     s = new_slide(prs)
     title(s, "Same prompt. Different context.")
 
-    eyebrow(s, "Without persistent context", x=COL2_X[0], w=COL2_W)
-    eyebrow(s, "With persistent context", x=COL2_X[1], w=COL2_W,
+    eyebrow(s, "Without context", x=COL2_X[0], w=COL2_W)
+    eyebrow(s, "With context", x=COL2_X[1], w=COL2_W,
             colour=GOOD.accent)
 
     before = card(s, COL2_X[0], 146, COL2_W, 296, NEUTRAL.surface, pad=20)

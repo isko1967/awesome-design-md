@@ -9,7 +9,7 @@ rides at the end of block 3) 6 (clinic) 7 (transfer & close).
 import importlib
 import sys
 
-from slidekit import drop_existing_slides, load_template
+from slidekit import drop_existing_slides, load_template, settle
 
 BLOCKS = [0, 1, 2, 3, 4, 5, 6, 7]
 
@@ -26,6 +26,7 @@ def main():
         module = importlib.import_module(f"blocks.block_{number:02d}")
         for builder in module.SLIDES:
             builder(prs)
+            settle(prs.slides[-1])
     prs.save(out)
     print(f"wrote {out} ({len(prs.slides._sldIdLst)} slides)")
 

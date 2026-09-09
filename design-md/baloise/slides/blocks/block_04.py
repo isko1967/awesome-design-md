@@ -123,8 +123,7 @@ def slide_34(prs):
 
 def slide_35(prs):
     s = new_slide(prs)
-    title(s, "Self-check is a control point — not proof that the answer is "
-             "correct.")
+    title(s, "A self-check gives you control, not proof.")
 
     eyebrow(s, "It can help check", x=COL2_X[0], w=COL2_W, colour=GOOD.accent)
     can = card(s, COL2_X[0], 150, COL2_W, 214, GOOD.surface, pad=18)
@@ -187,12 +186,11 @@ def slide_36(prs):
 
 def slide_37(prs):
     s = new_slide(prs)
-    title(s, "Can explicit criteria produce a meaningfully better second "
-             "version?")
+    title(s, "Do clear criteria make the second version better?")
     lead(s, "We need to communicate a change to how customers submit claim "
             "documents.")
 
-    eyebrow(s, "The four criteria — the communication must", w=MAIN_W)
+    eyebrow(s, "The four criteria", w=MAIN_W)
     listing(s, [
         ("1", "Explain what is changing", None),
         ("2", "Explain what the customer needs to do", None),
@@ -214,8 +212,7 @@ def slide_37(prs):
 
 def slide_38(prs):
     s = new_slide(prs)
-    title(s, "The revision should solve identified problems — not just sound "
-             "different.")
+    title(s, "A good revision fixes the gap, not just the wording.")
 
     eyebrow(s, "Version 1", x=COL2_X[0], w=COL2_W)
     v1 = card(s, COL2_X[0], 146, COL2_W, 132, NEUTRAL.surface, pad=16)
@@ -258,8 +255,7 @@ def slide_38(prs):
 
 def slide_39(prs):
     s = new_slide(prs)
-    title(s, "Turn one of your earlier outputs into a controlled second "
-             "version.", width=729)
+    title(s, "Improve one of your earlier outputs.", width=729)
     lead(s, "Your task")
     badge(s, "TIME  4 MIN")
 
@@ -299,7 +295,7 @@ def slide_40(prs):
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 163 + 16
 
-    eyebrow(s, "Then ask yourself — what made the difference?", y=262)
+    eyebrow(s, "What made the difference", y=262)
     x = MARGIN
     w = (CONTENT_W - 3 * 16) / 4
     for text in ("Better criteria?", "An identified gap?", "Clearer "

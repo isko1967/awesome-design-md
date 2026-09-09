@@ -59,7 +59,7 @@ def slide_02(prs):
     lead(s, "Use advanced prompting techniques to get more consistent, "
             "controllable and reusable results from AI.")
 
-    eyebrow(s, "By the end of this session, you should be able to")
+    eyebrow(s, "You will be able to")
     listing(s, [
         ("1", "Recognise which prompting problem you are facing.", None),
         ("2", "Choose an appropriate technique.", None),
@@ -93,7 +93,7 @@ def slide_04(prs):
     s = new_slide(prs)
     title(s, "Today’s agenda.", has_lead=False)
 
-    eyebrow(s, "Five prompting techniques")
+    eyebrow(s, "Five techniques")
     listing(s, [
         ("01", "Few-shot & negative examples", None),
         ("02", "Persistent context & system instructions", None),

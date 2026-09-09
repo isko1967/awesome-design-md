@@ -318,8 +318,11 @@ def arrow(slide, x, y, size=16, colour=None, glyph="→"):
 
 
 # --- page furniture ----------------------------------------------------------
-TITLE_STEPS = (T_TITLE, 30, 28, 26)
-LEAD_Y = 94
+TITLE_STEPS = (T_TITLE, 30, 28)
+TITLE_Y = 48          # the master says 38; 10pt lower stops the header
+                      # reading as text pinned into the corner
+LEAD_Y = 100
+CONTENT_START = 132   # where the first content shape sits, on every slide
 
 # Where content may start. A slide with a lead needs real air under the header
 # block, otherwise title, lead, label and first card read as one mass pinned
@@ -341,22 +344,21 @@ def title(slide, text, width=CONTENT_W, has_lead=True):
 
     size = fit_size(text, width - 4, TITLE_STEPS, bold=True)
     lines = len(wrapped_lines(text, width - 4, size, bold=True))
-    if lines > 1 and has_lead:
-        # a second line would collide with the lead, so keep shrinking
-        for step in range(T_TITLE, T_LEAD + 1, -2):
-            if text_width(text, step, True) <= width - 4:
-                size, lines = step, 1
-                break
+    if lines > 1:
+        if has_lead:
+            # Shrinking below 28pt makes the title look stranded next to an
+            # 18pt lead, so the wording has to give instead.
+            print(f"  TITLE TOO LONG for one line at {TITLE_STEPS[-1]}pt, "
+                  f"reword: {text!r}")
         else:
-            size, lines = T_LEAD + 2, len(
-                wrapped_lines(text, width - 4, T_LEAD + 2, bold=True))
-    if lines > 2:
-        print(f"  title needs {lines} lines at {size}pt - shorten the wording: "
-              f"{text[:60]!r}")
+            size, lines = T_TITLE, len(
+                wrapped_lines(text, width - 4, T_TITLE, bold=True))
 
+    shape.left = Pt(MARGIN)
+    shape.top = Pt(TITLE_Y)
     shape.height = Pt(round(size * 1.35) * lines + 8)
     write(shape, [(text, size, True, BLUE, None)])
-    return 38 + round(size * 1.35) * lines + 8
+    return TITLE_Y + round(size * 1.35) * lines + 8
 
 
 def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
@@ -366,7 +368,7 @@ def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
     not clipped; the content zone starts at 146, leaving room for two.
     """
     lines = len(wrapped_lines(text, width, T_LEAD))
-    h = lines * round(T_LEAD * 1.35) + 4
+    h = lines * round(T_LEAD * 1.35)
     return write(textbox(slide, MARGIN, y, width, h),
                  [(text, T_LEAD, False, BLUE, None)])
 
@@ -590,3 +592,38 @@ def flow_row(slide, steps, top, cell_h, x=MARGIN, width=CONTENT_W, gap=26,
             rows.append((body, T_HINT, False, BLUE, 4))
         write(cell, rows, anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
     return cell_w
+
+
+def settle(slide, start=CONTENT_START, floor=BAND_TOP):
+    """Give every slide the same gap between header and content.
+
+    The block modules hard-code the y of their first content shape, and those
+    values drifted from 108 to 168 across the deck. Rather than chase them one
+    by one, this shifts the whole content band so that its top always sits at
+    `start`, as long as the bottom still clears the closing band.
+    """
+    movable = []
+    for shape in slide.shapes:
+        top = shape.top / 12700
+        if shape.is_placeholder and shape.placeholder_format.idx == 0:
+            continue
+        if top < 100 or top >= 448:
+            continue
+        movable.append((shape, top, top + shape.height / 12700))
+    if not movable:
+        return 0
+
+    wanted = start - min(t for _, t, _ in movable)
+    if wanted <= 0:
+        return 0
+
+    # Shift by whatever slack the slide has. A slide with none keeps its
+    # tighter header; check.py reports it, so the content gets trimmed by hand
+    # rather than by a rule that cannot see which card is already full.
+    slack = floor - max(b for _, _, b in movable)
+    delta = min(wanted, slack)
+    if delta <= 0:
+        return 0
+    for shape, _, _ in movable:
+        shape.top = shape.top + int(round(delta * 12700))
+    return delta

@@ -6,7 +6,7 @@ Usage:  python3 build.py <corporate.potx> <block-number> <out.pptx>
 import importlib
 import sys
 
-from slidekit import drop_existing_slides, load_template
+from slidekit import drop_existing_slides, load_template, settle
 
 
 def main():
@@ -20,6 +20,7 @@ def main():
     drop_existing_slides(prs)
     for builder in module.SLIDES:
         builder(prs)
+        settle(prs.slides[-1])
     prs.save(out)
     print(f"wrote {out} ({len(prs.slides._sldIdLst)} slides)")
 

@@ -142,7 +142,7 @@ def slide_28(prs):
                  "full output.", T_LEAD, False, BLUE, None)],
           anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Related concept — prompt chaining", x=COL2_X[1], w=COL2_W,
+    eyebrow(s, "Prompt chaining", x=COL2_X[1], w=COL2_W,
             y=294)
     chain = card(s, COL2_X[1], 316, COL2_W, 126, GUARDRAIL.surface, pad=18)
     write(chain, [

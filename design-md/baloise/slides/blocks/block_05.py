@@ -156,7 +156,7 @@ def slide_45(prs):
                      "Ends without a decision or action"))],
           anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "What is most likely missing?", x=COL2_X[1], w=COL2_W)
+    eyebrow(s, "Most likely missing", x=COL2_X[1], w=COL2_W)
     opts = [("A", "More source information", False),
             ("B", "Clearer audience needs", True),
             ("C", "More professional wording", False),

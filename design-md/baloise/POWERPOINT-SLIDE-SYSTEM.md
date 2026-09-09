@@ -257,3 +257,61 @@ alle gleichwertig — genau wie es das Design System verlangt.
    aufgebaut statt from scratch — das ändert Schritt 1 erheblich.
 3. **Sprache:** Der Inhalt ist Englisch, die Zielgruppe vermutlich gemischt.
    Folien Englisch belassen?
+
+---
+
+## Nachtrag — Entscheide vom 09.09.2026
+
+**Marke:** Baloise (Status quo). **Sprache:** Englisch, Text unverändert.
+**Vorlage:** Eine offizielle Corporate-`.potx` wird geliefert und ist die **primäre**
+Quelle für die visuelle Sprache (Schriften, Farben, Typografie, Spacing, Formen,
+Layoutkonventionen). Die Extraktion in `DESIGN.md` bleibt die Referenz für alles, was
+die Vorlage offen lässt — sie ersetzt sie nicht.
+
+### Geänderter Auftrag
+
+Nicht das ganze Deck, sondern **zuerst 5 repräsentative Musterfolien** zur Abnahme.
+Inhalt und didaktische Struktur bleiben unverändert — dieser Schritt ist reine
+visuelle Übersetzung ins Corporate Design.
+
+Prioritäten (in dieser Reihenfolge):
+1. Corporate-Design-Konsistenz
+2. Klare visuelle Hierarchie und Lesbarkeit
+3. Einfache, robuste PowerPoint-Layouts
+4. Kein Textüberlauf, keine Überlappungen, keine zu kleinen Schriften
+5. Keine überflüssige Dekoration, kein Over-Engineering
+
+Bestehende Corporate-Layouts werden genutzt, wo sie natürlich passen. Inhalt wird
+**nicht** in unpassende Layouts gezwängt — dort entstehen einfache eigene
+Kompositionen aus dem Design System.
+
+### Vorschlag für die 5 Musterfolien
+
+Ausgewählt nach Archetyp-Abdeckung, damit die Abnahme verallgemeinerbar ist:
+
+| Slide | Archetyp | Warum in der Auswahl |
+|---|---|---|
+| **7** | Divider | Wiederholt sich in jedem Block; etabliert Blockfarbe und Zyklus |
+| **10** | Concept (B3) | Textdichteste LEARN-Folie; enthält die Prompt-Template-Karte, die jeder Block braucht |
+| **12** | Before/After | Grösstes Überlaufrisiko; zwei Spalten identischer Struktur |
+| **13** | Practice | Nummeriertes Raster + Zeit-Badge + die Disclaimer-Entscheidung |
+| **14** | Reflection | Das ruhige Ende der Bandbreite; Chips-Komponente |
+
+Nicht in der Auswahl: 8 und 9 (Varianten von 10, leichter), 11 (strukturell nah an 10).
+
+### Vorbereitet, unabhängig von der Vorlage
+
+- `slides/inspect_template.py` — inventarisiert die `.potx`: Foliengrösse, Theme-Fonts,
+  Farbschema, alle Master und Layouts mit Platzhalter-Geometrie in Punkt.
+  Aufruf: `python3 inspect_template.py corporate.potx --slides`
+- `slides/content/block-01.json` — der gesamte Inhalt der Slides 7–14 strukturiert und
+  wortgleich, layoutunabhängig. Enthält für jede Folie Archetyp, Phase, Eyebrow,
+  Action Title und die inhaltlichen Blöcke.
+- Toolchain geprüft: Node 22, python-pptx, markitdown, LibreOffice für das Rendern
+  nach PNG.
+
+### Offen
+
+Die `.potx` und `few_shot_prompting.pptx` sind noch nicht eingegangen.
+Sobald sie vorliegen: Inventar fahren, Layout-Zuordnung je Musterfolie vorschlagen,
+dann die 5 Folien bauen und rendern.

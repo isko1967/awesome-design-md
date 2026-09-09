@@ -1,0 +1,260 @@
+{
+  "block": {
+    "number": "01",
+    "title": "Few-shot & negative examples",
+    "subtitle": "Show the model what good looks like.",
+    "cycle": ["LEARN", "SEE", "TRY", "IMPROVE"],
+    "slideRange": "7-14",
+    "note": "Content is verbatim from the source deck. Wording, order and didactic structure must not change - this file is layout-independent input only."
+  },
+  "slides": [
+    {
+      "number": 7,
+      "archetype": "divider",
+      "phase": null,
+      "eyebrow": "01",
+      "title": "Few-shot & negative examples",
+      "lead": "Show the model what good looks like.",
+      "cycle": ["LEARN", "SEE", "TRY", "IMPROVE"]
+    },
+    {
+      "number": 8,
+      "archetype": "concept",
+      "phase": "LEARN",
+      "eyebrow": "WHAT",
+      "title": "Few-shot prompting gives the model examples to learn from.",
+      "lead": "Instead of only describing what you want, provide one or more examples of the desired output.",
+      "body": {
+        "introduction": "The model can use them to infer patterns such as:",
+        "bullets": [
+          "tone and level of formality",
+          "structure and formatting",
+          "length and level of detail",
+          "wording and style"
+        ]
+      },
+      "example": {
+        "label": "Example",
+        "cards": [
+          {
+            "title": "Instruction only",
+            "tone": "neutral",
+            "text": "Summarise this claims update for senior management."
+          },
+          {
+            "title": "With an example",
+            "tone": "accent",
+            "text": "Summarise this claims update for senior management.\nUse the example below as a reference for tone, structure and level of detail.\n\nExample: [insert strong previous update]"
+          }
+        ]
+      },
+      "keyIdea": "Examples reduce how much the model has to interpret.",
+      "aside": {
+        "label": "RELATED CONCEPT",
+        "title": "Zero-shot vs. few-shot",
+        "items": [
+          "Zero-shot: instructions without examples",
+          "Few-shot: one or more examples are provided as guidance"
+        ]
+      }
+    },
+    {
+      "number": 9,
+      "archetype": "concept",
+      "phase": "LEARN",
+      "eyebrow": "NEGATIVE EXAMPLES",
+      "title": "Negative examples show the model what to avoid.",
+      "lead": null,
+      "body": {
+        "pairs": [
+          { "term": "A positive example answers:", "definition": "What should the output look like?" },
+          { "term": "A negative example answers:", "definition": "What should the output not look like?" }
+        ]
+      },
+      "example": {
+        "label": "Insurance example",
+        "intro": "Imagine you regularly create management updates about claims performance.",
+        "cards": [
+          {
+            "title": "Positive example",
+            "tone": "positive",
+            "text": "Status: Claims volumes increased by 12%.\nImpact: Processing time is temporarily above target.\nAction: Additional capacity has been activated."
+          },
+          {
+            "title": "Negative example",
+            "tone": "negative",
+            "text": "We would like to provide an update regarding various developments that have taken place within claims operations over the past reporting period…"
+          }
+        ]
+      },
+      "synthesis": {
+        "label": "Together",
+        "items": [
+          "Positive example → direction",
+          "Negative example → boundary"
+        ]
+      },
+      "keyIdea": "You do not always need both. Add a negative example when avoiding a specific pattern matters."
+    },
+    {
+      "number": 10,
+      "archetype": "concept",
+      "phase": "LEARN",
+      "eyebrow": "HOW",
+      "title": "Tell the model what to learn from each example.",
+      "lead": null,
+      "promptTemplate": {
+        "lines": [
+          "Use the examples below as guidance for the new output.",
+          "",
+          "Positive example:",
+          "[insert example]",
+          "",
+          "Follow its:",
+          "• tone",
+          "• structure",
+          "• level of detail",
+          "",
+          "Negative example:",
+          "[insert example]",
+          "",
+          "Avoid its:",
+          "• unnecessary background",
+          "• vague wording",
+          "• lack of clear actions",
+          "",
+          "Now complete this task:",
+          "[insert task]"
+        ],
+        "footnote": "Do not copy the content of the examples. Use them only as guidance for how the new output should be written."
+      },
+      "band": {
+        "label": "Use when",
+        "text": "The desired quality is easier to demonstrate than to describe."
+      }
+    },
+    {
+      "number": 11,
+      "archetype": "demo-setup",
+      "phase": "SEE",
+      "eyebrow": "DEMO SETUP",
+      "title": "Can examples make a vague instruction more precise?",
+      "scenario": {
+        "label": "Scenario",
+        "text": "Severe weather has increased claims volumes. Management needs a short update."
+      },
+      "startingPrompt": {
+        "label": "Starting prompt",
+        "text": "Turn these notes into a short update for senior management."
+      },
+      "additions": {
+        "label": "Version 2 adds",
+        "tiles": [
+          { "count": "1", "title": "positive example", "text": "to show the desired style" },
+          { "count": "1", "title": "negative example", "text": "to show what to avoid" }
+        ]
+      },
+      "watchFor": {
+        "label": "Watch for",
+        "items": [
+          "prioritisation",
+          "structure",
+          "level of detail",
+          "tone",
+          "action orientation"
+        ]
+      }
+    },
+    {
+      "number": 12,
+      "archetype": "before-after",
+      "phase": "SEE",
+      "eyebrow": "BEFORE / AFTER",
+      "title": "Same task. Clearer guidance.",
+      "columns": [
+        {
+          "label": "WITHOUT EXAMPLES",
+          "tone": "neutral",
+          "blocks": [
+            { "heading": null, "text": "Recent severe weather events have led to an increase in claims volumes. The claims organisation is currently taking several actions to manage the situation. Additional capacity has been made available, and developments will continue to be monitored." }
+          ]
+        },
+        {
+          "label": "WITH EXAMPLES",
+          "tone": "accent",
+          "blocks": [
+            { "heading": "Status — Attention required", "text": "Severe-weather claims increased volumes and processing times." },
+            { "heading": "Response", "text": "Additional external capacity has been activated." },
+            { "heading": "Customer impact", "text": "No change to current customer communication is required." },
+            { "heading": "Next watchpoint", "text": "Reassess processing times at the end of the week." }
+          ]
+        }
+      ],
+      "band": {
+        "label": "What changed?",
+        "text": "More specific · more structured · more actionable"
+      }
+    },
+    {
+      "number": 13,
+      "archetype": "practice",
+      "phase": "TRY",
+      "eyebrow": "PRACTICE",
+      "title": "Use examples to guide your own output.",
+      "taskLabel": "Your task",
+      "steps": [
+        {
+          "number": "1",
+          "text": "Choose a recurring text-based task.",
+          "hint": "For example: stakeholder update · meeting summary · decision note · internal announcement"
+        },
+        {
+          "number": "2",
+          "text": "Add one positive example.",
+          "hint": "Choose something that represents the quality you want."
+        },
+        {
+          "number": "3",
+          "text": "Optional: add one negative example.",
+          "hint": "Use it if there is a recurring pattern you want to avoid."
+        },
+        {
+          "number": "4",
+          "text": "Tell AI what to learn from the examples.",
+          "hint": "Tone? Structure? Length? Level of detail?"
+        },
+        {
+          "number": "5",
+          "text": "Run the prompt and compare the result.",
+          "hint": null
+        }
+      ],
+      "timeBadge": "TIME: 5 MIN",
+      "disclaimer": {
+        "text": "Keep all information generic. Do not enter personal, customer or confidential information.",
+        "treatment": "warning-surface",
+        "rationale": "Compliance-critical in an insurance context - must not be reduced to a 12pt footer."
+      }
+    },
+    {
+      "number": 14,
+      "archetype": "reflection",
+      "phase": "IMPROVE",
+      "eyebrow": "REFLECTION",
+      "title": "Did the examples give you more control?",
+      "lead": "Compare the result with what you would normally receive.",
+      "question": "What changed most?",
+      "options": [
+        "Tone",
+        "Structure",
+        "Level of detail",
+        "Wording",
+        "Nothing meaningful"
+      ],
+      "callToAction": {
+        "label": "In the chat",
+        "text": "Share the one thing that changed most."
+      }
+    }
+  ]
+}

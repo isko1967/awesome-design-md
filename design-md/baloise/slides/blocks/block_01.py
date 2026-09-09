@@ -5,8 +5,10 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (ACTION, COL4_W, COL4_X, blue_slide, divider, BAND_TOP, BLUE, CAUTION, COL2_W, COL2_X, COL3_W,
-                      COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT, MARGIN,
+from slidekit import (ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
+                      BAND_TOP, BLUE, COL2_W, COL2_X, COL3_W,
+                      COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
+                      GUARDRAIL, MARGIN,
                       NEUTRAL, T_BODY, T_CARD, T_DIVIDER, T_HINT, T_LEAD,
                       T_META, T_NUMBER, T_STATEMENT, WHITE, badge, band, card,
                       eyebrow, footer, lead, new_slide, runs, textbox, title,
@@ -95,13 +97,13 @@ def slide_09(prs):
          T_BODY, False, BLUE, 2),
         ("→ gives direction", T_BODY, True, GOOD.accent, 14),
     ])
-    negative = card(s, COL2_X[1], 220, COL2_W, 216, CAUTION.surface)
+    negative = card(s, COL2_X[1], 220, COL2_W, 216, AVOID.surface)
     write(negative, [
-        ("Negative example", T_CARD, True, CAUTION.accent, None),
+        ("Negative example", T_CARD, True, AVOID.accent, None),
         ("We would like to provide an update regarding various developments "
          "that have taken place within claims operations over the past "
          "reporting period…", T_BODY, False, BLUE, 12),
-        ("→ sets a boundary", T_BODY, True, CAUTION.accent, 14),
+        ("→ sets a boundary", T_BODY, True, AVOID.accent, 14),
     ])
 
     band(s, "Key idea",
@@ -121,9 +123,9 @@ def slide_10(prs):
         ("Follow its tone, structure and level of detail.",
          T_BODY, False, BLUE, 10),
     ], anchor=MSO_ANCHOR.MIDDLE)
-    negative = card(s, MARGIN, 300, COL2_W, 142, CAUTION.surface)
+    negative = card(s, MARGIN, 300, COL2_W, 142, AVOID.surface)
     write(negative, [
-        ("Negative example", T_CARD, True, CAUTION.accent, None),
+        ("Negative example", T_CARD, True, AVOID.accent, None),
         ("Avoid its unnecessary background, vague wording and lack of clear "
          "actions.", T_BODY, False, BLUE, 10),
     ], anchor=MSO_ANCHOR.MIDDLE)
@@ -166,7 +168,7 @@ def slide_11(prs):
 
     for y, kind, purpose, role in (
             (252, "One positive example", "to show the desired style", GOOD),
-            (366, "One negative example", "to show what to avoid", CAUTION)):
+            (366, "One negative example", "to show what to avoid", AVOID)):
         tile = card(s, COL2_X[0], y, COL2_W, 100, role.surface, pad=18)
         write(tile, [(kind, T_CARD, True, role.accent, None),
                      (purpose, T_BODY, False, BLUE, 4)],
@@ -235,7 +237,7 @@ def slide_13(prs):
         ("5", "Run the prompt and compare the result.", None, ACTION),
         (None, "Before you start",
          "Keep all information generic. Do not enter personal, customer or "
-         "confidential information.", CAUTION),
+         "confidential information.", GUARDRAIL),
     ]
     for i, (number, text, hint, role) in enumerate(cells):
         x = COL2_X[i % 2]

@@ -21,12 +21,20 @@ gute Zustand" — Grün ist aber im ganzen Deck für den Zielzustand reserviert.
 | Rolle | Fläche | Akzent | Bedeutung |
 |---|---|---|---|
 | GOOD | `#CBF2EC` | `#1B5951` | Zielzustand: Positivbeispiel, verbessertes Ergebnis, „so sieht gut aus" |
-| CAUTION | `#E1D9FF` | `#6C2273` | Vorsicht: Negativbeispiel, zu vermeiden, Guardrails, Grenzen, Compliance |
+| AVOID | `#FFD7D7` | `#D9304C` | Der Don't: Negativbeispiel, zu vermeidendes Muster, Gegenteil vom Ziel |
+| GUARDRAIL | `#E1D9FF` | `#6C2273` | Grenzen und Regeln: Compliance-Hinweis, „nicht tun", Stopp-Bedingung |
 | NEUTRAL | `#F6F6F6` | `#747474` | Rohmaterial: schwaches „Vorher", Prompt-Leinwand, Nebenspalte |
 | ACTION | `#FFECBC` | `#B24A00` | Der Teilnehmer ist dran: Übung, Slido, Chat, Clinic, Transfer |
 | BLUE | — | `#000D6E` | Text und Struktur |
 
-Rot bleibt bewusst unbenutzt — Reserve für echte Alarme.
+Zwei Regeln zur Farbe:
+
+- **Farbe markiert das Artefakt, nicht den Satz darüber.** Eine Karte mit „A
+  positive example answers…" ist neutral; die Rolle trägt nur das Beispiel selbst.
+- **Rot (AVOID) und Violett (GUARDRAIL) sind getrennt.** Rot ist das schlechte
+  Beispiel, das man nachahmen könnte und nicht soll; Violett ist eine Regel oder
+  Grenze („keine Kundendaten eingeben"). Tangerine bleibt der Teilnahme-Farbe
+  vorbehalten und wird nie für Warnungen benutzt.
 
 ## Die acht Archetypen
 

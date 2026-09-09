@@ -7,13 +7,17 @@ measures, footer band) come from the .potx; the composition is our own.
 Colour carries meaning and never rotates by block:
 
     GOOD       the target state - positive examples, the improved output
-    CAUTION    what to avoid - negative examples, guardrails, limits, compliance
+    AVOID      the don't - negative examples, the pattern to steer away from
+    GUARDRAIL  limits and rules - compliance notes, "do not", stop conditions
     NEUTRAL    raw material - the weak "before" output, prompt canvases
     ACTION     the participant's turn - practice, polls, clinic, transfer
 
-Red is held in reserve and deliberately unused.
+Colour marks the artefact, not the sentence above it: a card that only names
+an example stays neutral; the role colour goes on the example itself.
 """
 import copy
+import io
+import os
 import zipfile
 
 from lxml import etree
@@ -35,6 +39,7 @@ BLUE = rgb("000D6E")
 WHITE = rgb("FFFFFF")
 GREEN, GREEN_LIGHT, GREEN_3 = rgb("1B5951"), rgb("94E3D4"), rgb("CBF2EC")
 PURPLE, PURPLE_LIGHT, PURPLE_3 = rgb("6C2273"), rgb("B8B2FF"), rgb("E1D9FF")
+RED, RED_LIGHT, RED_3 = rgb("D9304C"), rgb("FFACA6"), rgb("FFD7D7")
 TANGERINE_1, TANGERINE_LIGHT, TANGERINE_3 = (rgb("B24A00"), rgb("FAE052"),
                                              rgb("FFECBC"))
 # the corporate list has no neutral tint; these come from the design system
@@ -51,7 +56,8 @@ class Role:
 
 
 GOOD = Role(GREEN_3, GREEN, GREEN_LIGHT)
-CAUTION = Role(PURPLE_3, PURPLE, PURPLE_LIGHT)
+AVOID = Role(RED_3, RED, RED_LIGHT)
+GUARDRAIL = Role(PURPLE_3, PURPLE, PURPLE_LIGHT)
 NEUTRAL = Role(GREY_SURFACE, GREY_TEXT, GREY_SURFACE)
 ACTION = Role(TANGERINE_3, TANGERINE_1, TANGERINE_LIGHT)
 
@@ -85,10 +91,15 @@ CORNER_PT = 12
 
 # --- text metrics ------------------------------------------------------------
 # Liberation Sans is metric-compatible with Arial, so measuring with it gives
-# the same line breaks PowerPoint will produce on a corporate machine.
+# the same line breaks PowerPoint will produce on a corporate machine. Set
+# SLIDEKIT_FONT_DIR to point at a directory holding LiberationSans-Regular.ttf
+# and -Bold.ttf when they are not at the usual system path (e.g. Arimo, which
+# shares Arial metrics, instanced under those names).
+_FONT_DIR = os.environ.get(
+    "SLIDEKIT_FONT_DIR", "/usr/share/fonts/truetype/liberation")
 _FONT_FILE = {
-    False: "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
-    True: "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    False: os.path.join(_FONT_DIR, "LiberationSans-Regular.ttf"),
+    True: os.path.join(_FONT_DIR, "LiberationSans-Bold.ttf"),
 }
 _FONT_CACHE = {}
 _SUBPT = 4   # measure at 4x and divide, for sub-point precision
@@ -155,15 +166,16 @@ def load_template(path):
            ".presentationml.template.main+xml")
     prs_type = ("application/vnd.openxmlformats-officedocument"
                 ".presentationml.presentation.main+xml")
-    tmp = path + ".converted.pptx"
+    buffer = io.BytesIO()
     with zipfile.ZipFile(path) as zin, \
-            zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+            zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             data = zin.read(item.filename)
             if item.filename == "[Content_Types].xml":
                 data = data.replace(tpl.encode(), prs_type.encode())
             zout.writestr(item, data)
-    return Presentation(tmp)
+    buffer.seek(0)
+    return Presentation(buffer)
 
 
 def drop_existing_slides(prs):
@@ -295,10 +307,10 @@ def textbox(slide, x, y, w, h):
     return box
 
 
-def arrow(slide, x, y, size=16, colour=None):
-    box = textbox(slide, x, y, size + 8, size + 6)
-    write(box, [("→", size, False, colour or GREY_TEXT, None)],
-          align=PP_ALIGN.CENTER)
+def arrow(slide, x, y, size=16, colour=None, glyph="→"):
+    box = textbox(slide, x, y, size + 10, size + 8)
+    write(box, [(glyph, size, False, colour or GREY_TEXT, None)],
+          align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
     return box
 
 
@@ -339,9 +351,15 @@ def title(slide, text, width=CONTENT_W, has_lead=True):
     return 38 + round(size * 1.35) * lines + 8
 
 
-def lead(slide, text, y=LEAD_Y):
-    """The line under the title. Never larger than the title above it."""
-    return write(textbox(slide, MARGIN, y, CONTENT_W, 26),
+def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
+    """The line under the title. Never larger than the title above it.
+
+    Sizes its box to the wrapped height so a lead that runs to two lines is
+    not clipped; the content zone starts at 146, leaving room for two.
+    """
+    lines = len(wrapped_lines(text, width, T_LEAD))
+    h = lines * round(T_LEAD * 1.35) + 4
+    return write(textbox(slide, MARGIN, y, width, h),
                  [(text, T_LEAD, False, BLUE, None)])
 
 
@@ -393,6 +411,16 @@ def new_slide(prs, ground=None, with_title=True, layout="1 Content"):
     if ground is not None:
         _background(slide, ground)
     return slide
+
+
+def tangerine_slide(prs):
+    """A full-bleed tangerine landmark: the break, clinic opener and close.
+
+    Grounds are structural: participation landmarks sit on tangerine. The ink
+    is corporate blue - the light-tangerine ground keeps the dark master logo
+    visible, so '1 Content' is fine here.
+    """
+    return new_slide(prs, ground=TANGERINE_3, with_title=False)
 
 
 def blue_slide(prs):
@@ -462,9 +490,10 @@ def listing(slide, items, role=None, top=146, span=294, width=CONTENT_W,
     carries a meaning, in which case they take that role's surface.
     """
     placements, height = rows_layout(len(items), top, span)
+    pad = 10 if height < 56 else 14
     for (y, h), (index, statement, hint) in zip(placements, items):
         if role is not None:
-            holder = card(slide, MARGIN, y, width, h, role.surface, pad=14)
+            holder = card(slide, MARGIN, y, width, h, role.surface, pad=pad)
             rows = [(statement, T_BODY, True, BLUE, None)]
             if hint:
                 rows.append((hint, T_HINT, False, role.accent, 4))
@@ -473,11 +502,67 @@ def listing(slide, items, role=None, top=146, span=294, width=CONTENT_W,
             write(holder, rows, anchor=MSO_ANCHOR.MIDDLE)
             continue
         if index:
-            write(textbox(slide, MARGIN, y + 2, index_w, 26),
-                  [(index, T_STATEMENT, True, GREEN, None)])
+            write(textbox(slide, MARGIN, y, index_w, h),
+                  [(index, T_STATEMENT, True, GREEN, None)],
+                  anchor=MSO_ANCHOR.MIDDLE)
         body = textbox(slide, MARGIN + index_w, y, width - index_w, h)
         rows = [(statement, T_BODY, True, BLUE, None)]
         if hint:
             rows.append((hint, T_HINT, False, GREY_TEXT, 4))
-        write(body, rows)
+        write(body, rows, anchor=MSO_ANCHOR.MIDDLE)
     return height
+
+
+def flow_column(slide, x, w, steps, top, cell_h, gap=22, role=NEUTRAL,
+                connector="↓", head_colour=None, size=T_BODY, pad=None):
+    """A vertical run of steps with a connector glyph between each.
+
+    FLOW's building block: the order is the message, so every step is the
+    same width and the connector is explicit. `steps` are (heading, body)
+    pairs; body may be None for a bare step. The connector is drawn in a box
+    that exactly fills the gap between two cells, so it never overlaps either.
+    On a dense slide, pass a smaller `size` to fit more steps in the column.
+    """
+    head_colour = head_colour or role.accent
+    if pad is None:
+        pad = 6 if cell_h < 48 else 12
+    y = top
+    for i, (heading, body) in enumerate(steps):
+        if i and gap >= 16:
+            # 12pt connector in a box that fills the gap; never sub-12pt,
+            # never taller than the gap, so check.py stays quiet.
+            box = textbox(slide, x + w / 2 - 9, y - gap, 18, gap)
+            write(box, [(connector, 12, False, GREY_TEXT, None)],
+                  align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        cell = card(slide, x, y, w, cell_h, role.surface, pad=pad)
+        rows = [(heading, size, True, head_colour, None)]
+        if body:
+            rows.append((body, T_HINT, False, BLUE, 4))
+        write(cell, rows, anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER
+              if body is None else PP_ALIGN.LEFT)
+        y += cell_h + gap
+    return y
+
+
+def flow_row(slide, steps, top, cell_h, x=MARGIN, width=CONTENT_W, gap=26,
+             role=NEUTRAL, head_colour=None):
+    """A horizontal run of steps, arrow between each. Order is the message.
+
+    The arrow sits in a box the width of the gap, centred vertically, so it
+    never overlaps the cells on either side.
+    """
+    head_colour = head_colour or role.accent
+    n = len(steps)
+    cell_w = (width - (n - 1) * gap) / n
+    for i, (heading, body) in enumerate(steps):
+        cx = x + i * (cell_w + gap)
+        if i:
+            box = textbox(slide, cx - gap, top + cell_h / 2 - 11, gap, 22)
+            write(box, [("→", 16, False, GREY_TEXT, None)],
+                  align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        cell = card(slide, cx, top, cell_w, cell_h, role.surface, pad=12)
+        rows = [(heading, T_BODY, True, head_colour, None)]
+        if body:
+            rows.append((body, T_HINT, False, BLUE, 4))
+        write(cell, rows, anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
+    return cell_w

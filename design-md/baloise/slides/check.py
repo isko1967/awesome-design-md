@@ -12,7 +12,7 @@ import sys
 from pptx import Presentation
 from pptx.util import Emu
 
-from slidekit import SLIDE_H, SLIDE_W, wrapped_lines
+from slidekit import SLIDE_H, SLIDE_W, text_width, wrapped_lines
 
 # Role surfaces, by the hex the template's colour list defines for them.
 # Grey and white carry no role, so they never count towards the limit.
@@ -50,12 +50,23 @@ def frame_height(shape, width):
         sizes = [r.font.size.pt for r in para.runs if r.font.size is not None]
         size = max(sizes) if sizes else default
         bold = any(r.font.bold for r in para.runs)
+        mixed = bold and not all(r.font.bold for r in para.runs)
         if para.space_before is not None and i:
             total += para.space_before.pt
         leading = (para.line_spacing.pt
                    if hasattr(para.line_spacing, "pt") and para.line_spacing
                    else round(size * 1.35))
-        total += len(wrapped_lines(text, width, size, bold)) * leading
+        if mixed:
+            # a line of bold label plus regular body is narrower than the
+            # whole string set in bold, so measure the runs separately
+            run_width = sum(
+                text_width(r.text, r.font.size.pt if r.font.size else size,
+                           bool(r.font.bold))
+                for r in para.runs)
+            rows = max(1, -(-run_width // width))
+        else:
+            rows = len(wrapped_lines(text, width, size, bold))
+        total += rows * leading
     return total
 
 

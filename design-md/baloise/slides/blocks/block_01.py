@@ -40,28 +40,28 @@ def slide_08(prs):
                                    "structure and formatting",
                                    "length and level of detail",
                                    "wording and style")):
-        tile = card(s, x, 142, COL4_W, 64, NEUTRAL.surface, pad=14)
+        tile = card(s, x, 142, COL4_W, 52, NEUTRAL.surface, pad=10)
         write(tile, [(pattern, 14, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Example", y=230)
-    plain = card(s, COL2_X[0], 252, COL2_W, 156, NEUTRAL.surface)
+    eyebrow(s, "Example", y=222)
+    plain = card(s, COL2_X[0], 252, COL2_W, 148, NEUTRAL.surface)
     write(plain, [
         ("Instruction only", T_LEAD, True, GREY_TEXT, None),
         ("Summarise this claims update for senior management.",
-         14, False, BLUE, 10),
+         T_HINT, False, BLUE, 10),
     ])
-    guided = card(s, COL2_X[1], 252, COL2_W, 156, GOOD.surface)
+    guided = card(s, COL2_X[1], 252, COL2_W, 148, GOOD.surface)
     write(guided, [
         ("With an example", T_LEAD, True, GOOD.accent, None),
         ("Summarise this claims update for senior management.",
-         14, False, BLUE, 10),
+         T_HINT, False, BLUE, 10),
         ("Use the example below as a reference for tone, structure and level "
-         "of detail.", 14, False, BLUE, 6),
-        ("Example: [insert strong previous update]", 14, True, BLUE, 8),
+         "of detail.", T_HINT, False, BLUE, 6),
+        ("Example: [insert strong previous update]", T_HINT, True, BLUE, 8),
     ])
 
-    related = textbox(s, MARGIN, 424, CONTENT_W, 20)
+    related = textbox(s, MARGIN, 424, CONTENT_W, 18)
     runs(related, [("Related concept   ", True, GREY_TEXT),
                    ("Zero-shot means instructions without examples. Few-shot "
                     "means one or more examples are provided as guidance.",
@@ -83,11 +83,11 @@ def slide_09(prs):
              "What should the output look like?"),
             (COL2_X[1], "A negative example answers",
              "What should the output not look like?")):
-        ask = card(s, x, CONTENT_TOP, COL2_W, 84, NEUTRAL.surface)
+        ask = card(s, x, CONTENT_TOP, COL2_W, 80, NEUTRAL.surface)
         write(ask, [(question, T_BODY, False, GREY_TEXT, None),
                     (answer, T_LEAD, True, BLUE, 4)])
 
-    positive = card(s, COL2_X[0], 220, COL2_W, 216, GOOD.surface)
+    positive = card(s, COL2_X[0], 220, COL2_W, 192, GOOD.surface)
     write(positive, [
         ("Positive example", T_CARD, True, GOOD.accent, None),
         ("Status: Claims volumes increased by 12%.", T_BODY, False, BLUE, 12),
@@ -97,7 +97,7 @@ def slide_09(prs):
          T_BODY, False, BLUE, 2),
         ("→ gives direction", T_BODY, True, GOOD.accent, 14),
     ])
-    negative = card(s, COL2_X[1], 220, COL2_W, 216, AVOID.surface)
+    negative = card(s, COL2_X[1], 220, COL2_W, 192, AVOID.surface)
     write(negative, [
         ("Negative example", T_CARD, True, AVOID.accent, None),
         ("We would like to provide an update regarding various developments "

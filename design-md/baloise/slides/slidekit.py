@@ -94,7 +94,11 @@ T_BODY = 16
 T_HINT = 13
 T_META = 12
 
-CORNER_PT = 12
+# Measured across the corporate template: 86 of 114 rounded shapes sit
+# between 3 and 5pt, with 4pt the clear mode. The design system documents the
+# same value as its "normal" radius; 12pt was its "large" radius, meant for
+# overlays rather than for every card.
+CORNER_PT = 4
 
 
 
@@ -422,6 +426,10 @@ def band(slide, label_text, body_text, role=None, y=BAND_TOP, h=32):
     of a signal. `role` is accepted and ignored so the block modules keep
     working; the argument should be dropped as they are touched.
     """
+    # the lamp eats 46pt of width, so a long statement can need a second line
+    lines = len(wrapped_lines(f"{label_text}   {body_text}",
+                              CONTENT_W - 46 - 14, T_BODY, bold=False))
+    h = max(h, lines * round(T_BODY * 1.35) + 10)
     strip = card(slide, MARGIN, y, CONTENT_W, h, NEUTRAL.surface, pad=14)
     strip.text_frame.margin_top = strip.text_frame.margin_bottom = Pt(4)
     strip.text_frame.margin_left = Pt(46)

@@ -315,3 +315,71 @@ Nicht in der Auswahl: 8 und 9 (Varianten von 10, leichter), 11 (strukturell nah 
 Die `.potx` und `few_shot_prompting.pptx` sind noch nicht eingegangen.
 Sobald sie vorliegen: Inventar fahren, Layout-Zuordnung je Musterfolie vorschlagen,
 dann die 5 Folien bauen und rendern.
+
+---
+
+## Nachtrag 2 — Was die Vorlage tatsächlich vorgibt
+
+Die `.potx` wurde inventarisiert (`inspect_template.py`) und visuell gerendert.
+Ergebnis: **die Vorlage ist die Quelle, mein 960×540-Vorschlag oben war nur die
+Notlösung ohne Vorlage.** Wo beide sich widersprechen, gilt die Vorlage.
+
+### Bestätigt
+
+- **Foliengrösse exakt 960 × 540 pt** — die 1 pt = 1 px-Annahme trägt.
+- **Theme-Farben sind die Design-System-Tokens**: `dk1`/`dk2` = `#000D6E`,
+  accent1 `#1B5951`, accent2 `#6C2273`, accent3 `#D9304C`, accent4 `#FA9319`,
+  accent5 `#94E3D4`, accent6 `#B8B2FF`. Die Flächen der Layouts nutzen die
+  Tints 2 und 3 derselben Familien. `DESIGN.md` ist damit die passende Referenz
+  für alles, was die Vorlage offen lässt.
+- **Marke: Helvetia.** Das Logo unten links ist das Helvetia-Wortmarke, das
+  Kernblau bleibt `#000D6E`.
+
+### Korrigiert
+
+- **Theme-Schrift ist Arial**, major und minor. Die Frage nach den Corporate
+  Fonts ist damit erledigt — kein Fallback-Risiko.
+- **Titel ist 24 pt bold, nicht 40 pt.** Die Vorlage ist deutlich zurückhaltender
+  als das Web-Design-System. Titelplatzhalter `x41 y38 w879 h60`.
+- **Der Titel muss einzeilig bleiben.** Der Untertitel-Platzhalter (24 pt regular)
+  beginnt bei `y=68` und überlappt eine zweite Titelzeile. Alle acht Action Titles
+  von Block 1 passen einzeilig.
+- **Ränder 41 pt**, Inhaltszone `y 120…480`, Fusszeilenband `y 497`.
+  Spalten: 1×879 · 2×428 (Rinne 22) · 3×278 (Rinne 22) · Content-Box 653 + 203.
+- **Fliesstext 16 pt** mit fixem 21-pt-Zeilenabstand. `Small_typo`-Varianten
+  (12 pt) sind laut Vorlage „only for very much content" — für Block 1 nicht nötig.
+
+### Genutzte Layouts
+
+| Slide | Layout | Eigene Formen |
+|---|---|---|
+| 7 | `Chapter-green` | keine |
+| 10 | `Content-Box-green` | 1 Karte (Prompt-Vorlage), 1 Fussnote |
+| 12 | `2 Contents` | 2 Karten, 2 Spaltenlabels, 1 Fazit-Zeile |
+| 13 | `Content-Box-green` | 10 Textboxen (5 Schritte) |
+| 14 | `Headline-green` | 5 Chips, 2 Textboxen |
+
+Blockfarbe für Block 1 ist **grün**. Die Vorlage bietet vier Akzentfamilien
+(green · red · purple · tangerine) — bei mehr als vier Blöcken wiederholen sie sich.
+
+### Zwei Entscheide, die eine Abnahme brauchen
+
+1. **Phasenmarkierung im Fusszeilenband.** `LEARN` / `SEE` / `TRY` / `IMPROVE`
+   steht in der Corporate-Fusszeile: `01  Few-shot & negative examples  ·  LEARN`.
+   Kein zusätzliches Element, keine Farbcodierung — konform zur Regel „kein
+   Farbcoding" des Design Systems. PowerPoint legt Fusszeilen-Platzhalter nicht
+   automatisch auf neue Folien; das Skript kopiert sie aus dem Layout, damit
+   Position und Formatierung aus der Vorlage kommen.
+2. **Der Compliance-Hinweis auf Slide 13** steht fett in der grünen Corporate-Box,
+   nicht auf einer eigenen Warnfläche. Begründung: eine gelbe Warnfläche direkt
+   neben der grünen Box verletzt die Regel „gleiches Farbspektrum je Element",
+   und das Design System reserviert Alert-Farben für Systemzustände. Die Prominenz
+   kommt aus Position und Schriftschnitt. Wenn dir das zu leise ist, ist die
+   Alternative eine `#FFF9E8`/`#7D4A0D`-Fläche über die volle Inhaltsbreite
+   unterhalb der Schritte — dann muss die grüne Box weichen.
+
+### Nicht im Repository
+
+Die `.potx` und das erzeugte `.pptx` werden **nicht** eingecheckt: beide enthalten
+Corporate Assets (Logo, Theme, Schriften). Eingecheckt sind nur das Build-Skript,
+der Inventarisierer und die Inhaltsdaten.

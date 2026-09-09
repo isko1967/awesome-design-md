@@ -424,6 +424,8 @@ def band(slide, label_text, body_text, role=None, y=BAND_TOP, h=32):
     """
     strip = card(slide, MARGIN, y, CONTENT_W, h, NEUTRAL.surface, pad=14)
     strip.text_frame.margin_top = strip.text_frame.margin_bottom = Pt(4)
+    strip.text_frame.margin_left = Pt(46)
+    brand_icon(slide, "light-bulb-green", MARGIN + 12, y + 4, h - 8)
     return runs(strip, [(f"{label_text}   ", True, BLUE),
                         (body_text, False, BLUE)])
 
@@ -725,3 +727,22 @@ def label_block(slide, text, x, y, w, role=None):
     block.text_frame.margin_top = block.text_frame.margin_bottom = Pt(2)
     return write(block, [(text, T_HINT, True, WHITE, None)],
                  anchor=MSO_ANCHOR.MIDDLE)
+
+
+BRAND_ICON_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "assets", "brand-icons")
+
+
+def brand_icon(slide, name, x, y, size=28):
+    """One of the design system's brand icons.
+
+    These are two-tone and ship pre-coloured per family, so unlike the UI
+    icons they are placed as they are. Most of the 431 motifs are insurance
+    products; only a handful are generic enough for a workshop deck.
+    """
+    png = os.path.join(tempfile.gettempdir(), f"ds-brand-{name}-{size}.png")
+    if not os.path.exists(png):
+        cairosvg.svg2png(url=os.path.join(BRAND_ICON_DIR, f"{name}.svg"),
+                         write_to=png, output_width=size * 8,
+                         output_height=size * 8)
+    return slide.shapes.add_picture(png, Pt(x), Pt(y), Pt(size), Pt(size))

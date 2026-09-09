@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
+from slidekit import (WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MAIN_W, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_HINT, T_LEAD, T_META, T_STATEMENT, badge, band,
@@ -93,7 +93,7 @@ def slide_17(prs):
           anchor=MSO_ANCHOR.MIDDLE)
     rel = card(s, ASIDE_X, 344, ASIDE_W, 96, NEUTRAL.surface, pad=12)
     write(rel, [
-        ("ROLE PROMPTING", T_META, True, GREY_TEXT, None),
+        ("Role prompting", T_META, True, GREY_TEXT, None),
         ("Pair a role with concrete expectations, not just “act as an "
          "expert”.", T_HINT, False, BLUE, 6),
     ])
@@ -105,11 +105,11 @@ def slide_18(prs):
     title(s, "Organise persistent instructions by what they control.")
 
     cats = [
-        ("ROLE & CONTEXT", "What work do I repeatedly do?"),
-        ("AUDIENCE", "Who usually receives my outputs?"),
-        ("COMMUNICATION STYLE", "How should AI generally communicate?"),
-        ("OUTPUT DEFAULTS", "Which structures do I repeatedly prefer?"),
-        ("WORKING RULES", "What should AI do when information is missing?"),
+        ("Role & context", "What work do I repeatedly do?"),
+        ("Audience", "Who usually receives my outputs?"),
+        ("Communication style", "How should AI generally communicate?"),
+        ("Output defaults", "Which structures do I repeatedly prefer?"),
+        ("Working rules", "What should AI do when information is missing?"),
     ]
     top, pitch = 146, 50
     for i, (labelt, q) in enumerate(cats):
@@ -168,10 +168,10 @@ def slide_20(prs):
     easy = card(s, COL2_X[1], 146, COL2_W, 250, GOOD.surface, pad=18)
     for i, (labelt, val) in enumerate([
             ("ROLE", "Cross-functional project work in insurance"),
-            ("AUDIENCE", "Business owners · senior management · project teams"),
+            ("Audience", "Business owners · senior management · project teams"),
             ("STYLE", "Direct · concise · structured"),
-            ("OUTPUT DEFAULT", "Recommendation → rationale → next step"),
-            ("GUARDRAILS", "Flag assumptions · do not invent information")]):
+            ("Output default", "Recommendation → rationale → next step"),
+            ("Guardrails", "Flag assumptions · do not invent information")]):
         rows = [(labelt, T_META, True, GOOD.accent, None if i == 0 else 8),
                 (val, T_HINT, False, BLUE, 2)]
         if i == 0:
@@ -266,7 +266,7 @@ def slide_23(prs):
     s = new_slide(prs)
     title(s, "Build context you would actually reuse.", width=729)
     lead(s, "Your task")
-    badge(s, "TIME  5 MIN")
+    badge(s, "Time  5 min")
 
     steps = [
         ("1", "Think of work you repeatedly use AI for.",
@@ -311,8 +311,8 @@ def slide_24(prs):
     x = MARGIN
     for text in ("Role / context", "Audience", "Style", "Output format",
                  "Working rules"):
-        chip = card(s, x, 168, 163, 96, None, outline=ACTION.accent)
-        write(chip, [(text, T_LEAD, False, BLUE, None)],
+        chip = card(s, x, 168, 163, 96, None, outline=CHOICE.surface)
+        write(chip, [(text, T_LEAD, False, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 163 + 16
 

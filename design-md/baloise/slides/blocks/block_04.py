@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+from slidekit import (WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
                       CONTENT_TOP_LEAD,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
@@ -53,7 +53,7 @@ def slide_32(prs):
                      (q, T_HINT, False, BLUE, 4)], anchor=MSO_ANCHOR.MIDDLE)
 
     rubric = card(s, MARGIN, 362, CONTENT_W, 60, NEUTRAL.surface, pad=14)
-    runs(rubric, [("RELATED CONCEPT — RUBRIC   ", True, GREY_TEXT),
+    runs(rubric, [("Related concept — rubric   ", True, GREY_TEXT),
                   ("A structured set of criteria used to evaluate an output. "
                    "Match the number and detail of criteria to the task.",
                    False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
@@ -257,7 +257,7 @@ def slide_39(prs):
     s = new_slide(prs)
     title(s, "Improve one of your earlier outputs.", width=729)
     lead(s, "Your task")
-    badge(s, "TIME  4 MIN")
+    badge(s, "Time  4 min")
 
     steps = [
         ("1", "Choose an output you created earlier.", None),
@@ -290,8 +290,8 @@ def slide_40(prs):
     x = MARGIN
     labels = ["1 — No improvement", "2", "3", "4", "5 — Clearly better"]
     for text in labels:
-        chip = card(s, x, 158, 163, 84, None, outline=ACTION.accent, pad=8)
-        write(chip, [(text, T_BODY, False, BLUE, None)],
+        chip = card(s, x, 158, 163, 84, None, outline=CHOICE.surface, pad=8)
+        write(chip, [(text, T_BODY, False, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 163 + 16
 

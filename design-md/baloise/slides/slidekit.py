@@ -62,7 +62,10 @@ AVOID = Role(RED_3, RED, RED_LIGHT)
 # block modules keep importing, but it resolves to red.
 GUARDRAIL = AVOID
 NEUTRAL = Role(GREY_SURFACE, GREY_TEXT, GREY_SURFACE)
-ACTION = Role(TANGERINE_3, TANGERINE_1, TANGERINE_LIGHT)
+ACTION = Role(GREY_SURFACE, GREY_TEXT, GREY_SURFACE)
+# Something to pick reads as Helvetia blue with white type. Tangerine was
+# carrying that job on 37 surfaces, far too loud for a supporting signal.
+CHOICE = Role(BLUE, WHITE, BLUE)
 
 # --- geometry, from the corporate template -----------------------------------
 SLIDE_W, SLIDE_H = 960, 540
@@ -280,19 +283,22 @@ def runs(shape, parts, size=T_BODY, anchor=MSO_ANCHOR.MIDDLE):
 
 
 def card(slide, x, y, w, h, fill, pad=16, outline=None):
+    """A filled rounded rectangle.
+
+    The brand uses no outlines, so `outline` is honoured only as a fill of
+    last resort: an outline-only call becomes a solid CHOICE surface.
+    """
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
                                    Pt(x), Pt(y), Pt(w), Pt(h))
     shape.adjustments[0] = CORNER_PT / min(w, h)
+    if fill is None and outline is not None:
+        fill = CHOICE.surface        # outlines are not part of the brand
     if fill is None:
         shape.fill.background()
     else:
         shape.fill.solid()
         shape.fill.fore_color.rgb = fill
-    if outline is None:
-        shape.line.fill.background()
-    else:
-        shape.line.color.rgb = outline
-        shape.line.width = Pt(2)
+    shape.line.fill.background()
     shape.shadow.inherit = False
     tf = shape.text_frame
     tf.margin_left = tf.margin_right = Pt(pad)
@@ -386,8 +392,11 @@ def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
     if len(text) > EYEBROW_MAX:
         raise ValueError(
             f"eyebrow is {len(text)} characters, max {EYEBROW_MAX}: {text!r}")
-    return write(textbox(slide, x, y, w, 18),
-                 [(text.upper(), T_META, True, colour or GREY_TEXT, None)])
+    # Capitals read slowly and, set in grey, the label drifted away from the
+    # thing it names. Sentence case in brand blue, moved down towards its
+    # element, ties the two together.
+    return write(textbox(slide, x, y + 8, w, 18),
+                 [(text, T_HINT, True, colour or BLUE, None)])
 
 
 def badge(slide, text, x=790, y=36, w=130, h=40, role=ACTION):
@@ -439,14 +448,17 @@ def new_slide(prs, ground=None, with_title=True, layout="1 Content"):
     return slide
 
 
-def tangerine_slide(prs):
+def tangerine_slide(prs):   # kept as a name so the block modules still call it
     """A full-bleed tangerine landmark: the break, clinic opener and close.
 
     Grounds are structural: participation landmarks sit on tangerine. The ink
     is corporate blue - the light-tangerine ground keeps the dark master logo
     visible, so '1 Content' is fine here.
     """
-    return new_slide(prs, ground=TANGERINE_3, with_title=False)
+    # The brand's serial-colouring rule asks for one primary palette per
+    # presentation, so the landmarks share the technique dividers' blue
+    # ground rather than opening a second family.
+    return blue_slide(prs)
 
 
 def blue_slide(prs):

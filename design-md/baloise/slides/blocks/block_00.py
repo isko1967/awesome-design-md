@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (ACTION, BLUE, CONTENT_W, GOOD, GREY_TEXT, GUARDRAIL,
+from slidekit import (CHOICE, ACTION, BLUE, CONTENT_W, GOOD, GREY_TEXT, GUARDRAIL,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
                       T_STATEMENT, WHITE, band, blue_slide, card, divider,
                       eyebrow, footer, lead, listing, new_slide, runs,
@@ -39,16 +39,16 @@ def _option_chips(slide, options, top, per_row):
         row, col = divmod(i, per_row)
         x = MARGIN + col * (width + CHIP_GAP)
         y = top + row * (CHIP_H + CHIP_GAP)
-        chip = card(slide, x, y, width, CHIP_H, None, outline=ACTION.accent,
+        chip = card(slide, x, y, width, CHIP_H, None, outline=CHOICE.surface,
                     pad=8)
-        write(chip, [(text, T_BODY, False, BLUE, None)],
+        write(chip, [(text, T_BODY, False, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
 
 def slide_01(prs):
     s = blue_slide(prs)
     write(textbox(s, MARGIN, 84, CONTENT_W, 24),
-          [("PROMPTING WORKSHOP — SESSION 2", T_META, True, WHITE, None)])
+          [("Prompting Workshop — Session 2", T_META, True, WHITE, None)])
     divider(s, "", ["Advanced prompting", "for recurring work"],
             "Five techniques, three practice rounds and a Prompt Clinic.")
 

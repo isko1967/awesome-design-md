@@ -26,7 +26,7 @@ def slide_50(prs):
     s = new_slide(prs)
     title(s, "Build the prompt you will actually use next.", width=729)
     lead(s, "Your task")
-    badge(s, "TIME  7 MIN")
+    badge(s, "Time  7 min")
 
     steps = [
         ("1", "Choose a recurring task.",
@@ -55,7 +55,7 @@ def slide_50(prs):
             r.text = hint
             r.font.size = Pt(T_HINT)
             r.font.color.rgb = GREY_TEXT
-    _foot(s, "TRANSFER", 50)
+    _foot(s, "Transfer", 50)
 
 
 def slide_51(prs):
@@ -80,7 +80,7 @@ def slide_51(prs):
              size=T_BODY, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "Then", "Add it to the Prompt Library.", GOOD)
-    _foot(s, "TRANSFER", 51)
+    _foot(s, "Transfer", 51)
 
 
 def slide_52(prs):
@@ -106,7 +106,7 @@ def slide_52(prs):
              size=T_BODY, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "Why", "The insight makes the prompt reusable.", GOOD)
-    _foot(s, "TRANSFER", 52)
+    _foot(s, "Transfer", 52)
 
 
 def slide_53(prs):

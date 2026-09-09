@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
+from slidekit import (CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
                       BAND_TOP, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MARGIN,
@@ -62,7 +62,7 @@ def slide_08(prs):
     ])
 
     related = textbox(s, MARGIN, 424, CONTENT_W, 20)
-    runs(related, [("RELATED CONCEPT   ", True, GREY_TEXT),
+    runs(related, [("Related concept   ", True, GREY_TEXT),
                    ("Zero-shot means instructions without examples. Few-shot "
                     "means one or more examples are provided as guidance.",
                     False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.TOP)
@@ -222,7 +222,7 @@ def slide_13(prs):
     s = new_slide(prs)
     title(s, "Use examples to guide your own output.", width=729)
     lead(s, "Your task")
-    badge(s, "TIME  5 MIN")
+    badge(s, "Time  5 min")
 
     cells = [
         ("1", "Choose a recurring text-based task.",
@@ -270,8 +270,8 @@ def slide_14(prs):
     for text in ("Tone", "Structure", "Level of detail", "Wording",
                  "Nothing meaningful"):
         chip = card(s, x, 180, 163, 110, None,
-                    outline=ACTION.accent)
-        write(chip, [(text, T_LEAD, False, BLUE, None)],
+                    outline=CHOICE.surface)
+        write(chip, [(text, T_LEAD, False, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 163 + 16
 

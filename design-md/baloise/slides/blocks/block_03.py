@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
+from slidekit import (WHITE, CHOICE, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
                       GREY_TEXT, GUARDRAIL, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_DIVIDER, T_HINT, T_LEAD, T_META, T_NUMBER, T_STATEMENT,
                       arrow, band, blue_slide, card, divider, eyebrow,
@@ -107,7 +107,7 @@ def slide_27(prs):
                ("complex, multi-step, ambiguous or expensive to redo.",
                 False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
     cot = card(s, MARGIN, 416, CONTENT_W, 56, GUARDRAIL.surface, pad=10)
-    runs(cot, [("RELATED CONCEPT — CHAIN-OF-THOUGHT   ", True,
+    runs(cot, [("Related concept — chain of thought   ", True,
                 GUARDRAIL.accent),
                ("Models may reason step by step; for prompting, focus on "
                 "reviewable intermediate outputs (plans, assumptions, "
@@ -175,8 +175,8 @@ def slide_29(prs):
     x = MARGIN
     for q in ("All audiences covered?", "Sequence realistic?",
               "Dependencies visible?", "Decisions unresolved?"):
-        chip = card(s, x, 300, 205, 66, None, outline=GREEN, pad=10)
-        write(chip, [(q, T_HINT, True, BLUE, None)],
+        chip = card(s, x, 300, 205, 66, None, outline=CHOICE.surface, pad=10)
+        write(chip, [(q, T_HINT, True, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 205 + 19
 

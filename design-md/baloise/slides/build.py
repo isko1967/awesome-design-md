@@ -6,7 +6,7 @@ Usage:  python3 build.py <corporate.potx> <block-number> <out.pptx>
 import importlib
 import sys
 
-from slidekit import drop_existing_slides, load_template, settle
+from slidekit import drop_existing_slides, load_template, settle, snap_labels
 
 
 def main():
@@ -21,6 +21,7 @@ def main():
     for builder in module.SLIDES:
         builder(prs)
         settle(prs.slides[-1])
+        snap_labels(prs.slides[-1])
     prs.save(out)
     print(f"wrote {out} ({len(prs.slides._sldIdLst)} slides)")
 

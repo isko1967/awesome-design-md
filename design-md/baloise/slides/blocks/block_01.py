@@ -45,13 +45,13 @@ def slide_08(prs):
               anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "Example", y=230)
-    plain = card(s, COL2_X[0], 252, COL2_W, 164, NEUTRAL.surface)
+    plain = card(s, COL2_X[0], 252, COL2_W, 156, NEUTRAL.surface)
     write(plain, [
         ("Instruction only", T_LEAD, True, GREY_TEXT, None),
         ("Summarise this claims update for senior management.",
          14, False, BLUE, 10),
     ])
-    guided = card(s, COL2_X[1], 252, COL2_W, 164, GOOD.surface)
+    guided = card(s, COL2_X[1], 252, COL2_W, 156, GOOD.surface)
     write(guided, [
         ("With an example", T_LEAD, True, GOOD.accent, None),
         ("Summarise this claims update for senior management.",

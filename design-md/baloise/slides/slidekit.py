@@ -380,6 +380,8 @@ def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
 
 
 EYEBROW_MAX = 24
+LABEL_NAME = "Label"
+LABEL_GAP = 10   # between a label and the field it names
 
 
 def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
@@ -395,8 +397,12 @@ def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
     # Capitals read slowly and, set in grey, the label drifted away from the
     # thing it names. Sentence case in brand blue, moved down towards its
     # element, ties the two together.
-    return write(textbox(slide, x, y + 8, w, 18),
-                 [(text, T_HINT, True, colour or BLUE, None)])
+    # Dropping capitals removed the signal that said "this is a label", so
+    # the weight has to come from size and colour instead. Sitting a little
+    # higher also puts real air between the label and the field below it.
+    box = textbox(slide, x, y - 6, w, 24)
+    box.name = LABEL_NAME          # snap_labels() pins it to its own field
+    return write(box, [(text, T_LEAD, True, colour or BLUE, None)])
 
 
 def badge(slide, text, x=790, y=36, w=130, h=40, role=ACTION):
@@ -521,6 +527,10 @@ def rows_layout(count, top=146, span=294):
 
 def listing(slide, items, role=None, top=146, span=294, width=CONTENT_W,
             index_w=44):
+    # A set of items with no numbers was still being pushed right by the
+    # width of the missing number, which left them floating mid-slide.
+    if not any(index for index, _, _ in items):
+        index_w = 0
     """3-7 peer items: an index, a statement, and an optional hint.
 
     Not CONCEPT (no two-way comparison to imply) and not PRACTICE (which
@@ -639,3 +649,31 @@ def settle(slide, start=CONTENT_START, floor=BAND_TOP):
     for shape, _, _ in movable:
         shape.top = shape.top + int(round(delta * 12700))
     return delta
+
+
+def snap_labels(slide, gap=LABEL_GAP):
+    """Pin every label to the field beneath it.
+
+    Labels were placed at a y of their own, so the distance to the thing they
+    name drifted from slide to slide and they ended up floating between the
+    header and the content. Each one is moved to sit a fixed gap above the
+    nearest shape below it that shares its column.
+    """
+    labels = [sh for sh in slide.shapes if sh.name == LABEL_NAME]
+    others = [sh for sh in slide.shapes if sh.name != LABEL_NAME]
+    for label in labels:
+        left, right = label.left, label.left + label.width
+        below = [sh for sh in others
+                 if sh.top > label.top
+                 and sh.left < right and (sh.left + sh.width) > left]
+        if not below:
+            continue
+        target = min(sh.top for sh in below)
+        # never climb into the lead: on a full slide the gap gives instead
+        above = [sh.top + sh.height for sh in others
+                 if sh.top < label.top
+                 and sh.left < right and (sh.left + sh.width) > left]
+        ceiling = max(above) + int(round(6 * 12700)) if above else 0
+        ideal = target - int(round((gap + 24) * 12700))
+        # raise to clear the lead, but never far enough to sit on the field
+        label.top = min(max(ideal, ceiling), target - int(round(24 * 12700)))

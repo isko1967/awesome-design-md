@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (CHOICE, ACTION, BLUE, CONTENT_W, GOOD, GREY_TEXT, GUARDRAIL,
+from slidekit import (AVOID, CHOICE, ACTION, BLUE, CONTENT_W, GOOD, GREY_TEXT, GUARDRAIL,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
                       T_STATEMENT, WHITE, band, blue_slide, card, divider,
                       eyebrow, footer, lead, listing, new_slide, runs,
@@ -127,26 +127,28 @@ def slide_05(prs):
 
 def slide_06(prs):
     s = new_slide(prs)
-    eyebrow(s, "Interact", colour=ACTION.accent)
     title(s, "Which recurring task would you most like to improve with AI?")
     lead(s, "Submit one task or prompt we could use later in the Prompt "
             "Clinic.")
 
-    eyebrow(s, "A good submission is", y=150)
-    listing(s, [
-        (None, "Recurring", None),
-        (None, "Concrete", None),
-        (None, "Understandable without specialist knowledge", None),
-        (None, "Safe to discuss with the group", None),
-    ], top=174, span=150)
+    eyebrow(s, "A good submission is")
+    for i, criterion in enumerate((
+            "Recurring",
+            "Concrete",
+            "Understandable without specialist knowledge",
+            "Safe to discuss with the group")):
+        row = card(s, MARGIN, 152 + i * 48, CONTENT_W, 42, NEUTRAL.surface,
+                   pad=10)
+        write(row, [(criterion, T_BODY, True, BLUE, None)],
+              anchor=MSO_ANCHOR.MIDDLE)
 
-    guard = card(s, MARGIN, 336, CONTENT_W, 50, GUARDRAIL.surface, pad=14)
-    runs(guard, [("Keep it generic   ", True, GUARDRAIL.accent),
+    guard = card(s, MARGIN, 350, CONTENT_W, 46, AVOID.surface, pad=14)
+    runs(guard, [("Keep it generic   ", True, AVOID.accent),
                  ("Do not enter personal, customer or confidential "
                   "information.", False, BLUE)],
          size=T_BODY, anchor=MSO_ANCHOR.MIDDLE)
     _slido(s, "[SLIDO CODE]", "Submissions remain open until the break.",
-           y=398)
+           y=402)
     _foot(s, 6)
 
 

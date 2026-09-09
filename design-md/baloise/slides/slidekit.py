@@ -18,8 +18,11 @@ an example stays neutral; the role colour goes on the example itself.
 import copy
 import io
 import os
+import re
+import tempfile
 import zipfile
 
+import cairosvg
 from lxml import etree
 from PIL import ImageFont
 from pptx import Presentation
@@ -677,3 +680,48 @@ def snap_labels(slide, gap=LABEL_GAP):
         ideal = target - int(round((gap + 24) * 12700))
         # raise to clear the lead, but never far enough to sit on the field
         label.top = min(max(ideal, ceiling), target - int(round(24 * 12700)))
+
+
+# --- icons -------------------------------------------------------------------
+# The design system's UI icons (Streamline Core Solid) as single-path SVGs.
+# They carry a fill attribute, so they can be recoloured before rasterising.
+ICON_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "assets", "icons")
+_ICON_CACHE = {}
+
+
+def icon(slide, name, x, y, size=20, colour=None):
+    """Place one design-system icon.
+
+    PowerPoint will not render an SVG reliably across versions, so each icon
+    is rasterised at 8x and placed as a PNG.
+    """
+    colour = colour or BLUE
+    key = (name, str(colour), size)
+    if key not in _ICON_CACHE:
+        with open(os.path.join(ICON_DIR, f"{name}.svg"), "rb") as handle:
+            svg = handle.read().decode("utf-8")
+        svg = re.sub(r'fill="#[0-9A-Fa-f]{6}"', f'fill="#{colour}"', svg, count=1)
+        png = os.path.join(tempfile.gettempdir(),
+                           f"ds-{name}-{colour}-{size}.png")
+        if not os.path.exists(png):
+            cairosvg.svg2png(bytestring=svg.encode("utf-8"), write_to=png,
+                             output_width=size * 8, output_height=size * 8)
+        _ICON_CACHE[key] = png
+    return slide.shapes.add_picture(_ICON_CACHE[key], Pt(x), Pt(y),
+                                    Pt(size), Pt(size))
+
+
+def label_block(slide, text, x, y, w, role=None):
+    """A filled label sitting on top of the field it names.
+
+    Taken from Helvetia's own decks, where a dark family colour carries the
+    section name in white above the lighter content boxes. It anchors the
+    label instead of letting it float between the header and the content.
+    """
+    role = role or CHOICE
+    dark = role.accent if role is not CHOICE else CHOICE.surface
+    block = card(slide, x, y, w, 26, dark, pad=12)
+    block.text_frame.margin_top = block.text_frame.margin_bottom = Pt(2)
+    return write(block, [(text, T_HINT, True, WHITE, None)],
+                 anchor=MSO_ANCHOR.MIDDLE)

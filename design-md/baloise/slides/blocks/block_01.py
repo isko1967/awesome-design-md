@@ -44,14 +44,14 @@ def slide_08(prs):
         write(tile, [(pattern, 14, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Example", y=216)
-    plain = card(s, COL2_X[0], 238, COL2_W, 172, NEUTRAL.surface)
+    eyebrow(s, "Example", y=230)
+    plain = card(s, COL2_X[0], 252, COL2_W, 164, NEUTRAL.surface)
     write(plain, [
         ("Instruction only", T_LEAD, True, GREY_TEXT, None),
         ("Summarise this claims update for senior management.",
          14, False, BLUE, 10),
     ])
-    guided = card(s, COL2_X[1], 238, COL2_W, 172, GOOD.surface)
+    guided = card(s, COL2_X[1], 252, COL2_W, 164, GOOD.surface)
     write(guided, [
         ("With an example", T_LEAD, True, GOOD.accent, None),
         ("Summarise this claims update for senior management.",
@@ -61,7 +61,7 @@ def slide_08(prs):
         ("Example: [insert strong previous update]", 14, True, BLUE, 8),
     ])
 
-    related = textbox(s, MARGIN, 418, CONTENT_W, 20)
+    related = textbox(s, MARGIN, 424, CONTENT_W, 20)
     runs(related, [("RELATED CONCEPT   ", True, GREY_TEXT),
                    ("Zero-shot means instructions without examples. Few-shot "
                     "means one or more examples are provided as guidance.",
@@ -241,7 +241,7 @@ def slide_13(prs):
     ]
     for i, (number, text, hint, role) in enumerate(cells):
         x = COL2_X[i % 2]
-        y = 146 + (i // 2) * 112
+        y = 158 + (i // 2) * 108
         cell = card(s, x, y, COL2_W, 100, role.surface, pad=16)
         head = [(f"{number}   ", True, role.accent)] if number else []
         runs(cell, head + [(text, True, BLUE)], size=T_BODY,

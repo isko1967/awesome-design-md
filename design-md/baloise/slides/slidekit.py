@@ -319,7 +319,12 @@ def arrow(slide, x, y, size=16, colour=None, glyph="→"):
 
 # --- page furniture ----------------------------------------------------------
 TITLE_STEPS = (T_TITLE, 30, 28, 26)
-LEAD_Y = 90
+LEAD_Y = 94
+
+# Where content may start. A slide with a lead needs real air under the header
+# block, otherwise title, lead, label and first card read as one mass pinned
+# to the top-left corner. Without a lead the corporate 120 still applies.
+CONTENT_TOP_LEAD = 136
 
 
 def title(slide, text, width=CONTENT_W, has_lead=True):

@@ -61,7 +61,7 @@ def slide_16(prs):
 
 def slide_17(prs):
     s = new_slide(prs)
-    title(s, "Persistent context should be stable, relevant and reusable.")
+    title(s, "Save only the instructions that will still be true next time.")
 
     eyebrow(s, "Good candidates", w=MAIN_W)
     candidates = [

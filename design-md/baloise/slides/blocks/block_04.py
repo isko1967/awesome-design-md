@@ -8,6 +8,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
 from slidekit import (ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+                      CONTENT_TOP_LEAD,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
                       T_STATEMENT, badge, band, blue_slide, card, divider,
@@ -33,10 +34,10 @@ def slide_32(prs):
     """Overflow risk: four criteria + the 'improve is not enough' framing +
     the rubric related concept. Criteria go in a 2x2 grid, rubric to a strip."""
     s = new_slide(prs)
-    title(s, "Good critique starts with explicit criteria.")
+    title(s, "Say what “good” means before you ask AI to improve something.")
     lead(s, "“Improve this communication” does not define what better means.")
 
-    eyebrow(s, "The criteria")
+    eyebrow(s, "The criteria", y=CONTENT_TOP_LEAD)
     criteria = [
         ("Be clear", "Can a non-expert understand what is changing?"),
         ("Be concise", "Does it avoid unnecessary background?"),
@@ -46,12 +47,12 @@ def slide_32(prs):
     ]
     for i, (head, q) in enumerate(criteria):
         x = COL2_X[i % 2]
-        y = 148 + (i // 2) * 96
+        y = 162 + (i // 2) * 96
         cell = card(s, x, y, COL2_W, 84, NEUTRAL.surface, pad=16)
         write(cell, [(head, T_CARD, True, BLUE, None),
                      (q, T_HINT, False, BLUE, 4)], anchor=MSO_ANCHOR.MIDDLE)
 
-    rubric = card(s, MARGIN, 348, CONTENT_W, 60, NEUTRAL.surface, pad=14)
+    rubric = card(s, MARGIN, 362, CONTENT_W, 60, NEUTRAL.surface, pad=14)
     runs(rubric, [("RELATED CONCEPT — RUBRIC   ", True, GREY_TEXT),
                   ("A structured set of criteria used to evaluate an output. "
                    "Match the number and detail of criteria to the task.",
@@ -99,11 +100,11 @@ def slide_33(prs):
 def slide_34(prs):
     """The guardrails slide - GUARDRAIL (purple) is the whole point here."""
     s = new_slide(prs)
-    title(s, "Sometimes the right instruction is not “answer” — but “stop”.")
+    title(s, "Tell AI what to do when the information is missing.")
     lead(s, "If the source does not say why a premium changed, AI may try to "
             "complete the story.")
 
-    eyebrow(s, "Expected behaviour", colour=AVOID.accent)
+    eyebrow(s, "Expected behaviour", y=CONTENT_TOP_LEAD)
     rules = [
         "If the reason is not provided, do not infer one.",
         "Flag missing information explicitly.",
@@ -111,8 +112,8 @@ def slide_34(prs):
         "Do not promise outcomes unsupported by the source material.",
         "Ask for clarification when missing information changes the answer.",
     ]
-    listing(s, [(None, r, None) for r in rules], role=AVOID,
-            top=150, span=286)
+    listing(s, [(None, r, None) for r in rules], role=NEUTRAL,
+            top=166, span=270)
 
     band(s, "Key idea",
          "Guardrails define acceptable behaviour when the task cannot be "

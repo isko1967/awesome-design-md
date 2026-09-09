@@ -65,6 +65,7 @@ BAND_TOP = 448          # full-width closing band
 GUTTER = 22
 COL2_W, COL2_X = 428, (41, 491)
 COL3_W, COL3_X = 278, (41, 341, 642)
+COL4_W, COL4_X = 203, (41, 266, 491, 716)
 MAIN_W, ASIDE_W, ASIDE_X = 653, 203, 717
 
 # --- type scale --------------------------------------------------------------
@@ -263,13 +264,20 @@ def runs(shape, parts, size=T_BODY, anchor=MSO_ANCHOR.MIDDLE):
     return shape
 
 
-def card(slide, x, y, w, h, fill, pad=16):
+def card(slide, x, y, w, h, fill, pad=16, outline=None):
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
                                    Pt(x), Pt(y), Pt(w), Pt(h))
     shape.adjustments[0] = CORNER_PT / min(w, h)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = fill
-    shape.line.fill.background()
+    if fill is None:
+        shape.fill.background()
+    else:
+        shape.fill.solid()
+        shape.fill.fore_color.rgb = fill
+    if outline is None:
+        shape.line.fill.background()
+    else:
+        shape.line.color.rgb = outline
+        shape.line.width = Pt(2)
     shape.shadow.inherit = False
     tf = shape.text_frame
     tf.margin_left = tf.margin_right = Pt(pad)
@@ -299,22 +307,40 @@ TITLE_STEPS = (T_TITLE, 30, 28, 26)
 LEAD_Y = 90
 
 
-def title(slide, text, width=CONTENT_W):
-    """Action titles stay on one line.
+def title(slide, text, width=CONTENT_W, has_lead=True):
+    """Set the action title and return the y at which content may start.
 
-    The placeholder is shrunk to the height that one line actually needs, so
-    it cannot overlap the lead beneath it. Pass a narrower `width` when
-    something else sits on the title row, such as a time badge.
+    A title that does not fit steps down one size at a time. Only when no
+    lead sits beneath it may it run to two lines, and then the content zone
+    moves down to make room. The floor is T_LEAD + 2 so the title can never
+    end up at or below the size of the line under it.
     """
-    size = fit_size(text, width - 4, TITLE_STEPS, bold=True)
     shape = _ph(slide, 0)
     shape.text_frame.margin_left = shape.text_frame.margin_right = Pt(0)
     shape.width = Pt(width)
-    shape.height = Pt(round(size * 1.35) + 8)
-    return write(shape, [(text, size, True, BLUE, None)])
+
+    size = fit_size(text, width - 4, TITLE_STEPS, bold=True)
+    lines = len(wrapped_lines(text, width - 4, size, bold=True))
+    if lines > 1 and has_lead:
+        # a second line would collide with the lead, so keep shrinking
+        for step in range(T_TITLE, T_LEAD + 1, -2):
+            if text_width(text, step, True) <= width - 4:
+                size, lines = step, 1
+                break
+        else:
+            size, lines = T_LEAD + 2, len(
+                wrapped_lines(text, width - 4, T_LEAD + 2, bold=True))
+    if lines > 2:
+        print(f"  title needs {lines} lines at {size}pt - shorten the wording: "
+              f"{text[:60]!r}")
+
+    shape.height = Pt(round(size * 1.35) * lines + 8)
+    write(shape, [(text, size, True, BLUE, None)])
+    return 38 + round(size * 1.35) * lines + 8
 
 
 def lead(slide, text, y=LEAD_Y):
+    """The line under the title. Never larger than the title above it."""
     return write(textbox(slide, MARGIN, y, CONTENT_W, 26),
                  [(text, T_LEAD, False, BLUE, None)])
 
@@ -330,12 +356,13 @@ def badge(slide, text, x=790, y=36, w=130, h=40, role=ACTION):
                  anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
 
-def band(slide, label_text, body_text, role=GOOD, y=BAND_TOP, h=32):
+def band(slide, label_text, body_text, role=NEUTRAL, y=BAND_TOP, h=32):
     """Fixed height so the closing statement sits identically on every slide."""
     """The recurring full-width closing statement."""
     strip = card(slide, MARGIN, y, CONTENT_W, h, role.surface, pad=14)
     strip.text_frame.margin_top = strip.text_frame.margin_bottom = Pt(4)
-    return runs(strip, [(f"{label_text}   ", True, role.accent),
+    label_colour = BLUE if role is NEUTRAL else role.accent
+    return runs(strip, [(f"{label_text}   ", True, label_colour),
                         (body_text, False, BLUE)])
 
 

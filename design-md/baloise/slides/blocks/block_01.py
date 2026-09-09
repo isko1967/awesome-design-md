@@ -3,8 +3,9 @@
 Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.util import Pt
 
-from slidekit import (ACTION, blue_slide, divider, BAND_TOP, BLUE, CAUTION, COL2_W, COL2_X, COL3_W,
+from slidekit import (ACTION, COL4_W, COL4_X, blue_slide, divider, BAND_TOP, BLUE, CAUTION, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT, MARGIN,
                       NEUTRAL, T_BODY, T_CARD, T_DIVIDER, T_HINT, T_LEAD,
                       T_META, T_NUMBER, T_STATEMENT, WHITE, badge, band, card,
@@ -33,12 +34,13 @@ def slide_08(prs):
             "examples of the desired output.")
 
     eyebrow(s, "What the model infers")
-    infer = card(s, MARGIN, 142, CONTENT_W, 64, NEUTRAL.surface, pad=14)
-    write(infer, [
-        ("tone and level of formality · structure and formatting · "
-         "length and level of detail · wording and style",
-         T_BODY, True, BLUE, None),
-    ], anchor=MSO_ANCHOR.MIDDLE)
+    for x, pattern in zip(COL4_X, ("tone and level of formality",
+                                   "structure and formatting",
+                                   "length and level of detail",
+                                   "wording and style")):
+        tile = card(s, x, 142, COL4_W, 64, NEUTRAL.surface, pad=14)
+        write(tile, [(pattern, 14, True, BLUE, None)],
+              anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "Example", y=216)
     plain = card(s, COL2_X[0], 238, COL2_W, 172, NEUTRAL.surface)
@@ -59,8 +61,8 @@ def slide_08(prs):
 
     related = textbox(s, MARGIN, 418, CONTENT_W, 20)
     runs(related, [("RELATED CONCEPT   ", True, GREY_TEXT),
-                   ("Zero-shot: instructions without examples   ·   "
-                    "Few-shot: one or more examples provided as guidance",
+                   ("Zero-shot means instructions without examples. Few-shot "
+                    "means one or more examples are provided as guidance.",
                     False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.TOP)
 
     band(s, "Key idea",
@@ -74,13 +76,13 @@ def slide_09(prs):
     lead(s, "Imagine you regularly create management updates about claims "
             "performance.")
 
-    for x, question, answer, role in (
+    for x, question, answer in (
             (COL2_X[0], "A positive example answers",
-             "What should the output look like?", GOOD),
+             "What should the output look like?"),
             (COL2_X[1], "A negative example answers",
-             "What should the output not look like?", CAUTION)):
-        ask = card(s, x, CONTENT_TOP, COL2_W, 84, role.surface)
-        write(ask, [(question, T_BODY, True, role.accent, None),
+             "What should the output not look like?")):
+        ask = card(s, x, CONTENT_TOP, COL2_W, 84, NEUTRAL.surface)
+        write(ask, [(question, T_BODY, False, GREY_TEXT, None),
                     (answer, T_LEAD, True, BLUE, 4)])
 
     positive = card(s, COL2_X[0], 220, COL2_W, 216, GOOD.surface)
@@ -104,7 +106,7 @@ def slide_09(prs):
 
     band(s, "Key idea",
          "You do not always need both. Add a negative example when avoiding "
-         "a specific pattern matters.", GOOD)
+         "a specific pattern matters.")
     _foot(s, "LEARN", 9)
 
 
@@ -113,19 +115,18 @@ def slide_10(prs):
     title(s, "Tell the model what to learn from each example.")
 
     eyebrow(s, "What to specify", w=COL2_W)
-    positive = card(s, MARGIN, 146, COL2_W, 140, GOOD.surface)
+    positive = card(s, MARGIN, 146, COL2_W, 142, GOOD.surface)
     write(positive, [
         ("Positive example", T_CARD, True, GOOD.accent, None),
-        ("Follow its", T_BODY, True, BLUE, 10),
-        ("tone · structure · level of detail", T_BODY, False, BLUE, 2),
-    ])
-    negative = card(s, MARGIN, 302, COL2_W, 140, CAUTION.surface)
+        ("Follow its tone, structure and level of detail.",
+         T_BODY, False, BLUE, 10),
+    ], anchor=MSO_ANCHOR.MIDDLE)
+    negative = card(s, MARGIN, 300, COL2_W, 142, CAUTION.surface)
     write(negative, [
         ("Negative example", T_CARD, True, CAUTION.accent, None),
-        ("Avoid its", T_BODY, True, BLUE, 10),
-        ("unnecessary background · vague wording · lack of clear actions",
-         T_BODY, False, BLUE, 2),
-    ])
+        ("Avoid its unnecessary background, vague wording and lack of clear "
+         "actions.", T_BODY, False, BLUE, 10),
+    ], anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "The prompt", x=COL2_X[1], w=COL2_W)
     prompt = card(s, COL2_X[1], 146, COL2_W, 296, NEUTRAL.surface)
@@ -144,8 +145,7 @@ def slide_10(prs):
     ])
 
     band(s, "Use when",
-         "The desired quality is easier to demonstrate than to describe.",
-         GOOD)
+         "The desired quality is easier to demonstrate than to describe.")
     _foot(s, "LEARN", 10)
 
 
@@ -161,22 +161,23 @@ def slide_11(prs):
                    "management.", T_LEAD, False, BLUE, None)],
           anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Version 2 adds", y=226)
-    for x, count, kind, purpose, role in (
-            (COL2_X[0], "1", "positive example",
-             "to show the desired style", GOOD),
-            (COL2_X[1], "1", "negative example",
-             "to show what to avoid", CAUTION)):
-        tile = card(s, x, 252, COL2_W, 176, role.surface, pad=20)
-        write(tile, [
-            (count, T_NUMBER // 2, True, role.accent, None),
-            (kind, T_CARD, True, BLUE, 4),
-            (purpose, T_BODY, False, BLUE, 6),
-        ])
+    eyebrow(s, "Version 2 adds", x=COL2_X[0], w=COL2_W, y=226)
+    eyebrow(s, "Watch for", x=COL2_X[1], w=COL2_W, y=226)
 
-    band(s, "Watch for",
-         "prioritisation · structure · level of detail · tone · "
-         "action orientation", GOOD)
+    for y, kind, purpose, role in (
+            (252, "One positive example", "to show the desired style", GOOD),
+            (366, "One negative example", "to show what to avoid", CAUTION)):
+        tile = card(s, COL2_X[0], y, COL2_W, 100, role.surface, pad=18)
+        write(tile, [(kind, T_CARD, True, role.accent, None),
+                     (purpose, T_BODY, False, BLUE, 4)],
+              anchor=MSO_ANCHOR.MIDDLE)
+
+    watch = card(s, COL2_X[1], 252, COL2_W, 214, NEUTRAL.surface, pad=18)
+    write(watch, [(item, T_BODY, False, BLUE, None if i == 0 else 6)
+                  for i, item in enumerate(
+                      ("prioritisation", "structure", "level of detail",
+                       "tone", "action orientation"))],
+          anchor=MSO_ANCHOR.MIDDLE)
     _foot(s, "SEE", 11)
 
 
@@ -211,7 +212,7 @@ def slide_12(prs):
     write(after, rows, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "What changed?",
-         "More specific · more structured · more actionable", GOOD)
+         "More specific · more structured · more actionable", GOOD)  # verbatim
     _foot(s, "SEE", 12)
 
 
@@ -221,35 +222,37 @@ def slide_13(prs):
     lead(s, "Your task")
     badge(s, "TIME  5 MIN")
 
-    steps = [
+    cells = [
         ("1", "Choose a recurring text-based task.",
-         "stakeholder update · meeting summary · decision note · "
-         "internal announcement"),
+         "For example a stakeholder update, meeting summary, decision note "
+         "or internal announcement.", ACTION),
         ("2", "Add one positive example.",
-         "Choose something that represents the quality you want."),
+         "Choose something that represents the quality you want.", ACTION),
         ("3", "Optional: add one negative example.",
-         "Use it if there is a recurring pattern you want to avoid."),
+         "Use it if there is a recurring pattern you want to avoid.", ACTION),
         ("4", "Tell AI what to learn from the examples.",
-         "Tone? Structure? Length? Level of detail?"),
-        ("5", "Run the prompt and compare the result.", None),
+         "Tone? Structure? Length? Level of detail?", ACTION),
+        ("5", "Run the prompt and compare the result.", None, ACTION),
+        (None, "Before you start",
+         "Keep all information generic. Do not enter personal, customer or "
+         "confidential information.", CAUTION),
     ]
-    for i, (number, text, hint) in enumerate(steps):
-        cell = card(s, COL3_X[i % 3], 150 if i < 3 else 325, COL3_W, 155,
-                    ACTION.surface)
-        rows = [(number, T_STATEMENT, True, ACTION.accent, None),
-                (text, T_LEAD, True, BLUE, 6)]
+    for i, (number, text, hint, role) in enumerate(cells):
+        x = COL2_X[i % 2]
+        y = 146 + (i // 2) * 112
+        cell = card(s, x, y, COL2_W, 100, role.surface, pad=16)
+        head = [(f"{number}   ", True, role.accent)] if number else []
+        runs(cell, head + [(text, True, BLUE)], size=T_BODY,
+             anchor=MSO_ANCHOR.TOP)
         if hint:
-            rows.append((hint, T_HINT, False, GREY_TEXT, 6))
-        write(cell, rows)
-
-    # the compliance note takes the sixth cell and the caution colour, the
-    # same colour that marks what to avoid everywhere else in the deck
-    note = card(s, COL3_X[2], 325, COL3_W, 155, CAUTION.surface)
-    write(note, [
-        ("Before you start", T_LEAD, True, CAUTION.accent, None),
-        ("Keep all information generic. Do not enter personal, customer or "
-         "confidential information.", T_BODY, False, BLUE, 8),
-    ])
+            para = cell.text_frame.add_paragraph()
+            para.alignment = PP_ALIGN.LEFT
+            para.space_before = Pt(4)
+            para.line_spacing = Pt(18)
+            run = para.add_run()
+            run.text = hint
+            run.font.size = Pt(T_HINT)
+            run.font.color.rgb = GREY_TEXT if role is ACTION else BLUE
     _foot(s, "TRY", 13)
 
 
@@ -264,7 +267,8 @@ def slide_14(prs):
     x = MARGIN
     for text in ("Tone", "Structure", "Level of detail", "Wording",
                  "Nothing meaningful"):
-        chip = card(s, x, 180, 163, 110, ACTION.surface)
+        chip = card(s, x, 180, 163, 110, None,
+                    outline=ACTION.accent)
         write(chip, [(text, T_LEAD, False, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += 163 + 16

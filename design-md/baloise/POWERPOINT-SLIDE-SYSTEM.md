@@ -383,3 +383,44 @@ Blockfarbe für Block 1 ist **grün**. Die Vorlage bietet vier Akzentfamilien
 Die `.potx` und das erzeugte `.pptx` werden **nicht** eingecheckt: beide enthalten
 Corporate Assets (Logo, Theme, Schriften). Eingecheckt sind nur das Build-Skript,
 der Inventarisierer und die Inhaltsdaten.
+
+---
+
+## Nachtrag 3 — Eigene Komposition auf Corporate-Werten
+
+Entscheid: **eigene Komposition, Corporate-Werte.** Die Content-Layouts der Vorlage
+werden nicht mehr benutzt — ihre Boxen haben den Inhalt diktiert statt ihn zu tragen,
+und das war der Grund für die leer wirkenden Folien. Alle Folien sitzen auf
+`1 Content` (das schlichteste Layout, das die Master-Grafiken und damit das Logo
+noch erbt); dessen eigene Inhaltsboxen werden entfernt, alles andere wird selbst
+gesetzt.
+
+### Aus der Vorlage, unverändert
+
+- **Arial** als Theme-Schrift. Kein Run überschreibt den Schriftnamen, alles erbt.
+- **Farbwerte direkt**: Text `#000D6E`; Akzente `#1B5951`, `#D9304C`; Flächen
+  `#94E3D4`, `#CBF2EC`, `#FFD7D7`, `#FFECBC`. Einzige Ausnahme: `#F6F6F6` als
+  neutrale Fläche — die Vorlage kennt keinen neutralen Tint, der Wert kommt aus
+  dem Design System.
+- **Geometrie**: Rand 41, Inhaltsbreite 879, Inhaltszone y 120–480, Fusszeilenband
+  y 497. Spalten 428+428 (Rinne 22) und 278×3 (Rinne 22).
+
+### Eigene Skala
+
+Titel 32 pt (Mittelweg zwischen Vorlage 24 und meinem ursprünglichen 40),
+Divider 48, Blocknummer 96, Statement 24, Kartentitel 20, Lead 18,
+Fliesstext 16, Hinweis 13, Label/Fusszeile 12. Zeilenabstand durchgehend 1.3.
+
+### Was die Leere behoben hat
+
+| Slide | vorher | jetzt |
+|---|---|---|
+| 7 | untere Hälfte leer | vier Zyklus-Karten über die volle Breite bei y 376–460 |
+| 10 | leere Seitenbox der Vorlage | zwei Spalten, drei Karten, Kernaussage-Band über die volle Breite |
+| 12 | linke Karte kopflastig | beide Karten 290 hoch, Text vertikal zentriert, getöntes Fazit-Band |
+| 13 | unteres Drittel leer | 3×2-Raster über die ganze Inhaltszone, Zeit-Badge oben rechts |
+| 14 | untere Hälfte leer | Chips auf 163×110 vergrössert, Handlungsaufforderung als Band 326–450 |
+
+Der Compliance-Hinweis auf Slide 13 hat jetzt eine eigene Zelle im Raster auf
+`#FFECBC`. Das ist die Variante, die ich zuvor verworfen hatte — im eigenen Raster
+steht sie nicht mehr neben der grünen Box, der Spektrum-Konflikt entfällt.

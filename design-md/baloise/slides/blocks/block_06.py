@@ -116,13 +116,12 @@ def slide_48(prs):
     _clinic_field(s, MARGIN, 118, COL2_W, 78, "SITUATION",
                   "[Insert genericised submitted case]")
     _clinic_field(s, MARGIN, 204, COL2_W, 78, "CURRENT PROMPT",
-                  "[Insert current prompt]", role=GUARDRAIL,
-                  label_colour=GUARDRAIL.accent)
+                  "[Insert current prompt]")
     _clinic_field(s, MARGIN, 290, COL2_W, 78, "DEFINE GOOD",
-                  "What would a good result need to do?", role=GOOD,
-                  label_colour=GOOD.accent)
+                  "What would a good result need to do?")
 
-    eyebrow(s, "Choose technique", x=COL2_X[1], w=COL2_W, colour=GREEN)
+    eyebrow(s, "Choose technique", x=COL2_X[1], w=COL2_W,
+            colour=ACTION.accent)
     techs = ["01 Few-shot", "02 Persistent context", "03 Decomposition",
              "04 Self-critique", "05 Debugging"]
     x = COL2_X[1]
@@ -131,17 +130,17 @@ def slide_48(prs):
     for i, t in enumerate(techs):
         col, row = i % 2, i // 2
         chip = card(s, x + col * (w + 16), ty + row * 42, w, 34, None,
-                    outline=GREEN, pad=8)
+                    outline=ACTION.accent, pad=8)
         write(chip, [(t, T_HINT, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
     _clinic_field(s, COL2_X[1], 270, COL2_W, 80, "DIAGNOSE",
-                  "Missing context · unclear criteria · wrong structure · "
-                  "not specific enough", role=NEUTRAL)
+                  "Missing context, unclear criteria, wrong structure, or an "
+                  "instruction that is not specific enough.", role=NEUTRAL)
     _clinic_field(s, COL2_X[1], 358, COL2_W, 58, "OUR CHANGE",
                   "[Fill in live]", role=ACTION, label_colour=ACTION.accent)
 
-    band(s, "Compare", "Better? Why?", GOOD)
+    band(s, "Compare", "Better? Why?")
     _foot(s, None, 48)
 
 

@@ -68,7 +68,7 @@ def slide_08(prs):
                     False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.TOP)
 
     band(s, "Key idea",
-         "Examples reduce how much the model has to interpret.", GOOD)
+         "Examples reduce how much the model has to interpret.")
     _foot(s, "LEARN", 8)
 
 

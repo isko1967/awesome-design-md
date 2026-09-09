@@ -14,6 +14,14 @@ from pptx.util import Emu
 
 from slidekit import SLIDE_H, SLIDE_W, wrapped_lines
 
+# Role surfaces, by the hex the template's colour list defines for them.
+# Grey and white carry no role, so they never count towards the limit.
+ROLE_SURFACE = {"CBF2EC": "GOOD", "94E3D4": "GOOD",
+                "FFD7D7": "AVOID", "FFACA6": "AVOID",
+                "FFECBC": "ACTION", "FAE052": "ACTION",
+                "E1D9FF": "PURPLE", "B8B2FF": "PURPLE"}
+MAX_ROLES_PER_SLIDE = 2
+
 # what the corporate master applies when a run declares no size of its own
 INHERITED = {"TITLE": 24.0, "CENTER_TITLE": 24.0,
              "FOOTER": 10.0, "SLIDE_NUMBER": 10.0, "DATE": 10.0}
@@ -97,11 +105,33 @@ def main():
             boxes.append((shape.name, left, top, right, bottom))
 
         problems.extend(overlaps(index, boxes))
+        problems.extend(role_load(index, slide))
 
     print("\n".join(problems) if problems
           else f"{len(prs.slides._sldIdLst)} slides: no overflow, "
                "no collisions, nothing below 12pt")
     sys.exit(1 if problems else 0)
+
+
+def role_load(index, slide):
+    """More than two roles on one slide and colour stops meaning anything."""
+    found = []
+    roles = set()
+    for shape in slide.shapes:
+        try:
+            if shape.fill.type != 1:
+                continue
+            role = ROLE_SURFACE.get(str(shape.fill.fore_color.rgb))
+        except Exception:
+            continue
+        if role:
+            roles.add(role)
+    if "PURPLE" in roles:
+        found.append(f"slide {index}: purple is no longer a role")
+    if len(roles) > MAX_ROLES_PER_SLIDE:
+        found.append(f"slide {index}: {len(roles)} roles at once "
+                     f"({', '.join(sorted(roles))})")
+    return found
 
 
 def para_runs(shape):

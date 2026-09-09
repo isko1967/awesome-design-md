@@ -36,7 +36,7 @@ def slide_32(prs):
     title(s, "Good critique starts with explicit criteria.")
     lead(s, "“Improve this communication” does not define what better means.")
 
-    eyebrow(s, "Instead, define criteria — a good customer communication should")
+    eyebrow(s, "The criteria")
     criteria = [
         ("Be clear", "Can a non-expert understand what is changing?"),
         ("Be concise", "Does it avoid unnecessary background?"),
@@ -47,19 +47,18 @@ def slide_32(prs):
     for i, (head, q) in enumerate(criteria):
         x = COL2_X[i % 2]
         y = 148 + (i // 2) * 96
-        cell = card(s, x, y, COL2_W, 84, GOOD.surface, pad=16)
-        write(cell, [(head, T_CARD, True, GOOD.accent, None),
+        cell = card(s, x, y, COL2_W, 84, NEUTRAL.surface, pad=16)
+        write(cell, [(head, T_CARD, True, BLUE, None),
                      (q, T_HINT, False, BLUE, 4)], anchor=MSO_ANCHOR.MIDDLE)
 
-    rubric = card(s, MARGIN, 348, CONTENT_W, 60, GUARDRAIL.surface, pad=14)
-    runs(rubric, [("RELATED CONCEPT — RUBRIC   ", True, GUARDRAIL.accent),
+    rubric = card(s, MARGIN, 348, CONTENT_W, 60, NEUTRAL.surface, pad=14)
+    runs(rubric, [("RELATED CONCEPT — RUBRIC   ", True, GREY_TEXT),
                   ("A structured set of criteria used to evaluate an output. "
                    "Match the number and detail of criteria to the task.",
                    False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "Key idea",
-         "Explicit criteria turn “better” into something you can inspect.",
-         GOOD)
+         "Explicit criteria turn “better” into something you can inspect.")
     _foot(s, "LEARN", 32)
 
 
@@ -104,7 +103,7 @@ def slide_34(prs):
     lead(s, "If the source does not say why a premium changed, AI may try to "
             "complete the story.")
 
-    eyebrow(s, "Instead, define expected behaviour", colour=GUARDRAIL.accent)
+    eyebrow(s, "Expected behaviour", colour=AVOID.accent)
     rules = [
         "If the reason is not provided, do not infer one.",
         "Flag missing information explicitly.",
@@ -112,12 +111,12 @@ def slide_34(prs):
         "Do not promise outcomes unsupported by the source material.",
         "Ask for clarification when missing information changes the answer.",
     ]
-    listing(s, [(None, r, None) for r in rules], role=GUARDRAIL,
-            top=150, span=234)
+    listing(s, [(None, r, None) for r in rules], role=AVOID,
+            top=150, span=286)
 
     band(s, "Key idea",
          "Guardrails define acceptable behaviour when the task cannot be "
-         "completed confidently.", GUARDRAIL)
+         "completed confidently.")
     _foot(s, "LEARN", 34)
 
 

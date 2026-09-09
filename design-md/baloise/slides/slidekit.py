@@ -57,7 +57,10 @@ class Role:
 
 GOOD = Role(GREEN_3, GREEN, GREEN_LIGHT)
 AVOID = Role(RED_3, RED, RED_LIGHT)
-GUARDRAIL = Role(PURPLE_3, PURPLE, PURPLE_LIGHT)
+# Purple was a fourth role that nobody asked for; guardrails are things you
+# must not do, so they belong to AVOID. The name stays as an alias so the
+# block modules keep importing, but it resolves to red.
+GUARDRAIL = AVOID
 NEUTRAL = Role(GREY_SURFACE, GREY_TEXT, GREY_SURFACE)
 ACTION = Role(TANGERINE_3, TANGERINE_1, TANGERINE_LIGHT)
 
@@ -363,7 +366,19 @@ def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
                  [(text, T_LEAD, False, BLUE, None)])
 
 
+EYEBROW_MAX = 24
+
+
 def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
+    """A short label in capitals.
+
+    Capitals are hard to read in quantity, so an eyebrow is a label of a few
+    words, never a sentence. Anything longer belongs in the lead or in the
+    card itself.
+    """
+    if len(text) > EYEBROW_MAX:
+        raise ValueError(
+            f"eyebrow is {len(text)} characters, max {EYEBROW_MAX}: {text!r}")
     return write(textbox(slide, x, y, w, 18),
                  [(text.upper(), T_META, True, colour or GREY_TEXT, None)])
 
@@ -374,13 +389,17 @@ def badge(slide, text, x=790, y=36, w=130, h=40, role=ACTION):
                  anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
 
-def band(slide, label_text, body_text, role=NEUTRAL, y=BAND_TOP, h=32):
-    """Fixed height so the closing statement sits identically on every slide."""
-    """The recurring full-width closing statement."""
-    strip = card(slide, MARGIN, y, CONTENT_W, h, role.surface, pad=14)
+def band(slide, label_text, body_text, role=None, y=BAND_TOP, h=32):
+    """The recurring full-width closing statement.
+
+    Always neutral. It is furniture that appears on nearly every slide, so
+    giving it a role colour turned that colour into background noise instead
+    of a signal. `role` is accepted and ignored so the block modules keep
+    working; the argument should be dropped as they are touched.
+    """
+    strip = card(slide, MARGIN, y, CONTENT_W, h, NEUTRAL.surface, pad=14)
     strip.text_frame.margin_top = strip.text_frame.margin_bottom = Pt(4)
-    label_colour = BLUE if role is NEUTRAL else role.accent
-    return runs(strip, [(f"{label_text}   ", True, label_colour),
+    return runs(strip, [(f"{label_text}   ", True, BLUE),
                         (body_text, False, BLUE)])
 
 

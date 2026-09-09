@@ -78,8 +78,8 @@ def slide_17(prs):
     top, pitch = 146, 58
     for i, (labelt, example) in enumerate(candidates):
         y = top + i * pitch
-        cell = card(s, MARGIN, y, MAIN_W, pitch - 8, GOOD.surface, pad=10)
-        runs(cell, [(f"{labelt}   ", True, GOOD.accent), (example, False, BLUE)],
+        cell = card(s, MARGIN, y, MAIN_W, pitch - 8, NEUTRAL.surface, pad=10)
+        runs(cell, [(f"{labelt}   ", True, BLUE), (example, False, BLUE)],
              size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
 
     # marginal material to the 203 aside at 13pt (overflow ladder, step 1)
@@ -92,9 +92,9 @@ def slide_17(prs):
                       "Individual customer information",
                       "One-off requirements"))],
           anchor=MSO_ANCHOR.MIDDLE)
-    rel = card(s, ASIDE_X, 344, ASIDE_W, 96, GUARDRAIL.surface, pad=12)
+    rel = card(s, ASIDE_X, 344, ASIDE_W, 96, NEUTRAL.surface, pad=12)
     write(rel, [
-        ("ROLE PROMPTING", T_META, True, GUARDRAIL.accent, None),
+        ("ROLE PROMPTING", T_META, True, GREY_TEXT, None),
         ("Pair a role with concrete expectations, not just “act as an "
          "expert”.", T_HINT, False, BLUE, 6),
     ])

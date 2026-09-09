@@ -24,18 +24,38 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Pt
 
-# --- colours, taken verbatim from the template theme -------------------------
-PRIMARY = RGBColor(0x00, 0x0D, 0x6E)    # dk1/dk2 - standard text blue
+# --- colours: the named corporate list from ppt/theme/theme1.xml -------------
+# <a:custClrLst> defines the palette and, by its order, the family sequence.
+# Every family carries a dark base, a "light" surface and three tints; the
+# template uses "light" for chapter grounds and "3" for content panels.
+FAMILY_ORDER = ("green", "purple", "red", "tangerine")
+PALETTE = {
+    "green":     dict(base="1B5951", light="94E3D4",
+                      t1="00B28F", t2="21D9AC", t3="CBF2EC"),
+    "purple":    dict(base="6C2273", light="B8B2FF",
+                      t1="9F52CC", t2="BE82FA", t3="E1D9FF"),
+    "red":       dict(base="D9304C", light="FFACA6",
+                      t1="99172D", t2="FF596F", t3="FFD7D7"),
+    "tangerine": dict(base="FA9319", light="FAE052",
+                      t1="B24A00", t2="FFBE1A", t3="FFECBC"),
+}
+
+PRIMARY = RGBColor(0x00, 0x0D, 0x6E)    # "Blue" - standard text colour
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-GREEN_DARK = RGBColor(0x1B, 0x59, 0x51)  # accent1
-GREEN_MID = RGBColor(0x94, 0xE3, 0xD4)   # chapter surface
-GREEN_SOFT = RGBColor(0xCB, 0xF2, 0xEC)  # panel surface
-RED_DARK = RGBColor(0xD9, 0x30, 0x4C)    # accent3
-RED_SOFT = RGBColor(0xFF, 0xD7, 0xD7)    # panel surface
-AMBER_SOFT = RGBColor(0xFF, 0xEC, 0xBC)  # panel surface
-# the template defines no neutral tint, so the design system's grey is used
+# the corporate list holds no neutral tint, so the design system's grey is used
 GREY_SURFACE = RGBColor(0xF6, 0xF6, 0xF6)
 GREY_TEXT = RGBColor(0x74, 0x74, 0x74)
+
+# Block 1 opens the sequence; block 2 takes purple, block 3 red, block 4
+# tangerine, by shifting this index.
+BLOCK = 0
+
+
+def accent(step=0, shade="base"):
+    """Colour `step` places after the block colour in the corporate sequence."""
+    family = FAMILY_ORDER[(BLOCK + step) % len(FAMILY_ORDER)]
+    return RGBColor.from_string(PALETTE[family][shade])
+
 
 # --- geometry, taken from the template ---------------------------------------
 MARGIN = 41
@@ -224,7 +244,7 @@ def new_slide(prs, bg=None):
 
 # --- slides ------------------------------------------------------------------
 def slide_07_divider(prs):
-    s = new_slide(prs, bg=GREEN_MID)
+    s = new_slide(prs, bg=accent(0, "light"))
     drop(s, 0)
 
     write(textbox(s, MARGIN, 112, 176, 130),
@@ -251,15 +271,15 @@ def slide_10_how(prs):
     title(s, "Tell the model what to learn from each example.")
 
     label(s, MARGIN, CONTENT_TOP, COL2_W, "What to specify")
-    positive = card(s, MARGIN, 146, COL2_W, 140, GREEN_SOFT)
+    positive = card(s, MARGIN, 146, COL2_W, 140, accent(0, "t3"))
     write(positive, [
-        ("Positive example", T_CARD, True, GREEN_DARK, None),
+        ("Positive example", T_CARD, True, accent(0), None),
         ("Follow its", T_BODY, True, PRIMARY, 10),
         ("tone · structure · level of detail", T_BODY, False, PRIMARY, 2),
     ])
-    negative = card(s, MARGIN, 302, COL2_W, 140, RED_SOFT)
+    negative = card(s, MARGIN, 302, COL2_W, 140, accent(1, "t3"))
     write(negative, [
-        ("Negative example", T_CARD, True, RED_DARK, None),
+        ("Negative example", T_CARD, True, accent(1), None),
         ("Avoid its", T_BODY, True, PRIMARY, 10),
         ("unnecessary background · vague wording · lack of clear actions",
          T_BODY, False, PRIMARY, 2),
@@ -281,13 +301,13 @@ def slide_10_how(prs):
          T_HINT, False, GREY_TEXT, 14),
     ])
 
-    band = card(s, MARGIN, 452, CONTENT_W, 28, GREEN_SOFT, pad=12)
+    band = card(s, MARGIN, 452, CONTENT_W, 28, accent(0, "t3"), pad=12)
     tf = band.text_frame
     tf.margin_top = tf.margin_bottom = Pt(3)
     p = tf.paragraphs[0]
     p.alignment = PP_ALIGN.LEFT
     for text, bold, colour in (
-            ("Use when   ", True, GREEN_DARK),
+            ("Use when   ", True, accent(0)),
             ("The desired quality is easier to demonstrate than to describe.",
              False, PRIMARY)):
         run = p.add_run()
@@ -305,7 +325,7 @@ def slide_12_before_after(prs):
     title(s, "Same task. Clearer guidance.")
 
     label(s, COL2_X[0], CONTENT_TOP, COL2_W, "Without examples")
-    label(s, COL2_X[1], CONTENT_TOP, COL2_W, "With examples", GREEN_DARK)
+    label(s, COL2_X[1], CONTENT_TOP, COL2_W, "With examples", accent(0))
 
     left = card(s, COL2_X[0], 146, COL2_W, 290, GREY_SURFACE, pad=20)
     write(left, [
@@ -316,7 +336,7 @@ def slide_12_before_after(prs):
          T_BODY, False, PRIMARY, None),
     ], anchor=MSO_ANCHOR.MIDDLE)
 
-    right = card(s, COL2_X[1], 146, COL2_W, 290, GREEN_SOFT, pad=20)
+    right = card(s, COL2_X[1], 146, COL2_W, 290, accent(0, "t3"), pad=20)
     rows = []
     for i, (heading, text) in enumerate([
             ("Status — Attention required",
@@ -326,11 +346,11 @@ def slide_12_before_after(prs):
              "No change to current customer communication is required."),
             ("Next watchpoint",
              "Reassess processing times at the end of the week.")]):
-        rows.append((heading, T_BODY, True, GREEN_DARK, None if i == 0 else 12))
+        rows.append((heading, T_BODY, True, accent(0), None if i == 0 else 12))
         rows.append((text, T_BODY, False, PRIMARY, 0))
     write(right, rows, anchor=MSO_ANCHOR.MIDDLE)
 
-    band = card(s, MARGIN, 448, CONTENT_W, 32, GREEN_SOFT, pad=14)
+    band = card(s, MARGIN, 448, CONTENT_W, 32, accent(0, "t3"), pad=14)
     tf = band.text_frame
     tf.margin_top = tf.margin_bottom = Pt(4)
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
@@ -339,7 +359,7 @@ def slide_12_before_after(prs):
     for text, bold, colour in (
             ("What changed?   ", True, PRIMARY),
             ("More specific · more structured · more actionable",
-             False, GREEN_DARK)):
+             False, accent(0))):
         run = p.add_run()
         run.text = text
         run.font.size = Pt(T_BODY)
@@ -354,7 +374,7 @@ def slide_13_practice(prs):
     title(s, "Use examples to guide your own output.")
     lead(s, "Your task")
 
-    badge = card(s, 790, 36, 130, 40, GREEN_MID, pad=6)
+    badge = card(s, 790, 36, 130, 40, accent(0, "light"), pad=6)
     write(badge, [("TIME  5 MIN", T_BODY, True, PRIMARY, None)],
           anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
@@ -373,18 +393,19 @@ def slide_13_practice(prs):
     for i, (number, text, hint) in enumerate(steps):
         x = COL3_X[i % 3]
         y = 150 if i < 3 else 325
-        cell = card(s, x, y, COL3_W, 155, GREEN_SOFT)
-        rows = [(number, T_STATEMENT, True, GREEN_DARK, None),
+        cell = card(s, x, y, COL3_W, 155, accent(0, "t3"))
+        rows = [(number, T_STATEMENT, True, accent(0), None),
                 (text, T_LEAD, True, PRIMARY, 6)]
         if hint:
             rows.append((hint, T_HINT, False, GREY_TEXT, 6))
         write(cell, rows)
 
     # sixth cell: the compliance note gets a slot of its own rather than a
-    # footnote, and the amber panel colour marks it as a condition of the task
-    note = card(s, COL3_X[2], 325, COL3_W, 155, AMBER_SOFT)
+    # footnote. Its colour is the next one in the corporate sequence, not a
+    # warning colour -- the design system assigns no meaning to hue.
+    note = card(s, COL3_X[2], 325, COL3_W, 155, accent(1, "t3"))
     write(note, [
-        ("Before you start", T_LEAD, True, PRIMARY, None),
+        ("Before you start", T_LEAD, True, accent(1), None),
         ("Keep all information generic. Do not enter personal, customer or "
          "confidential information.", T_BODY, False, PRIMARY, 8),
     ])
@@ -393,7 +414,7 @@ def slide_13_practice(prs):
 
 
 def slide_14_reflection(prs):
-    s = new_slide(prs, bg=GREEN_SOFT)
+    s = new_slide(prs, bg=accent(0, "t3"))
     title(s, "Did the examples give you more control?")
     lead(s, "Compare the result with what you would normally receive.")
 
@@ -410,7 +431,7 @@ def slide_14_reflection(prs):
 
     cta = card(s, MARGIN, 326, CONTENT_W, 124, WHITE, pad=24)
     write(cta, [
-        ("In the chat", T_BODY, True, GREEN_DARK, None),
+        ("In the chat", T_BODY, True, accent(0), None),
         ("Share the one thing that changed most.", T_STATEMENT, False,
          PRIMARY, 8),
     ], anchor=MSO_ANCHOR.MIDDLE)

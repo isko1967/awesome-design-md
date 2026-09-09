@@ -424,3 +424,48 @@ Fliesstext 16, Hinweis 13, Label/Fusszeile 12. Zeilenabstand durchgehend 1.3.
 Der Compliance-Hinweis auf Slide 13 hat jetzt eine eigene Zelle im Raster auf
 `#FFECBC`. Das ist die Variante, die ich zuvor verworfen hatte — im eigenen Raster
 steht sie nicht mehr neben der grünen Box, der Spektrum-Konflikt entfällt.
+
+---
+
+## Nachtrag 4 — Farbabfolge
+
+Das Theme der Vorlage enthält unter `<a:custClrLst>` eine **benannte Corporate-
+Farbliste mit 22 Einträgen** (vollständig in `DESIGN.md`). Ihre Reihenfolge ist
+die verbindliche Farbabfolge:
+
+**Grün → Violett → Rot → Tangerine**
+
+Dasselbe steht im Farbschema (accent1 `#1B5951`, accent2 `#6C2273`,
+accent3 `#D9304C`, accent4 `#FA9319`). Aus den Layout-Namen ist sie **nicht**
+ableitbar — die sind green/red/purple/tangerine sortiert, also anders. Meine
+frühere Annahme war entsprechend falsch.
+
+### Umsetzung im Skript
+
+```python
+FAMILY_ORDER = ("green", "purple", "red", "tangerine")
+BLOCK = 0                       # Block 1 eröffnet die Abfolge
+accent(step, shade)             # step Plätze weiter in der Abfolge
+```
+
+`accent(0)` ist die Blockfarbe, `accent(1)` die nächste, und so weiter.
+Für Block 2 wird nur `BLOCK = 1` gesetzt: alles rotiert mit, Violett wird zur
+Blockfarbe, Rot zur zweiten. Das ist die Stelle, an der sich der Aufwand aus
+Block 1 für die weiteren Prompting-Techniken auszahlt.
+
+### Stufenregel, wie die Vorlage sie verwendet
+
+| Stufe | Einsatz |
+|---|---|
+| `<Familie>` | Text und Akzent auf hellen Flächen |
+| `<Familie>-light` | Vollflächiger Divider-Hintergrund |
+| `<Familie>-3` | Karten, Panels, Bänder |
+
+### Folge für die Musterfolien
+
+Die zweite Farbe auf einer Folie ist jetzt **Violett**, nicht Rot:
+Slide 10 Negativbeispiel-Karte, Slide 13 Compliance-Zelle. Das ist bewusst
+gegen die semantische Lesart gesetzt — das Design System weist Farben keine
+Bedeutung zu („no color coding"), die Unterscheidung tragen die Beschriftungen.
+Wer die semantische Lesart will, setzt für diese beiden Karten `accent(2)`
+(Rot) statt `accent(1)`.

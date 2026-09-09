@@ -103,6 +103,37 @@ Jede Familie hat Tints 1–6. Für Flächen gelten Tint 1/2, für Text auf diese
 | Grey (sekundär) | `#747474` |
 | Hint / Placeholder | `#656EA8` |
 
+### Corporate-Farbliste und Farbabfolge
+
+Die PowerPoint-Vorlage führt im Theme (`<a:custClrLst>`) eine benannte Farbliste.
+Ihre Reihenfolge ist die verbindliche **Farbabfolge** des Corporate Designs:
+
+| # | Name | HEX | | # | Name | HEX |
+|---|---|---|---|---|---|---|
+| 1 | Blue | `#000D6E` | | 12 | Green-2 | `#21D9AC` |
+| 2 | White | `#FFFFFF` | | 13 | Green-3 | `#CBF2EC` |
+| 3 | Green | `#1B5951` | | 14 | Purple-1 | `#9F52CC` |
+| 4 | Green-light | `#94E3D4` | | 15 | Purple-2 | `#BE82FA` |
+| 5 | Purple | `#6C2273` | | 16 | Purple-3 | `#E1D9FF` |
+| 6 | Purple-light | `#B8B2FF` | | 17 | Red-1 | `#99172D` |
+| 7 | Red | `#D9304C` | | 18 | Red-2 | `#FF596F` |
+| 8 | Red-light | `#FFACA6` | | 19 | Red-3 | `#FFD7D7` |
+| 9 | Tangerine | `#FA9319` | | 20 | Tangerine-1 | `#B24A00` |
+| 10 | Tangerine-light | `#FAE052` | | 21 | Tangerine-2 | `#FFBE1A` |
+| 11 | Green-1 | `#00B28F` | | 22 | Tangerine-3 | `#FFECBC` |
+
+**Familienreihenfolge: Grün → Violett → Rot → Tangerine.** Dieselbe Reihenfolge
+steht im Farbschema des Themes (accent1–accent4). Sie ist nicht aus den
+Layout-Namen ableitbar — die sind anders sortiert.
+
+Die Vorlage verwendet die Stufen konsistent:
+
+| Stufe | Verwendung in der Vorlage |
+|---|---|
+| `<Familie>` (dunkel) | Text und Akzent auf hellen Flächen |
+| `<Familie>-light` | Vollflächiger Hintergrund von Kapitel-/Divider-Folien |
+| `<Familie>-3` | Inhaltsflächen, Panels, Karten |
+
 ### On-Color-Regel
 
 Das System definiert zu jeder Fläche eine `On*`-Textfarbe. Faustregel:

@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (WHITE, CHOICE, ACTION, AVOID, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD,
+from slidekit import (task_header, WHITE, CHOICE, ACTION, AVOID, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD,
                       GREEN, GREY_TEXT, GUARDRAIL, MARGIN, NEUTRAL, T_BODY,
                       T_CARD, T_DIVIDER, T_HINT, T_LEAD, T_META, T_NUMBER,
                       T_STATEMENT, badge, band, blue_slide, card, divider,
@@ -87,7 +87,7 @@ def slide_47(prs):
     # connectors: → along the top row, ↓ from 04 to 05, ← along the bottom row
     def connector(x, y, glyph, w=gap_x, h=22):
         box = textbox(s, x, y, w, h)
-        write(box, [(glyph, 14, False, GREY_TEXT, None)],
+        write(box, [(glyph, T_HINT, False, BLUE, None)],
               align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     midy = top + cell_h / 2 - 11
@@ -120,13 +120,13 @@ def slide_48(prs):
     s = new_slide(prs)
     title(s, "Live case: [selected participant task].", width=729,
           has_lead=False)
-    badge(s, "Case 1", role=ACTION)
+    task_header(s, "Live case", "Case 1")
 
-    _clinic_field(s, MARGIN, 118, COL2_W, 78, "Situation",
+    _clinic_field(s, MARGIN, 150, COL2_W, 76, "Situation",
                   "[Insert genericised submitted case]")
-    _clinic_field(s, MARGIN, 204, COL2_W, 78, "Current prompt",
+    _clinic_field(s, MARGIN, 234, COL2_W, 76, "Current prompt",
                   "[Insert current prompt]")
-    _clinic_field(s, MARGIN, 290, COL2_W, 78, "Define good",
+    _clinic_field(s, MARGIN, 318, COL2_W, 76, "Define good",
                   "What would a good result need to do?")
 
     eyebrow(s, "Choose technique", x=COL2_X[1], w=COL2_W,
@@ -134,7 +134,7 @@ def slide_48(prs):
     techs = ["01 Few-shot", "02 Persistent context", "03 Decomposition",
              "04 Self-critique", "05 Debugging"]
     x = COL2_X[1]
-    ty = 148
+    ty = 176
     w = (COL2_W - 16) / 2
     for i, t in enumerate(techs):
         col, row = i % 2, i // 2
@@ -143,10 +143,10 @@ def slide_48(prs):
         write(chip, [(t, T_HINT, True, WHITE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
 
-    _clinic_field(s, COL2_X[1], 270, COL2_W, 80, "Diagnose",
+    _clinic_field(s, COL2_X[1], 296, COL2_W, 76, "Diagnose",
                   "Missing context, unclear criteria, wrong structure, or an "
                   "instruction that is not specific enough.", role=NEUTRAL)
-    _clinic_field(s, COL2_X[1], 358, COL2_W, 58, "Our change",
+    _clinic_field(s, COL2_X[1], 380, COL2_W, 58, "Our change",
                   "[Fill in live]", role=ACTION, label_colour=ACTION.accent)
 
     band(s, "Compare", "Better? Why?")
@@ -158,7 +158,7 @@ def slide_49(prs):
     s = new_slide(prs)
     title(s, "Mini case: [selected participant task].", width=729,
           has_lead=False)
-    badge(s, "Optional", role=ACTION, x=770, w=150)
+    task_header(s, "Mini case", "Optional")
 
     steps = [
         ("1  Situation", "What are we trying to achieve?"),

@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (bullet_list, CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
+from slidekit import (task_header, bullet_list, CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
                       BAND_TOP, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MARGIN,
@@ -42,7 +42,7 @@ def slide_08(prs):
                                    "length and level of detail",
                                    "wording and style")):
         tile = card(s, x, 142, COL4_W, 52, NEUTRAL.surface, pad=10)
-        write(tile, [(pattern, 14, True, BLUE, None)],
+        write(tile, [(pattern, T_HINT, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "Example", y=222)
@@ -220,8 +220,7 @@ def slide_12(prs):
 def slide_13(prs):
     s = new_slide(prs)
     title(s, "Use examples to guide your own output.", width=729)
-    lead(s, "Your task")
-    badge(s, "Time  5 min")
+    task_header(s, "Your task", "5 min")
 
     cells = [
         ("1", "Choose a recurring text-based task.",

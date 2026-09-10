@@ -393,8 +393,24 @@ def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
                  [(text, T_LEAD, False, BLUE, None)])
 
 
+def icon_inline(slide, name, x, text_y, text_size=T_BODY, colour=None):
+    """An icon on the same optical line as the text it precedes.
+
+    Every hand-placed icon drifted off the baseline because the offset was
+    guessed per call. The glyph box is 1.15x the cap height and its centre is
+    set on the text's centre, so it lines up wherever it is used. Returns the
+    x at which the text should start.
+    """
+    size = round(text_size * 1.15)
+    line = round(text_size * 1.35)
+    icon(slide, name, x, text_y + (line - size) / 2 + 1, size, colour or BLUE)
+    return x + size + 10
+
+
+
 EYEBROW_MAX = 24
 LABEL_NAME = "Label"
+LABEL_ICON_NAME = "LabelIcon"
 
 # Which icon belongs to which recurring label. Only labels that name a
 # familiar thing get one; a label with no obvious motif stays plain rather
@@ -434,11 +450,11 @@ def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
     # the weight has to come from size and colour instead. Sitting a little
     # higher also puts real air between the label and the field below it.
     motif = LABEL_ICON.get(text)
-    offset = 28 if motif else 0
+    start = x
     if motif:
-        # the glyph's optical centre has to meet the type's, not its box's
-        icon(slide, motif, x + 1, y + 2, 16, colour or BLUE)
-    box = textbox(slide, x + offset, y - 6, w - offset, 24)
+        start = icon_inline(slide, motif, x + 1, y - 6, T_LEAD, colour or BLUE)
+        slide.shapes[-1].name = LABEL_ICON_NAME
+    box = textbox(slide, start, y - 6, w - (start - x), 24)
     box.name = LABEL_NAME          # snap_labels() pins it to its own field
     return write(box, [(text, T_LEAD, True, colour or BLUE, None)])
 
@@ -489,7 +505,7 @@ def phase_chips(slide, active):
                     GOOD.ground if on else GREY_SURFACE, pad=4)
         chip.name = PHASE_NAME
         chip.text_frame.margin_top = chip.text_frame.margin_bottom = Pt(0)
-        write(chip, [(name, 10, True, BLUE if on else rgb("B6B6B6"), None)],
+        write(chip, [(name, 10, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += PHASE_W + PHASE_GAP
 
@@ -729,7 +745,9 @@ def snap_labels(slide, gap=LABEL_GAP):
     nearest shape below it that shares its column.
     """
     labels = [sh for sh in slide.shapes if sh.name == LABEL_NAME]
-    others = [sh for sh in slide.shapes if sh.name != LABEL_NAME]
+    glyphs = [sh for sh in slide.shapes if sh.name == LABEL_ICON_NAME]
+    others = [sh for sh in slide.shapes
+              if sh.name not in (LABEL_NAME, LABEL_ICON_NAME)]
     for label in labels:
         left, right = label.left, label.left + label.width
         below = [sh for sh in others
@@ -745,7 +763,13 @@ def snap_labels(slide, gap=LABEL_GAP):
         ceiling = max(above) + int(round(6 * 12700)) if above else 0
         ideal = target - int(round((gap + 24) * 12700))
         # raise to clear the lead, but never far enough to sit on the field
+        was = label.top
         label.top = min(max(ideal, ceiling), target - int(round(24 * 12700)))
+        # the label's icon is its own shape and has to travel with it
+        for glyph in glyphs:
+            if abs(glyph.top - was) < int(round(14 * 12700)) \
+                    and abs(glyph.left - label.left) < int(round(40 * 12700)):
+                glyph.top += label.top - was
 
 
 # --- icons -------------------------------------------------------------------
@@ -833,3 +857,22 @@ def bullet_list(shape, items, size=T_BODY, colour=None, marker="•"):
         body.font.size = Pt(size)
         body.font.color.rgb = colour
     return shape
+
+
+def task_header(slide, label, badge_text=None, y=104, role=None):
+    """The section line under a title: a heading on the left, an optional
+    badge on the right.
+
+    A bare sentence set in regular type read as leftover text rather than as
+    the heading of what follows, and the badge sat in the title row where it
+    now collides with the phase chips.
+    """
+    write(textbox(slide, MARGIN, y, 500, 26),
+          [(label, T_LEAD, True, BLUE, None)])
+    if badge_text:
+        role = role or CHOICE
+        chip = card(slide, 770, y - 5, 150, 34, role.surface, pad=8)
+        write(chip, [(badge_text, T_BODY, True,
+                      WHITE if role is CHOICE else BLUE, None)],
+              anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
+    return y + 34

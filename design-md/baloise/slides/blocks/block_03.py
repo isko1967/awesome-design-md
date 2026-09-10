@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (icon, WHITE, CHOICE, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
+from slidekit import (icon_inline, icon, WHITE, CHOICE, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
                       GREY_TEXT, GUARDRAIL, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_DIVIDER, T_HINT, T_LEAD, T_META, T_NUMBER, T_STATEMENT,
                       arrow, band, blue_slide, card, divider, eyebrow,
@@ -192,13 +192,13 @@ def slide_30(prs):
           [("10-minute break", T_DIVIDER, True, WHITE, None)])
 
     clock = card(s, MARGIN, 208, 428, 120, WHITE, pad=24)
-    icon(s, "clock", MARGIN + 28, 240, 30, BLUE)
+    icon_inline(s, "clock", MARGIN + 28, 236, T_STATEMENT)
     write(textbox(s, MARGIN + 76, 234, 330, 80),
           [("We continue at", T_BODY, False, BLUE, None),
            ("[CLOCK TIME]", T_STATEMENT, True, BLUE, 2)])
 
     open_note = card(s, 491, 208, 428, 120, WHITE, pad=24)
-    icon(s, "message", 491 + 28, 240, 30, BLUE)
+    icon_inline(s, "message", 491 + 28, 236, T_STATEMENT)
     write(textbox(s, 491 + 76, 234, 330, 80),
           [("Submitted a case?", T_CARD, True, BLUE, None),
            ("The trainers are reviewing the cases during the break.",

@@ -12,7 +12,22 @@ import sys
 from pptx import Presentation
 from pptx.util import Emu
 
-from slidekit import SLIDE_H, SLIDE_W, text_width, wrapped_lines
+from slidekit import (CORNER_PT, PHASE_H, PHASE_Y, SLIDE_H, SLIDE_W,
+                      text_width, wrapped_lines)
+
+TYPE_SCALE = {96, 48, 32, 30, 28, 24, 20, 18, 16, 13, 12, 10}
+
+
+def luminance(hexcode):
+    channels = [int(hexcode[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    channels = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+                for c in channels]
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast(fore, back):
+    a, b = luminance(fore), luminance(back)
+    return (max(a, b) + 0.05) / (min(a, b) + 0.05)
 
 # Role surfaces, by the hex the template's colour list defines for them.
 # Grey and white carry no role, so they never count towards the limit.
@@ -120,6 +135,7 @@ def main():
 
         problems.extend(overlaps(index, boxes))
         problems.extend(role_load(index, slide))
+        problems.extend(house_style(index, slide))
 
     print("\n".join(problems) if problems
           else f"{len(prs.slides._sldIdLst)} slides: no overflow, "
@@ -145,6 +161,73 @@ def role_load(index, slide):
     if len(roles) > MAX_ROLES_PER_SLIDE:
         found.append(f"slide {index}: {len(roles)} roles at once "
                      f"({', '.join(sorted(roles))})")
+    return found
+
+
+def house_style(index, slide):
+    """The rules that kept being broken by hand: icons off the baseline,
+    anything drifting into the phase-chip row, corners that are not the
+    corporate 4pt, type off the scale, and text that fails AA on its fill.
+    """
+    found = []
+    pictures = [sh for sh in slide.shapes if sh.shape_type == 13]
+    boxes = [sh for sh in slide.shapes
+             if sh.has_text_frame and sh.text_frame.text.strip()]
+
+    for pic in pictures:
+        if pt(pic.top) > 480:            # the footer logo
+            continue
+        centre = pt(pic.top) + pt(pic.height) / 2
+        right = pt(pic.left) + pt(pic.width)
+        near = [b for b in boxes
+                if 0 <= pt(b.left) - right <= 16
+                and abs(pt(b.top) - pt(pic.top)) < 30]
+        for box in near:
+            box_centre = pt(box.top) + pt(box.height) / 2
+            if abs(box_centre - centre) > 4:
+                found.append(
+                    f"slide {index}: icon {centre:.0f} is off the line of "
+                    f"{box.text_frame.text[:22]!r} at {box_centre:.0f}")
+
+    for shape in slide.shapes:
+        top, bottom = pt(shape.top), pt(shape.top) + pt(shape.height)
+        if shape.name != "Phase" and top < PHASE_Y + PHASE_H + 6 \
+                and bottom > PHASE_Y - 6 and pt(shape.left) > 500:
+            found.append(f"slide {index}: {shape.name!r} sits in the phase row")
+
+        if "ROUNDED_RECTANGLE" in str(shape.shape_type):
+            try:
+                radius = shape.adjustments[0] * min(pt(shape.width),
+                                                    pt(shape.height))
+            except Exception:
+                radius = CORNER_PT
+            if abs(radius - CORNER_PT) > 1.5:
+                found.append(f"slide {index}: {shape.name!r} corner "
+                             f"{radius:.1f}pt, house is {CORNER_PT}pt")
+
+        if not shape.has_text_frame:
+            continue
+        fill = None
+        try:
+            if shape.fill.type == 1:
+                fill = str(shape.fill.fore_color.rgb)
+        except Exception:
+            pass
+        for run in para_runs(shape):
+            size = run.font.size.pt if run.font.size else None
+            if size and size not in TYPE_SCALE:
+                found.append(f"slide {index}: {run.text[:20]!r} at {size}pt "
+                             f"is not on the type scale")
+            if fill and run.font.color and run.font.color.type == 1:
+                try:
+                    ratio = contrast(str(run.font.color.rgb), fill)
+                except Exception:
+                    continue
+                floor = 3.0 if (size or 16) >= 24 else 4.5
+                if ratio < floor:
+                    found.append(
+                        f"slide {index}: {run.text[:20]!r} at {ratio:.1f}:1 "
+                        f"on #{fill} (needs {floor})")
     return found
 
 

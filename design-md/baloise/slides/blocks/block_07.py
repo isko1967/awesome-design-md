@@ -8,7 +8,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
+from slidekit import (task_header, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
                       GREY_TEXT, GUARDRAIL, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_DIVIDER, T_HINT, T_LEAD, T_META, T_NUMBER, T_STATEMENT,
                       badge, band, blue_slide, card, divider, eyebrow, footer,
@@ -25,8 +25,7 @@ def _foot(slide, phase, number):
 def slide_50(prs):
     s = new_slide(prs)
     title(s, "Build the prompt you will actually use next.", width=729)
-    lead(s, "Your task")
-    badge(s, "Time  7 min")
+    task_header(s, "Your task", "7 min")
 
     steps = [
         ("1", "Choose a recurring task.",
@@ -61,7 +60,7 @@ def slide_50(prs):
 def slide_51(prs):
     s = new_slide(prs)
     title(s, "Turn a good prompt into a reusable prompt.")
-    lead(s, "Before you save it:")
+    task_header(s, "Before you save it")
 
     items = [
         ("Name it", "Give it a clear, task-based name."),
@@ -86,7 +85,7 @@ def slide_51(prs):
 def slide_52(prs):
     s = new_slide(prs)
     title(s, "What makes a prompt reusable?")
-    lead(s, "Capture five things.")
+    task_header(s, "Capture five things")
 
     fields = [
         ("1", "Situation", "When is this useful?"),

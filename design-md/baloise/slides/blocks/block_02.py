@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
+from slidekit import (task_header, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MAIN_W, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_HINT, T_LEAD, T_META, T_STATEMENT, badge, band,
@@ -265,8 +265,7 @@ def slide_22(prs):
 def slide_23(prs):
     s = new_slide(prs)
     title(s, "Build context you would actually reuse.", width=729)
-    lead(s, "Your task")
-    badge(s, "Time  5 min")
+    task_header(s, "Your task", "5 min")
 
     steps = [
         ("1", "Think of work you repeatedly use AI for.",

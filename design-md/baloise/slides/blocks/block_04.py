@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (icon, bullet_list, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+from slidekit import (icon_inline, task_header, icon, bullet_list, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
                       CONTENT_TOP_LEAD,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
@@ -107,7 +107,8 @@ def slide_34(prs):
 
     eyebrow(s, "Without a rule", x=MARGIN, w=328)
     gap = card(s, MARGIN, 176, 328, 250, AVOID.surface, pad=20)
-    icon(s, "alert-triangle", MARGIN + 20, 196, 26, AVOID.accent)
+    icon_inline(s, "alert-triangle", MARGIN + 20, 196, T_CARD,
+                AVOID.accent)
     write(gap, [
         ("The model fills the gap", T_CARD, True, AVOID.accent, None),
         ("It invents a plausible reason, states it as fact, and the reader "
@@ -267,8 +268,7 @@ def slide_38(prs):
 def slide_39(prs):
     s = new_slide(prs)
     title(s, "Improve one of your earlier outputs.", width=729)
-    lead(s, "Your task")
-    badge(s, "Time  4 min")
+    task_header(s, "Your task", "4 min")
 
     steps = [
         ("1", "Choose an output you created earlier.", None),

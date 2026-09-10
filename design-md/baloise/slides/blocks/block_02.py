@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (task_header, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
+from slidekit import (chevron, BA_W, BA_X, task_header, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MAIN_W, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_HINT, T_LEAD, T_META, T_STATEMENT, badge, band,
@@ -167,11 +167,11 @@ def slide_20(prs):
 
     easy = card(s, COL2_X[1], 146, COL2_W, 250, GOOD.surface, pad=18)
     for i, (labelt, val) in enumerate([
-            ("ROLE", "Cross-functional project work in insurance"),
-            ("Audience", "Business owners · senior management · project teams"),
-            ("STYLE", "Direct · concise · structured"),
+            ("Role", "Cross-functional project work in insurance"),
+            ("Audience", "Business owners, senior management, project teams"),
+            ("Style", "Direct, concise, structured"),
             ("Output default", "Recommendation → rationale → next step"),
-            ("Guardrails", "Flag assumptions · do not invent information")]):
+            ("Guardrails", "Flag assumptions, do not invent information")]):
         rows = [(labelt, T_META, True, GOOD.accent, None if i == 0 else 8),
                 (val, T_HINT, False, BLUE, 2)]
         if i == 0:
@@ -221,8 +221,8 @@ def slide_21(prs):
     ], anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "Watch for",
-         "Relevance · prioritisation · structure · audience fit · repeated "
-         "instructions")
+         "Relevance, prioritisation, structure, audience fit, and "
+         "repeated instructions")
     _foot(s, "SEE", 21)
 
 
@@ -230,11 +230,11 @@ def slide_22(prs):
     s = new_slide(prs)
     title(s, "Same prompt. Different context.")
 
-    eyebrow(s, "Without context", x=COL2_X[0], w=COL2_W)
-    eyebrow(s, "With context", x=COL2_X[1], w=COL2_W,
+    eyebrow(s, "Without context", x=BA_X[0], w=BA_W)
+    eyebrow(s, "With context", x=BA_X[1], w=BA_W,
             colour=GOOD.accent)
 
-    before = card(s, COL2_X[0], 146, COL2_W, 296, NEUTRAL.surface, pad=20)
+    before = card(s, BA_X[0], 146, BA_W, 296, NEUTRAL.surface, pad=20)
     write(before, [
         ("Claims volumes increased following recent severe weather events. "
          "Processing times have also increased, and the team has taken "
@@ -242,7 +242,8 @@ def slide_22(prs):
          "capacity has been activated.", T_BODY, False, BLUE, None),
     ], anchor=MSO_ANCHOR.MIDDLE)
 
-    after = card(s, COL2_X[1], 146, COL2_W, 296, GOOD.surface, pad=20)
+    after = card(s, BA_X[1], 146, BA_W, 296, GOOD.surface, pad=20)
+    chevron(s, 294)
     rows = []
     for i, (heading, text) in enumerate([
             ("Status — Attention required",
@@ -258,7 +259,7 @@ def slide_22(prs):
     write(after, rows, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "What changed?",
-         "Prioritisation · structure · audience fit", GOOD)
+         "Prioritisation, structure, audience fit.", GOOD)
     _foot(s, "SEE", 22)
 
 

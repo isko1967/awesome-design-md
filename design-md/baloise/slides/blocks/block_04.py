@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (icon_inline, task_header, icon, bullet_list, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+from slidekit import (chevron, BA_W, BA_X, icon_inline, task_header, icon, bullet_list, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
                       CONTENT_TOP_LEAD,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
@@ -226,16 +226,16 @@ def slide_38(prs):
     s = new_slide(prs)
     title(s, "A good revision fixes the gap, not just the wording.")
 
-    eyebrow(s, "Version 1", x=COL2_X[0], w=COL2_W)
-    v1 = card(s, COL2_X[0], 146, COL2_W, 132, NEUTRAL.surface, pad=16)
+    eyebrow(s, "Version 1", x=BA_X[0], w=BA_W)
+    v1 = card(s, BA_X[0], 146, BA_W, 132, NEUTRAL.surface, pad=16)
     write(v1, [("We are continuously improving our claims services and would "
                 "like to inform you of an adjustment to the process for "
                 "providing additional documents. In future, supporting "
                 "documents can be submitted digitally.",
                 T_HINT, False, BLUE, None)], anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Self-critique", x=COL2_X[0], w=COL2_W, y=286)
-    crit = card(s, COL2_X[0], 308, COL2_W, 134, NEUTRAL.surface, pad=14)
+    eyebrow(s, "Self-critique", x=BA_X[0], w=BA_W, y=286)
+    crit = card(s, BA_X[0], 308, BA_W, 134, NEUTRAL.surface, pad=14)
     write(crit, [
         ("Clear change? Partly.", T_HINT, False, BLUE, None),
         ("Clear customer action? No.", T_HINT, False, BLUE, 5),
@@ -244,8 +244,9 @@ def slide_38(prs):
          T_HINT, False, BLUE, 5),
     ], anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Version 2", x=COL2_X[1], w=COL2_W, colour=GOOD.accent)
-    v2 = card(s, COL2_X[1], 146, COL2_W, 232, GOOD.surface, pad=16)
+    eyebrow(s, "Version 2", x=BA_X[1], w=BA_W, colour=GOOD.accent)
+    v2 = card(s, BA_X[1], 146, BA_W, 232, GOOD.surface, pad=16)
+    chevron(s, 212)
     write(v2, [
         ("Need to send us additional documents for your claim?",
          T_BODY, True, GOOD.accent, None),
@@ -258,7 +259,7 @@ def slide_38(prs):
          T_HINT, False, BLUE, 8),
     ], anchor=MSO_ANCHOR.MIDDLE)
 
-    imp = card(s, COL2_X[1], 388, COL2_W, 54, GOOD.surface, pad=12)
+    imp = card(s, BA_X[1], 388, BA_W, 54, GOOD.surface, pad=12)
     runs(imp, [("Improved   ", True, GOOD.accent),
                ("faster orientation, clearer action, less wording.",
                 False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)

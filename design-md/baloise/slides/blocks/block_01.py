@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (task_header, bullet_list, CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
+from slidekit import (chevron, BA_W, BA_X, task_header, bullet_list, CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
                       BAND_TOP, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MARGIN,
@@ -186,10 +186,10 @@ def slide_12(prs):
     s = new_slide(prs)
     title(s, "Same task. Clearer guidance.")
 
-    eyebrow(s, "Without examples", x=COL2_X[0], w=COL2_W)
-    eyebrow(s, "With examples", x=COL2_X[1], w=COL2_W, colour=GOOD.accent)
+    eyebrow(s, "Without examples", x=BA_X[0], w=BA_W)
+    eyebrow(s, "With examples", x=BA_X[1], w=BA_W, colour=GOOD.accent)
 
-    before = card(s, COL2_X[0], 146, COL2_W, 296, NEUTRAL.surface, pad=20)
+    before = card(s, BA_X[0], 146, BA_W, 296, NEUTRAL.surface, pad=20)
     write(before, [
         ("Recent severe weather events have led to an increase in claims "
          "volumes. The claims organisation is currently taking several "
@@ -198,7 +198,8 @@ def slide_12(prs):
          T_BODY, False, BLUE, None),
     ], anchor=MSO_ANCHOR.MIDDLE)
 
-    after = card(s, COL2_X[1], 146, COL2_W, 296, GOOD.surface, pad=20)
+    after = card(s, BA_X[1], 146, BA_W, 296, GOOD.surface, pad=20)
+    chevron(s, 294)
     rows = []
     for i, (heading, text) in enumerate([
             ("Status — Attention required",
@@ -213,7 +214,7 @@ def slide_12(prs):
     write(after, rows, anchor=MSO_ANCHOR.MIDDLE)
 
     band(s, "What changed?",
-         "More specific · more structured · more actionable", GOOD)  # verbatim
+         "More specific, more structured, more actionable.", GOOD)
     _foot(s, "SEE", 12)
 
 

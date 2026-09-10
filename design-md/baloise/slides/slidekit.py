@@ -86,6 +86,10 @@ CONTENT_BOTTOM = 480
 BAND_TOP = 448          # full-width closing band
 GUTTER = 22
 COL2_W, COL2_X = 428, (41, 491)
+# before -> after pairs run on a wider gutter, so the chevron sits
+# between the two cards instead of on top of one of them
+BA_GAP = 55
+BA_W, BA_X = 412, (41, 508)
 COL3_W, COL3_X = 278, (41, 341, 642)
 COL4_W, COL4_X = 203, (41, 266, 491, 716)
 MAIN_W, ASIDE_W, ASIDE_X = 653, 203, 717
@@ -330,6 +334,25 @@ def textbox(slide, x, y, w, h):
     return box
 
 
+def chevron(slide, y, h=34, x=None, colour=None):
+    """The step from the "before" column to the "after" column.
+
+    Centred in the widened BA gutter, so it never touches either card, and
+    solid rather than outlined - the brand uses no outlines.
+    """
+    w = round(h * 0.7)
+    if x is None:
+        x = BA_X[0] + BA_W + (BA_GAP - w) / 2
+    shape = slide.shapes.add_shape(MSO_SHAPE.CHEVRON,
+                                   Pt(x), Pt(y - h / 2), Pt(w), Pt(h))
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = colour or BLUE
+    shape.line.fill.background()
+    shape.shadow.inherit = False
+    shape.text_frame.word_wrap = False
+    return shape
+
+
 def arrow(slide, x, y, size=16, colour=None, glyph="→"):
     box = textbox(slide, x, y, size + 10, size + 8)
     write(box, [(glyph, size, False, colour or GREY_TEXT, None)],
@@ -505,7 +528,8 @@ def phase_chips(slide, active):
                     GOOD.ground if on else GREY_SURFACE, pad=4)
         chip.name = PHASE_NAME
         chip.text_frame.margin_top = chip.text_frame.margin_bottom = Pt(0)
-        write(chip, [(name, 10, True, BLUE, None)],
+        # no caps-lock labels anywhere in the deck
+        write(chip, [(name.capitalize(), 10, True, BLUE, None)],
               anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
         x += PHASE_W + PHASE_GAP
 
@@ -598,7 +622,8 @@ def divider(slide, number, title_lines, subline, chips=(), ghost=(),
         for i, text in enumerate(chips):
             chip = card(slide, MARGIN + i * (width + CHIP_GAP), CHIP_Y,
                         width, CHIP_H, ink)
-            write(chip, [(text, T_LEAD, True, BLUE, None)],
+            write(chip, [(text.capitalize() if text.isupper() else text,
+                          T_LEAD, True, BLUE, None)],
                   anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
     return slide
 

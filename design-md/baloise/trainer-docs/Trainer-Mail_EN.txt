@@ -1,0 +1,63 @@
+Subject: AI Week 2026 — your workshop materials
+
+Dear all
+
+Thank you for taking on a session during the AI Week. We are seeing exceptional
+interest across the Group: around 1,730 colleagues have registered, with more
+than 5,500 session sign-ups. The AI Week is the first event of this scale and we
+are addressing some of the most important AI-related needs across our
+organisation. Without your support this would not be possible — thank you for
+helping us make it a success.
+
+YOUR MATERIALS
+
+- Presentation — Session 1, Prompting Essentials (per language)
+- Presentation — Session 2, Advanced Prompting (per language)
+- Trainer Guide
+- Trainer Preparation Checklist
+
+PLEASE REVIEW
+
+The presentations are your basis. Translations have already been prepared.
+Please check: content, translation, layout, text overflow, screenshots and
+examples.
+
+WHAT YOU MAY CHANGE
+
+Language improvements, factual adjustments, swapping in examples from your own
+area, and small design improvements are all welcome. Please do not rebuild the
+deck or create your own version — participants may attend more than one session
+and the sessions run in several languages, so they should feel like one
+programme.
+
+IMPORTANT: WORK IN THE EXISTING ONEDRIVE DOCUMENT
+
+Please do not create your own copy. Make your changes directly in the existing
+OneDrive file. This keeps version history intact, avoids conflicts between
+language versions, and lets us publish the final materials quickly after the
+sessions.
+
+PLACEHOLDERS
+
+Some fields still appear in [SQUARE BRACKETS]. Slido codes, the tool name, the
+data-handling wording and the resource links will be filled in centrally before
+delivery — you do not need to do anything there. The examples and the live
+Prompt Clinic cases are yours to prepare; the Preparation Checklist lists them.
+
+YOUR SESSION IS PRESENTATION + LIVE DEMO + Q&A
+
+Please rehearse the switch between PowerPoint and the tool — that transition is
+where sessions usually lose their rhythm. Use M365 Copilot, Helvi or another
+approved solution, whichever you know best. Show a real task, including the
+moments where the first result is not good enough. The Trainer Guide has a
+section on what to demo where.
+
+STILL TO COME
+
+Teams joining links, moderation, session delivery, recordings, the
+organisational schedule and support and escalation will follow separately. You
+do not need to chase them.
+
+Thank you again — and please come back to us with anything that is unclear.
+
+Best regards

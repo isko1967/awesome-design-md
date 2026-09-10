@@ -1,0 +1,39 @@
+Betreff: AI Week — Workshop-Unterlagen fertig, bitte zeitnah an die Trainer
+
+Hallo Yannick
+
+Die Workshop-Unterlagen für die AI Week sind fertig — beide Prompting-Sessions
+inklusive der übersetzten Sprachversionen. Könntest du die Trainerinformation
+möglichst zeitnah versenden? Die Woche startet am 21. September, und die
+Trainer brauchen Vorlauf, um Inhalte, Übersetzungen und ihre Live-Demo
+vorzubereiten.
+
+Zum Einordnen: Wir haben rund 1'730 angemeldete Mitarbeitende und über 5'500
+Session-Anmeldungen. Das Interesse ist deutlich grösser als erwartet,
+entsprechend hoch ist die Sichtbarkeit der Sessions.
+
+Im Anhang bzw. unter den Links findest du:
+
+- Präsentation Session 1 — Prompting Essentials, pro Sprache je ein Link
+- Präsentation Session 2 — Advanced Prompting, pro Sprache je ein Link
+- EN_Trainer-Guide_AI-Week_092026.pdf
+- EN_Trainer-Prep-Checklist_AI-Week_092026.pdf
+
+Zwei Punkte, die in der Mail an die Trainer unbedingt stehen sollten:
+
+1. Keine eigene Kopie anlegen. Änderungen bitte direkt im bestehenden
+   OneDrive-Dokument — sonst verlieren wir die Versionierung und die
+   Veröffentlichung nach den Sessions verzögert sich.
+
+2. Die Platzhalter in eckigen Klammern. Ein Teil wird von uns gefüllt
+   (Slido-Codes, Tool- und Datenregeln, Links), ein Teil von den Trainern
+   selbst (eigene Beispiele, Live-Fälle). Die vollständige Übersicht findest du
+   im Übergabedokument, Abschnitt 6.
+
+Die organisatorischen Informationen — Teams-Einwahllinks, Moderation,
+Aufzeichnungen, Ablauf und Support — folgen separat in einem eigenen
+Delivery-Paket. Das kannst du in der Mail bereits ankündigen.
+
+Danke dir und melde dich, wenn etwas fehlt.
+
+Herzliche Grüsse

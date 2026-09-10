@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Trainer Guide — AI Week 2026</title>
+<link rel="stylesheet" href="house.css"></head>
+<body>
+
+<div class="cover">
+  <div class="kicker">Group AI Week 2026 · 21–25 September</div>
+  <h1>Trainer Guide</h1>
+  <p class="sub">Prompting Essentials and Advanced Prompting — how to run the two sessions.</p>
+</div>
+
+<p class="lead">You are delivering one of the most visible sessions of the AI Week.
+Around <strong>1,730 colleagues have registered</strong> and we have
+<strong>more than 5,500 session sign-ups</strong>. The AI Week runs in this form
+for the first time, and prompting is the topic most people signed up for.</p>
+
+<p>The slides tell you what to say. This guide tells you how to run it: how the
+sessions are built, where the time goes, what to prepare, and what a session
+looks like when it worked. Read the section for your session; the delivery
+principles apply to both.</p>
+
+<div class="box good">
+  <span class="label">The one thing to internalise</span>
+  Both sessions teach a <strong>method</strong>, not a set of prompts. Participants
+  should leave able to repeat a sequence on their own work — not holding a copy
+  of your examples.
+</div>
+
+<h2>1  The two sessions</h2>
+
+<table>
+  <tr><th style="width:26%">&nbsp;</th><th>Session 1 — Prompting Essentials</th><th>Session 2 — Advanced Prompting</th></tr>
+  <tr><td><strong>Who it is for</strong></td>
+      <td>Colleagues who have tried AI but not used it systematically.</td>
+      <td>Colleagues who are comfortable with the basics and want more control.</td></tr>
+  <tr><td><strong>Prerequisite</strong></td>
+      <td>None.</td>
+      <td>The Session 1 content is assumed. Session 2 states explicitly on slide 3 that it will not revisit LLM fundamentals, the prompt-as-a-briefing model, the six components, providing source material, or the basic data rules.</td></tr>
+  <tr><td><strong>Length</strong></td><td>120 minutes.</td><td>120 minutes.</td></tr>
+  <tr><td><strong>Slides</strong></td>
+      <td>35, of which 32–35 are an appendix that is <em>not</em> presented.</td>
+      <td>54.</td></tr>
+  <tr><td><strong>Core message</strong></td>
+      <td>A prompt is a briefing, not a magic command.</td>
+      <td>Choose the technique that matches the problem — not the one that sounds advanced.</td></tr>
+  <tr><td><strong>Practice</strong></td>
+      <td>Three rounds: 9, 9 and 6 minutes.</td>
+      <td>Four rounds: 5, 5, 4 and 7 minutes.</td></tr>
+</table>
+
+<p>If a participant in Session 2 has not attended Session 1, they can still take
+part. Slide 3 says so, and points to the Academy. Do not spend session time
+catching them up — it costs the group more than it gives the individual.</p>
+
+<h2>2  Session objectives and learning objectives</h2>
+
+<h3>Session 1 — Prompting Essentials</h3>
+<p><strong>Objective.</strong> Turn one task from your own work into a prompt that
+briefs AI properly — and improve it when the first result is not good enough.</p>
+<p><strong>The sentence a participant should be able to say afterwards</strong>
+(it is on slide 2, and it is worth reading out):</p>
+<div class="box"><span class="quote">“I can turn a work task into a good prompt and improve it.”</span></div>
+<p><strong>Learning objectives.</strong> By the end of the session, participants can:</p>
+<ul>
+  <li>write a prompt that states the task, the context and the format;</li>
+  <li>recognise what the model cannot know unless they supply it;</li>
+  <li>check a result rather than trust it — figures, names, dates, audience fit;</li>
+  <li>improve a result by changing one instruction, not by rewriting everything;</li>
+  <li>apply the data rules: describe the situation, never paste the data.</li>
+</ul>
+
+<h3>Session 2 — Advanced Prompting</h3>
+<p><strong>Objective.</strong> Use advanced prompting techniques to get more
+consistent, controllable and reusable results from AI.</p>
+<p><strong>Learning objectives.</strong> Participants will be able to:</p>
+<ul>
+  <li>recognise which prompting problem they are facing;</li>
+  <li>choose an appropriate technique;</li>
+  <li>apply it to their own recurring work;</li>
+  <li>improve a prompt without simply starting over.</li>
+</ul>
+<p>The whole session resolves into one table on slide 53. If participants
+remember nothing else, they should remember this mapping:</p>
+<table class="tight">
+  <tr><th>The problem they have</th><th>The technique</th></tr>
+  <tr><td>The target is difficult to describe.</td><td>01 Few-shot &amp; negative examples — show instead of describe.</td></tr>
+  <tr><td>I keep repeating the same instructions.</td><td>02 Persistent context — move stable instructions out.</td></tr>
+  <tr><td>The task is complex or multi-step.</td><td>03 Decomposition — check the approach before executing.</td></tr>
+  <tr><td>I need better quality control.</td><td>04 Self-critique — define criteria and check against them.</td></tr>
+  <tr><td>The result failed and I don’t know why.</td><td>05 Debugging — diagnose instead of starting over.</td></tr>
+</table>
+
+<h2>3  Recommended agenda — Session 1</h2>
+<p>Fixed blocks — polls, practice, break, Clinic, Q&amp;A and transfer — take
+<strong>68 of the 120 minutes</strong>. That leaves roughly 52 minutes across 17
+input and demo slides, about three minutes each. The deck is built for that:
+one message per slide. If you find yourself explaining a slide for six minutes,
+you have started teaching a second slide.</p>
+
+<table>
+  <tr><th class="time">Time</th><th class="slides">Slides</th><th>What happens</th><th class="min">Min</th></tr>
+  <tr><td class="time">0:00</td><td class="slides">1–3</td><td>Welcome, the outcome, how the session runs</td><td class="min">5</td></tr>
+  <tr><td class="time">0:05</td><td class="slides">4</td><td>Slido: how confident are you right now?</td><td class="min">2</td></tr>
+  <tr><td class="time">0:07</td><td class="slides">5</td><td>Slido: submit a situation for the Prompt Clinic — stays open until the break</td><td class="min">3</td></tr>
+  <tr><td class="time">0:10</td><td class="slides">6–7</td><td>The vague prompt · Demo 1: it sounds fine, but it guessed</td><td class="min">9</td></tr>
+  <tr><td class="time">0:19</td><td class="slides">8–10</td><td>How AI answers · what you leave unsaid becomes a guess · confident is not correct</td><td class="min">9</td></tr>
+  <tr><td class="time">0:28</td><td class="slides">11</td><td>Pause before you paste — tool and data rules</td><td class="min">3</td></tr>
+  <tr><td class="time">0:31</td><td class="slides">12</td><td>Slido: which check did you skip last time?</td><td class="min">2</td></tr>
+  <tr><td class="time">0:33</td><td class="slides">13–15</td><td>The prompt as a briefing · three essentials · six building blocks</td><td class="min">9</td></tr>
+  <tr><td class="time">0:42</td><td class="slides">16</td><td>The same request, briefed properly</td><td class="min">3</td></tr>
+  <tr class="mark"><td class="time">0:45</td><td class="slides">17</td><td><strong>Practice 1</strong> — write a prompt for a task you actually have</td><td class="min">9</td></tr>
+  <tr><td class="time">0:54</td><td class="slides">18</td><td>Reflect: which addition removed the most guessing?</td><td class="min">3</td></tr>
+  <tr><td class="time">0:57</td><td class="slides">19–20</td><td>Work verbs, RTF and TAG · the improve loop</td><td class="min">6</td></tr>
+  <tr><td class="time">1:03</td><td class="slides">21</td><td>Break — and vote on the Clinic cases</td><td class="min">5</td></tr>
+  <tr><td class="time">1:08</td><td class="slides">22</td><td>Demo 2: notes into a table, with the missing-data rule</td><td class="min">5</td></tr>
+  <tr class="mark"><td class="time">1:13</td><td class="slides">23</td><td><strong>Practice 2</strong> — one change, then run again</td><td class="min">9</td></tr>
+  <tr><td class="time">1:22</td><td class="slides">24</td><td>Reflect: how much better was it after one change?</td><td class="min">3</td></tr>
+  <tr class="mark"><td class="time">1:25</td><td class="slides">25–27</td><td><strong>Prompt Clinic</strong> — two live cases through the six steps</td><td class="min">18</td></tr>
+  <tr><td class="time">1:43</td><td class="slides">28</td><td>Prompt Gallery — what today produced, reusable by someone else</td><td class="min">2</td></tr>
+  <tr><td class="time">1:45</td><td class="slides">29</td><td>Q&amp;A</td><td class="min">8</td></tr>
+  <tr class="mark"><td class="time">1:53</td><td class="slides">30</td><td><strong>Transfer</strong> — write the prompt you will use next time</td><td class="min">6</td></tr>
+  <tr><td class="time">1:59</td><td class="slides">31</td><td>The four things to take with you</td><td class="min">1</td></tr>
+</table>
+<p class="note">Slides 32–35 are appendix material: the glossary, the six blocks
+as questions, and where to go next. They are reference for participants
+afterwards and are not presented. If you are ahead of time, do not fill it with
+the appendix — give the time back to the Clinic.</p>
+
+<h2>4  Recommended agenda — Session 2</h2>
+<p>Session 2 has five technique blocks. Each block runs the same cycle —
+<strong>learn, see, try, improve</strong> — and the phase is shown as a chip row
+in the top right corner of every slide, so participants always know where they
+are. Use it: name the phase when you move into it.</p>
+
+<table>
+  <tr><th class="time">Time</th><th class="slides">Slides</th><th>What happens</th><th class="min">Min</th></tr>
+  <tr><td class="time">0:00</td><td class="slides">1–4</td><td>Welcome, the goal, what we will not cover, agenda</td><td class="min">6</td></tr>
+  <tr><td class="time">0:06</td><td class="slides">5–6</td><td>Two Slido rounds — how you use AI today, and a task for the Clinic</td><td class="min">6</td></tr>
+  <tr><td class="time">0:12</td><td class="slides">7–12</td><td>Block 01 — few-shot and negative examples</td><td class="min">10</td></tr>
+  <tr class="mark"><td class="time">0:22</td><td class="slides">13</td><td><strong>Practice 1</strong></td><td class="min">5</td></tr>
+  <tr><td class="time">0:27</td><td class="slides">14</td><td>Reflect</td><td class="min">2</td></tr>
+  <tr><td class="time">0:29</td><td class="slides">15–22</td><td>Block 02 — persistent context and system instructions</td><td class="min">12</td></tr>
+  <tr class="mark"><td class="time">0:41</td><td class="slides">23</td><td><strong>Practice 2</strong></td><td class="min">5</td></tr>
+  <tr><td class="time">0:46</td><td class="slides">24</td><td>Reflect</td><td class="min">2</td></tr>
+  <tr><td class="time">0:48</td><td class="slides">25–29</td><td>Block 03 — decomposition and plan-then-execute</td><td class="min">8</td></tr>
+  <tr><td class="time">0:56</td><td class="slides">30</td><td>Break — put the resume time on the slide before you leave</td><td class="min">10</td></tr>
+  <tr><td class="time">1:06</td><td class="slides">31–38</td><td>Block 04 — self-critique, rubrics and guardrails</td><td class="min">12</td></tr>
+  <tr class="mark"><td class="time">1:18</td><td class="slides">39</td><td><strong>Practice 3</strong></td><td class="min">4</td></tr>
+  <tr><td class="time">1:22</td><td class="slides">40</td><td>Reflect</td><td class="min">2</td></tr>
+  <tr><td class="time">1:24</td><td class="slides">41–45</td><td>Block 05 — the debugging loop</td><td class="min">8</td></tr>
+  <tr class="mark"><td class="time">1:32</td><td class="slides">46–49</td><td><strong>Prompt Clinic</strong> — one full live case, one mini case if time allows</td><td class="min">15</td></tr>
+  <tr class="mark"><td class="time">1:47</td><td class="slides">50</td><td><strong>Transfer</strong> — build the prompt you will actually use next</td><td class="min">7</td></tr>
+  <tr><td class="time">1:54</td><td class="slides">51–54</td><td>Making a prompt reusable · the problem-to-technique table · close</td><td class="min">6</td></tr>
+</table>
+<p class="note">Slide 49 (the mini case) is explicitly optional and says so on the
+slide. It is the first thing to drop if you are behind — never the transfer
+practice on slide 50.</p>
+
+<h2>5  Delivery principles</h2>
+
+<h3>Learn, see, try, improve — in that order, every time</h3>
+<p>Both decks repeat one cycle: a short input, a live demonstration, individual
+practice, then a group comparison. The most common way to break a session is to
+merge <em>see</em> into <em>learn</em> — explaining the demo instead of running it.
+Run it.</p>
+
+<h3>Show the first result, including the bad one</h3>
+<p>Session 1 slide 7 is called “The output sounds fine — but it guessed the
+task.” It only works if the group actually sees a fluent, wrong-ish answer. The
+same is true of the Clinic in both sessions: the first prompt is meant to miss
+something. If your demo produces a perfect answer on the first run, the lesson
+disappears.</p>
+
+<h3>One message per slide</h3>
+<p>Every slide carries one statement and, at the bottom, one closing line. If
+you catch yourself adding a second point, it belongs on the next slide.</p>
+
+<h3>Protect the practice time</h3>
+<p>Practice and the Clinic are where the learning happens; the input slides only
+set them up. When you are behind, cut input, not practice. Announce each
+practice with its time and hold it — the badge on the slide shows participants
+the same number.</p>
+
+<h3>Read the room from the polls, do not perform them</h3>
+<p>The Slido rounds exist to give you information and the group a sense of
+company. Read the distribution aloud, name what you see in one sentence, move
+on. No individual answers are shown, and Session 1 slide 4 says so.</p>
+
+<h3>Keep everything generic</h3>
+<p>Every practice and every Clinic submission must be described, not pasted. Say
+this at the start, and say it again before the Clinic. If a submitted case
+contains anything identifying, genericise it before you put it on screen.</p>
+
+<div class="box limit">
+  <span class="label">Never on screen, never in the prompt</span>
+  Personal data, customer data, or confidential information — in the session and
+  in participants’ own work. If you are unsure whether an example is safe,
+  describe the situation instead of showing the source material.
+</div>
+
+<h2>6  Live demo recommendations</h2>
+
+<p>Your session is <strong>presentation + live demo + Q&amp;A</strong>. The demo is
+not decoration; in Session 1 it carries two of the core messages, and in Session 2
+the Clinic is a demo that runs for a quarter of the session.</p>
+
+<h3>Rehearse the switch, not just the prompt</h3>
+<p>The most common failure is mechanical: alt-tabbing into a tool with the wrong
+window shared, a chat history visible, a font too small to read, a login prompt.
+Practise the transition from PowerPoint to the tool and back at least three
+times. Set the tool’s font size before you start. Open a clean session.</p>
+
+<h3>What to demo, per session</h3>
+<table>
+  <tr><th style="width:22%">Where</th><th>What to have ready</th></tr>
+  <tr><td><strong>S1, slides 6–7</strong><br>Demo 1</td>
+      <td>The vague prompt “Write a project update.” run live, so the group sees a
+      fluent answer that guessed the audience, the purpose and the action.</td></tr>
+  <tr><td><strong>S1, slide 16</strong></td>
+      <td>The briefed version. Run it, or show it — but if you run it, the contrast
+      is far stronger.</td></tr>
+  <tr><td><strong>S1, slide 22</strong><br>Demo 2</td>
+      <td>Messy notes turned into a fixed-column table, with the instruction
+      “If a value is not in the notes, write ‘not stated’.” Show what happens
+      <em>without</em> that line first if you have the time.</td></tr>
+  <tr><td><strong>S2, slides 8, 10, 28, 36</strong></td>
+      <td>Four placeholders that want <strong>your own examples</strong>: a strong
+      previous update, a task with a matching example, a genuinely multi-step task,
+      and one quality criterion. Prepare these before the session — an example from
+      your own area lands much harder than a generic one.</td></tr>
+  <tr><td><strong>S2, slides 46–49</strong><br>Prompt Clinic</td>
+      <td>A participant task, run through the eight steps live. Have a fallback
+      case of your own in case the submissions are unusable.</td></tr>
+</table>
+
+<h3>Tools</h3>
+<p>Use M365 Copilot, Helvi, or another approved solution — whichever you know
+best. Do not use a tool you have not rehearsed with, and do not use one that is
+not approved for internal use.</p>
+
+<div class="box">
+  <span class="label">Always have a fallback</span>
+  Tools fail, sessions run at capacity, and a live model can be slow. Keep a
+  screenshot of a prepared before/after pair open in a second tab. If the tool
+  stalls, narrate the screenshot and move on — do not spend two minutes waiting
+  in front of 200 people.
+</div>
+
+<h2>7  What good looks like</h2>
+
+<div class="two">
+  <div class="good">
+    <h3>A session that worked</h3>
+    <ul>
+      <li>Participants leave with something they wrote themselves — a prompt they saved, not a prompt you gave them.</li>
+      <li>The reflection answers are specific: “naming the audience”, not “it was better”.</li>
+      <li>The Clinic case came from the group, and the group called out the change before you did.</li>
+      <li>The practice rounds ran their full time and were not cut.</li>
+      <li>Someone can restate the core message in their own words at the end.</li>
+      <li>Q&amp;A questions are about applying it, not about what AI is.</li>
+    </ul>
+  </div>
+  <div class="limit">
+    <h3>Warning signs during delivery</h3>
+    <ul>
+      <li>You are still on the input slides when the first practice was due.</li>
+      <li>The demo produced a perfect answer on the first run, so there was nothing to improve.</li>
+      <li>The chat is asking what a token is — you have drifted into fundamentals.</li>
+      <li>The Clinic became you writing a prompt while the group watched silently.</li>
+      <li>You answered a data-handling question with a guess.</li>
+      <li>You ran out of time and dropped the transfer practice.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="box limit">
+  <span class="label">Policy and data questions</span>
+  If a question is about data handling or what a tool is permitted to do and you
+  are not certain of the answer, <strong>park it and follow up in writing</strong>.
+  No guesses from the stage. Session 1 slide 29 states this to participants, so
+  you are covered by the deck when you use it.
+</div>
+
+<h2>8  What we expect from you</h2>
+
+<h3>Before the session</h3>
+<ul>
+  <li><strong>Work through the Preparation Checklist</strong> — it covers presentation review, demo preparation, session planning and the rehearsal.</li>
+  <li><strong>Review your language version.</strong> Check content, translation, layout, text overflow, screenshots and examples. Translations have been prepared, but only you can judge whether a term is right for your audience.</li>
+  <li><strong>Fill in your own examples</strong> where the deck marks them (Session 2, slides 8, 10, 28, 36).</li>
+  <li><strong>Rehearse once end to end</strong>, with the tool, out loud, with a timer.</li>
+</ul>
+
+<h3>What you may change — and what you may not</h3>
+<div class="two">
+  <div class="good">
+    <h3>Welcome</h3>
+    <ul>
+      <li>Language improvements</li>
+      <li>Factual corrections</li>
+      <li>Swapping in examples from your own area</li>
+      <li>Small design improvements</li>
+    </ul>
+  </div>
+  <div class="limit">
+    <h3>Please do not</h3>
+    <ul>
+      <li>Rebuild the deck</li>
+      <li>Create your own version</li>
+      <li>Change the didactic sequence</li>
+      <li>Drop the practice rounds to fit more content</li>
+    </ul>
+  </div>
+</div>
+<p>Participants may attend more than one session, and the sessions run in several
+languages. They should feel like one programme.</p>
+
+<div class="box limit">
+  <span class="label">Work in the existing OneDrive document</span>
+  Do not create your own copy. Make your changes directly in the existing file.
+  This keeps version history intact, avoids conflicts between language versions,
+  and lets us publish the final materials quickly after the sessions. A private
+  copy means your improvements are lost and the published version is wrong.
+</div>
+
+<h3>Placeholders</h3>
+<p>Anything still in <code>[SQUARE BRACKETS]</code> is deliberately unfilled and
+easy to spot while you page through. They fall into three groups:</p>
+<table class="tight">
+  <tr><th style="width:26%">Group</th><th>Who fills it</th><th>When</th></tr>
+  <tr><td>Slido codes, tool name, data-handling wording, resource links</td>
+      <td>The programme team, centrally</td><td>Before the materials go out</td></tr>
+  <tr><td>Your own examples (S2 slides 8, 10, 28, 36)</td>
+      <td>You</td><td>While preparing</td></tr>
+  <tr><td>Clinic cases, and the resume time after the break (S2 slide 30)</td>
+      <td>You</td><td>Live, on the day</td></tr>
+</table>
+
+<h3>After the session</h3>
+<ul>
+  <li>Leave your changes in the OneDrive file so the published version is the one you actually delivered.</li>
+  <li>Contribute the strongest prompts from your Clinic to the Prompt Gallery — genericised, and screened before publication.</li>
+  <li>Send anything that did not work to the programme team. There will be a next round.</li>
+</ul>
+
+<h2>9  Still to come</h2>
+<p>Teams joining links, moderation, session delivery, recordings, the
+organisational schedule, and support and escalation will follow separately in a
+delivery pack. You do not need to chase them — they will reach you before the
+week starts.</p>
+
+<div class="box good">
+  <span class="label">Thank you</span>
+  Around 1,730 colleagues signed up because they want to work differently.
+  Without trainers willing to stand in front of them and run a real, unpolished
+  live demo, none of it happens. Thank you for taking one of the sessions.
+</div>
+
+<p class="meta">Group AI Week 2026 · Trainer Guide · prepared by the Data &amp; AI
+Advisory programme team · September 2026</p>
+
+</body></html>

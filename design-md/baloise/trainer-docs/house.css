@@ -1,0 +1,84 @@
+/* Helvetia workshop documents - same language as the slide decks:
+   Arial, corporate blue, mint for the recommendation, red tint for the
+   limit, light grey for plain information. No outlines, no caps, no grey
+   type. Corners 4px. */
+@page {
+  size: A4;
+  margin: 20mm 18mm 18mm 18mm;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  color: #000D6E;
+  font-size: 10pt;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+h1 {
+  font-size: 26pt; line-height: 1.15; margin: 0 0 6pt; letter-spacing: -0.4pt;
+}
+h2 {
+  font-size: 15pt; margin: 22pt 0 8pt; line-height: 1.2;
+  border-top: 2px solid #CBF2EC; padding-top: 10pt;
+  break-after: avoid;
+}
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p { margin: 0 0 8pt; }
+ul { margin: 0 0 8pt; padding-left: 15pt; }
+li { margin-bottom: 4pt; }
+li::marker { color: #1B5951; }
+strong { font-weight: bold; }
+a { color: #000D6E; }
+
+.cover {
+  background: #CBF2EC; border-radius: 4px; padding: 22pt 24pt; margin-bottom: 16pt;
+}
+.cover .kicker { font-size: 10pt; font-weight: bold; margin-bottom: 10pt; }
+.cover .sub { font-size: 12pt; margin: 8pt 0 0; }
+.meta { font-size: 9pt; margin-top: 14pt; }
+
+table { width: 100%; border-collapse: separate; border-spacing: 0 3px; margin: 6pt 0 10pt; }
+th {
+  text-align: left; font-size: 8.5pt; font-weight: bold; padding: 5pt 8pt;
+  background: #F6F6F6; border-radius: 4px;
+}
+td { padding: 6pt 8pt; background: #F6F6F6; border-radius: 4px; vertical-align: top; font-size: 9pt; }
+td.time { width: 58px; font-weight: bold; white-space: nowrap; }
+td.slides { width: 62px; white-space: nowrap; }
+td.min { width: 52px; text-align: right; white-space: nowrap; }
+tr.good td { background: #CBF2EC; }
+tr.mark td { background: #CBF2EC; }
+
+.box { border-radius: 4px; padding: 12pt 14pt; margin: 10pt 0; background: #F6F6F6; }
+.box.good { background: #CBF2EC; }
+.box.limit { background: #FFD7D7; }
+.box .label { font-weight: bold; margin-bottom: 4pt; display: block; }
+.box.good .label { color: #1B5951; }
+.box.limit .label { color: #99172D; }
+
+.two { display: flex; gap: 10pt; margin: 10pt 0; }
+.two > div { flex: 1; border-radius: 4px; padding: 12pt 14pt; background: #F6F6F6; }
+.two > div.good { background: #CBF2EC; }
+.two > div.limit { background: #FFD7D7; }
+.two h3 { margin-top: 0; }
+
+.quote { font-size: 12pt; font-weight: bold; }
+.lead { font-size: 11.5pt; margin-bottom: 14pt; }
+.note { font-size: 8.5pt; }
+.avoid-break { break-inside: avoid; }
+blockquote {
+  margin: 0 0 10pt; padding: 14pt 16pt; background: #F6F6F6; border-radius: 4px;
+}
+blockquote p:last-child { margin-bottom: 0; }
+code {
+  font-family: Arial, sans-serif; background: #FFFFFF; padding: 0 3px;
+  border-radius: 4px; font-weight: bold; font-size: 8.5pt;
+}
+
+/* Keep the units that read as one object off page boundaries. */
+tr { break-inside: avoid; }
+.box, .two, blockquote, .two > div { break-inside: avoid; }
+table.tight { break-inside: avoid; }
+h3 { break-after: avoid; }

@@ -18,8 +18,8 @@ CHIP_H = 46
 CHIP_GAP = 17
 
 
-def _foot(slide, number):
-    footer(slide, LABEL, None, number)
+def _foot(slide, number, phase=None):
+    footer(slide, LABEL, phase, number)
 
 
 def _slido(slide, code_hint, note, y):
@@ -122,7 +122,7 @@ def slide_05(prs):
     _option_chips(s, ("Drafting", "Summarising", "Ideation", "Research",
                       "Analysis", "Planning", "Other"), top=150, per_row=4)
     _slido(s, "[SLIDO CODE]", "Pick two.", y=406)
-    _foot(s, 5)
+    _foot(s, 5, "INTERACT")
 
 
 def slide_06(prs):
@@ -149,7 +149,7 @@ def slide_06(prs):
          size=T_BODY, anchor=MSO_ANCHOR.MIDDLE)
     _slido(s, "[SLIDO CODE]", "Submissions remain open until the break.",
            y=402)
-    _foot(s, 6)
+    _foot(s, 6, "INTERACT")
 
 
 SLIDES = [slide_01, slide_02, slide_03, slide_04, slide_05, slide_06]

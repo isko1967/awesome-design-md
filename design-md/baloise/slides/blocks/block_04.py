@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+from slidekit import (icon, bullet_list, WHITE, CHOICE, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
                       CONTENT_TOP_LEAD,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
@@ -98,22 +98,33 @@ def slide_33(prs):
 
 
 def slide_34(prs):
-    """The guardrails slide - GUARDRAIL (purple) is the whole point here."""
+    """Five rules in a row said nothing on their own. Setting the failure
+    beside them shows what the rules are for."""
     s = new_slide(prs)
     title(s, "Tell AI what to do when the information is missing.")
     lead(s, "If the source does not say why a premium changed, AI may try to "
             "complete the story.")
 
-    eyebrow(s, "Expected behaviour", y=CONTENT_TOP_LEAD)
-    rules = [
+    eyebrow(s, "Without a rule", x=MARGIN, w=328)
+    gap = card(s, MARGIN, 176, 328, 250, AVOID.surface, pad=20)
+    icon(s, "alert-triangle", MARGIN + 20, 196, 26, AVOID.accent)
+    write(gap, [
+        ("The model fills the gap", T_CARD, True, AVOID.accent, None),
+        ("It invents a plausible reason, states it as fact, and the reader "
+         "has no way to tell which part was in the source.",
+         T_BODY, False, BLUE, 10),
+    ], anchor=MSO_ANCHOR.MIDDLE)
+
+    eyebrow(s, "Expected behaviour", x=424, w=495)
+    rules = card(s, 424, 176, 495, 250, NEUTRAL.surface, pad=20)
+    bullet_list(rules, (
         "If the reason is not provided, do not infer one.",
         "Flag missing information explicitly.",
         "Separate confirmed facts from assumptions.",
         "Do not promise outcomes unsupported by the source material.",
         "Ask for clarification when missing information changes the answer.",
-    ]
-    listing(s, [(None, r, None) for r in rules], role=NEUTRAL,
-            top=166, span=270)
+    ), size=T_BODY, marker="→")
+    rules.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
     band(s, "Key idea",
          "Guardrails define acceptable behaviour when the task cannot be "
@@ -173,7 +184,7 @@ def slide_36(prs):
         ("2  Explain what should change.", T_BODY, False, BLUE, 3),
         ("3  Produce one revised version.", T_BODY, False, BLUE, 3),
         ("If essential information is missing, flag it instead of inventing "
-         "it.", T_HINT, False, GUARDRAIL.accent, 10),
+         "it.", T_HINT, False, BLUE, 10),
     ])
 
     eyebrow(s, "Use when", x=ASIDE_X, w=ASIDE_W, colour=GOOD.accent)
@@ -223,7 +234,7 @@ def slide_38(prs):
                 T_HINT, False, BLUE, None)], anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "Self-critique", x=COL2_X[0], w=COL2_W, y=286)
-    crit = card(s, COL2_X[0], 308, COL2_W, 134, GUARDRAIL.surface, pad=14)
+    crit = card(s, COL2_X[0], 308, COL2_W, 134, NEUTRAL.surface, pad=14)
     write(crit, [
         ("Clear change? Partly.", T_HINT, False, BLUE, None),
         ("Clear customer action? No.", T_HINT, False, BLUE, 5),

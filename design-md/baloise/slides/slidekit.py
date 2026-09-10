@@ -63,7 +63,10 @@ class Role:
 
 
 GOOD = Role(GREEN_3, GREEN, GREEN_LIGHT)
-AVOID = Role(RED_3, RED, RED_LIGHT)
+# Helvetia Red on Red Tint 3 measures 3.6:1, which fails AA for body text.
+# Red Tint 1 is the dark end of the same family and reaches 6.3:1, matching
+# how the green role uses its dark base.
+AVOID = Role(RED_3, rgb("99172D"), RED_LIGHT)
 # Purple was a fourth role that nobody asked for; guardrails are things you
 # must not do, so they belong to AVOID. The name stays as an alias so the
 # block modules keep importing, but it resolves to red.
@@ -347,7 +350,7 @@ CONTENT_START = 132   # where the first content shape sits, on every slide
 CONTENT_TOP_LEAD = 136
 
 
-def title(slide, text, width=CONTENT_W, has_lead=True):
+def title(slide, text, width=CONTENT_W, has_lead=True, top=TITLE_Y):
     """Set the action title and return the y at which content may start.
 
     A title that does not fit steps down one size at a time. Only when no
@@ -372,10 +375,10 @@ def title(slide, text, width=CONTENT_W, has_lead=True):
                 wrapped_lines(text, width - 4, T_TITLE, bold=True))
 
     shape.left = Pt(MARGIN)
-    shape.top = Pt(TITLE_Y)
+    shape.top = Pt(top)
     shape.height = Pt(round(size * 1.35) * lines + 8)
     write(shape, [(text, size, True, BLUE, None)])
-    return TITLE_Y + round(size * 1.35) * lines + 8
+    return top + round(size * 1.35) * lines + 8
 
 
 def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
@@ -431,9 +434,10 @@ def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
     # the weight has to come from size and colour instead. Sitting a little
     # higher also puts real air between the label and the field below it.
     motif = LABEL_ICON.get(text)
-    offset = 30 if motif else 0
+    offset = 28 if motif else 0
     if motif:
-        icon(slide, motif, x + 1, y - 3, 18, colour or BLUE)
+        # the glyph's optical centre has to meet the type's, not its box's
+        icon(slide, motif, x + 1, y + 2, 16, colour or BLUE)
     box = textbox(slide, x + offset, y - 6, w - offset, 24)
     box.name = LABEL_NAME          # snap_labels() pins it to its own field
     return write(box, [(text, T_LEAD, True, colour or BLUE, None)])
@@ -806,3 +810,26 @@ def brand_icon(slide, name, x, y, size=28):
                          write_to=png, output_width=size * 8,
                          output_height=size * 8)
     return slide.shapes.add_picture(png, Pt(x), Pt(y), Pt(size), Pt(size))
+
+
+def bullet_list(shape, items, size=T_BODY, colour=None, marker="•"):
+    """A real list. A stack of bare words reads as leftover text."""
+    colour = colour or BLUE
+    tf = shape.text_frame
+    tf.word_wrap = True
+    tf.clear()
+    for i, item in enumerate(items):
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p.alignment = PP_ALIGN.LEFT
+        p.line_spacing = Pt(round(size * 1.45))
+        if i:
+            p.space_before = Pt(4)
+        mark = p.add_run()
+        mark.text = f"{marker}   "
+        mark.font.size = Pt(size)
+        mark.font.color.rgb = GOOD.accent
+        body = p.add_run()
+        body.text = item
+        body.font.size = Pt(size)
+        body.font.color.rgb = colour
+    return shape

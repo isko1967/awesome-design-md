@@ -7,7 +7,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
+from slidekit import (bullet_list, ACTION, ASIDE_W, ASIDE_X, AVOID, BLUE, COL2_W, COL2_X,
                       CONTENT_W, GOOD, GREEN, GREY_TEXT, GUARDRAIL, MAIN_W,
                       MARGIN, NEUTRAL, T_BODY, T_CARD, T_HINT, T_LEAD, T_META,
                       T_STATEMENT, band, blue_slide, card, divider, eyebrow,
@@ -87,19 +87,16 @@ def slide_43(prs):
              size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
 
     eyebrow(s, "It failed", x=ASIDE_X, w=ASIDE_W)
-    failed = card(s, ASIDE_X, 146, ASIDE_W, 92, GUARDRAIL.surface, pad=12)
+    failed = card(s, ASIDE_X, 146, ASIDE_W, 92, NEUTRAL.surface, pad=12)
     write(failed, [("Summarise this claims performance report for senior "
                     "management.", T_HINT, False, BLUE, None)],
           anchor=MSO_ANCHOR.MIDDLE)
     eyebrow(s, "The result was", x=ASIDE_X, w=ASIDE_W, y=250)
     result = card(s, ASIDE_X, 272, ASIDE_W, 118, NEUTRAL.surface, pad=12)
-    write(result, [(t, T_HINT, False, BLUE, None if i == 0 else 6)
-                   for i, t in enumerate((
-                       "Three pages long",
-                       "Full of operational detail",
-                       "Missing the main trend",
-                       "No decision highlighted"))],
-          anchor=MSO_ANCHOR.MIDDLE)
+    bullet_list(result, ("Three pages long", "Full of operational detail",
+                         "Missing the main trend", "No decision highlighted"),
+                size=T_HINT, marker="–")
+    result.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
     band(s, "Key idea",
          "Diagnose → change one thing → rerun → compare.", GOOD)
@@ -130,8 +127,8 @@ def slide_44(prs):
          T_HINT, False, GREY_TEXT, 12),
     ])
 
-    eyebrow(s, "Why one change?", x=COL2_X[1], w=COL2_W, colour=GUARDRAIL.accent)
-    why = card(s, COL2_X[1], 146, COL2_W, 296, GUARDRAIL.surface, pad=20)
+    eyebrow(s, "Why one change?", x=COL2_X[1], w=COL2_W, colour=BLUE)
+    why = card(s, COL2_X[1], 146, COL2_W, 296, NEUTRAL.surface, pad=20)
     write(why, [("If you change five things at once, you do not know what "
                  "actually improved the result.", T_LEAD, False, BLUE, None)],
           anchor=MSO_ANCHOR.MIDDLE)

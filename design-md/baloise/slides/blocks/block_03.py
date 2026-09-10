@@ -106,9 +106,9 @@ def slide_27(prs):
     runs(use, [("Use when the task is   ", True, GOOD.accent),
                ("complex, multi-step, ambiguous or expensive to redo.",
                 False, BLUE)], size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
-    cot = card(s, MARGIN, 416, CONTENT_W, 56, GUARDRAIL.surface, pad=10)
+    cot = card(s, MARGIN, 416, CONTENT_W, 56, NEUTRAL.surface, pad=10)
     runs(cot, [("Related concept — chain of thought   ", True,
-                GUARDRAIL.accent),
+                BLUE),
                ("Models may reason step by step; for prompting, focus on "
                 "reviewable intermediate outputs (plans, assumptions, "
                 "criteria, decision points).", False, BLUE)],
@@ -144,12 +144,12 @@ def slide_28(prs):
 
     eyebrow(s, "Prompt chaining", x=COL2_X[1], w=COL2_W,
             y=294)
-    chain = card(s, COL2_X[1], 316, COL2_W, 126, GUARDRAIL.surface, pad=18)
+    chain = card(s, COL2_X[1], 316, COL2_W, 126, NEUTRAL.surface, pad=18)
     write(chain, [
         ("One output becomes the input to the next step.",
          T_BODY, False, BLUE, None),
         ("Analyse → Plan → Draft → Review → Finalise",
-         T_BODY, True, GUARDRAIL.accent, 10),
+         T_BODY, True, BLUE, 10),
     ], anchor=MSO_ANCHOR.MIDDLE)
     _foot(s, "LEARN", 28)
 
@@ -159,7 +159,7 @@ def slide_29(prs):
     title(s, "Would you approve the approach before letting AI execute it?")
     lead(s, "You need an internal launch plan for a new customer feature.")
 
-    eyebrow(s, "Version 1", x=COL2_X[0], w=COL2_W)
+    eyebrow(s, "Version 1", x=COL2_X[0], w=COL2_W, y=128)
     v1 = card(s, COL2_X[0], 150, COL2_W, 108, NEUTRAL.surface, pad=16)
     write(v1, [("Create a complete internal launch plan for the new feature.",
                 T_BODY, False, BLUE, None)], anchor=MSO_ANCHOR.MIDDLE)

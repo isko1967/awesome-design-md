@@ -5,7 +5,7 @@ Content is verbatim from the source deck; only the layout is ours.
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Pt
 
-from slidekit import (CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
+from slidekit import (bullet_list, CHOICE, ACTION, AVOID, COL4_W, COL4_X, blue_slide, divider,
                       BAND_TOP, BLUE, COL2_W, COL2_X, COL3_W,
                       COL3_X, CONTENT_TOP, CONTENT_W, GOOD, GREY_TEXT,
                       GUARDRAIL, MARGIN,
@@ -31,9 +31,10 @@ def slide_07(prs):
 
 def slide_08(prs):
     s = new_slide(prs)
-    title(s, "Few-shot prompting gives the model examples to learn from.")
+    title(s, "Few-shot prompting gives the model examples to learn from.",
+          top=38)
     lead(s, "Instead of only describing what you want, provide one or more "
-            "examples of the desired output.")
+            "examples of the desired output.", y=90)
 
     eyebrow(s, "What the model infers")
     for x, pattern in zip(COL4_X, ("tone and level of formality",
@@ -153,9 +154,9 @@ def slide_10(prs):
 
 def slide_11(prs):
     s = new_slide(prs)
-    title(s, "Can examples make a vague instruction more precise?")
+    title(s, "Can examples make a vague instruction more precise?", top=38)
     lead(s, "Severe weather has increased claims volumes. Management needs a "
-            "short update.")
+            "short update.", y=90)
 
     eyebrow(s, "Starting prompt")
     start = card(s, MARGIN, 146, CONTENT_W, 62, NEUTRAL.surface)
@@ -175,11 +176,9 @@ def slide_11(prs):
               anchor=MSO_ANCHOR.MIDDLE)
 
     watch = card(s, COL2_X[1], 252, COL2_W, 214, NEUTRAL.surface, pad=18)
-    write(watch, [(item, T_BODY, False, BLUE, None if i == 0 else 6)
-                  for i, item in enumerate(
-                      ("prioritisation", "structure", "level of detail",
-                       "tone", "action orientation"))],
-          anchor=MSO_ANCHOR.MIDDLE)
+    bullet_list(watch, ("prioritisation", "structure", "level of detail",
+                        "tone", "action orientation"))
+    watch.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
     _foot(s, "SEE", 11)
 
 
@@ -237,7 +236,7 @@ def slide_13(prs):
         ("5", "Run the prompt and compare the result.", None, ACTION),
         (None, "Before you start",
          "Keep all information generic. Do not enter personal, customer or "
-         "confidential information.", GUARDRAIL),
+         "confidential information.", AVOID),
     ]
     for i, (number, text, hint, role) in enumerate(cells):
         x = COL2_X[i % 2]

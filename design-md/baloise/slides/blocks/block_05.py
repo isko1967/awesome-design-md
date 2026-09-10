@@ -86,7 +86,7 @@ def slide_43(prs):
         runs(cell, [(q + "   ", True, GREEN), (a, False, BLUE)],
              size=T_HINT, anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "The prompt that failed", x=ASIDE_X, w=ASIDE_W)
+    eyebrow(s, "It failed", x=ASIDE_X, w=ASIDE_W)
     failed = card(s, ASIDE_X, 146, ASIDE_W, 92, GUARDRAIL.surface, pad=12)
     write(failed, [("Summarise this claims performance report for senior "
                     "management.", T_HINT, False, BLUE, None)],

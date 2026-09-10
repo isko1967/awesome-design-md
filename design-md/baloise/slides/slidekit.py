@@ -392,6 +392,25 @@ def lead(slide, text, y=LEAD_Y, width=CONTENT_W):
 
 EYEBROW_MAX = 24
 LABEL_NAME = "Label"
+
+# Which icon belongs to which recurring label. Only labels that name a
+# familiar thing get one; a label with no obvious motif stays plain rather
+# than borrowing a vague symbol.
+LABEL_ICON = {
+    "Example": "document", "The prompt": "document",
+    "Reusable prompt": "document", "Starting prompt": "document",
+    "Both runs": "document", "The four criteria": "check-circle",
+    "The criteria": "check-circle", "Watch for": "search",
+    "Self-critique": "search", "Review before execution": "search",
+    "The weak result": "alert-triangle", "The result was": "alert-triangle",
+    "It failed": "alert-triangle",
+    "Why one change?": "info-circle", "Use when": "info-circle",
+    "Scenario": "message", "What the model infers": "settings",
+    "What to specify": "settings", "Process": "refresh",
+    "What made the difference": "refresh",
+    "With examples": "check-circle", "With context": "check-circle",
+    "Version 2": "check-circle", "Version 2 adds": "check-circle",
+}
 LABEL_GAP = 10   # between a label and the field it names
 
 
@@ -411,7 +430,11 @@ def eyebrow(slide, text, x=MARGIN, y=CONTENT_TOP, w=CONTENT_W, colour=None):
     # Dropping capitals removed the signal that said "this is a label", so
     # the weight has to come from size and colour instead. Sitting a little
     # higher also puts real air between the label and the field below it.
-    box = textbox(slide, x, y - 6, w, 24)
+    motif = LABEL_ICON.get(text)
+    offset = 30 if motif else 0
+    if motif:
+        icon(slide, motif, x + 1, y - 3, 18, colour or BLUE)
+    box = textbox(slide, x + offset, y - 6, w - offset, 24)
     box.name = LABEL_NAME          # snap_labels() pins it to its own field
     return write(box, [(text, T_LEAD, True, colour or BLUE, None)])
 
@@ -442,10 +465,44 @@ def band(slide, label_text, body_text, role=None, y=BAND_TOP, h=32):
                         (body_text, False, BLUE)])
 
 
+PHASES = ("LEARN", "SEE", "TRY", "IMPROVE", "INTERACT")
+PHASE_W, PHASE_H, PHASE_GAP, PHASE_Y = 84, 18, 6, 22
+PHASE_NAME = "Phase"
+
+
+def phase_chips(slide, active):
+    """The cycle as a row of chips in the top right corner.
+
+    Taken from the prepared workshop template: the phase is visible on every
+    slide instead of hiding in the footer, and the participants can see where
+    in LEARN - SEE - TRY - IMPROVE they are.
+    """
+    total = len(PHASES) * PHASE_W + (len(PHASES) - 1) * PHASE_GAP
+    x = MARGIN + CONTENT_W - total
+    for name in PHASES:
+        on = name == active
+        chip = card(slide, x, PHASE_Y, PHASE_W, PHASE_H,
+                    GOOD.ground if on else GREY_SURFACE, pad=4)
+        chip.name = PHASE_NAME
+        chip.text_frame.margin_top = chip.text_frame.margin_bottom = Pt(0)
+        write(chip, [(name, 10, True, BLUE if on else rgb("B6B6B6"), None)],
+              anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
+        x += PHASE_W + PHASE_GAP
+
+
+def icon_tile(slide, name, x, y, size=32, role=None):
+    """An icon on a tinted tile, the way the workshop template sets them."""
+    role = role or GOOD
+    card(slide, x, y, size, size, role.ground, pad=0)
+    icon(slide, name, x + size * 0.22, y + size * 0.22, size * 0.56, BLUE)
+
+
 def footer(slide, block_label, phase, number):
     kinds = {s.placeholder_format.idx: str(s.placeholder_format.type)
              for s in slide.slide_layout.placeholders}
-    text = f"{block_label}   ·   {phase}" if phase else block_label
+    if phase in PHASES:
+        phase_chips(slide, phase)
+    text = block_label
     for idx, kind in kinds.items():
         if "FOOTER" in kind:
             write(_inherit(slide, idx), [(text, None, None, None, None)])

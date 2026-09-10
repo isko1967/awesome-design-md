@@ -209,7 +209,7 @@ def slide_21(prs):
                       "Management wants a weekly update."))],
           anchor=MSO_ANCHOR.MIDDLE)
 
-    eyebrow(s, "Prompt — both times", x=ASIDE_X, w=ASIDE_W)
+    eyebrow(s, "Both runs", x=ASIDE_X, w=ASIDE_W)
     prompt = card(s, ASIDE_X, 146, ASIDE_W, 92, GOOD.surface, pad=12)
     write(prompt, [("Draft a weekly update based on these notes.",
                     T_BODY, True, BLUE, None)], anchor=MSO_ANCHOR.MIDDLE)

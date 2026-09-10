@@ -108,8 +108,11 @@ def main():
                     f"(needs {needed:.0f}, has {available:.0f}) - "
                     f"{shape.text_frame.text[:45]!r}")
 
+            # phase chips are navigation furniture, like the 10pt footer the
+            # corporate master itself sets
+            floor = 10.0 if shape.name == "Phase" else 12.0
             for r in para_runs(shape):
-                if r.font.size is not None and r.font.size.pt < 12:
+                if r.font.size is not None and r.font.size.pt < floor:
                     problems.append(
                         f"slide {index}: {r.text[:30]!r} at {r.font.size.pt}pt")
 

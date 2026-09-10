@@ -503,7 +503,11 @@ def band(slide, label_text, body_text, role=None, y=BAND_TOP, h=32):
     strip = card(slide, MARGIN, y, CONTENT_W, h, NEUTRAL.surface, pad=14)
     strip.text_frame.margin_top = strip.text_frame.margin_bottom = Pt(4)
     strip.text_frame.margin_left = Pt(46)
-    brand_icon(slide, "light-bulb-green", MARGIN + 12, y + 4, h - 8)
+    # a two-line band must not grow the lamp with it, or the glyph
+    # sits on top of the second line
+    lamp = min(h - 8, 24)
+    brand_icon(slide, "light-bulb-green", MARGIN + 12,
+               y + (h - lamp) / 2, lamp)
     return runs(strip, [(f"{label_text}   ", True, BLUE),
                         (body_text, False, BLUE)])
 
@@ -712,17 +716,34 @@ def flow_row(slide, steps, top, cell_h, x=MARGIN, width=CONTENT_W, gap=26,
     head_colour = head_colour or role.accent
     n = len(steps)
     cell_w = (width - (n - 1) * gap) / n
+
+    # Centring heading and body together as one block put the heading at a
+    # different height in every cell, because a one-line body is shorter
+    # than a two-line one. The row is measured once and every heading is
+    # placed at the same y.
+    inner = cell_w - 32
+    head_h = round(T_BODY * 1.4)
+    body_lines = max((len(wrapped_lines(body, inner, T_HINT)) if body else 0)
+                     for _, body in steps)
+    body_h = body_lines * round(T_HINT * 1.4)
+    block_h = head_h + (10 + body_h if body_lines else 0)
+    head_y = top + (cell_h - block_h) / 2
+
     for i, (heading, body) in enumerate(steps):
         cx = x + i * (cell_w + gap)
         if i:
             box = textbox(slide, cx - gap, top + cell_h / 2 - 11, gap, 22)
             write(box, [("→", 16, False, GREY_TEXT, None)],
                   align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-        cell = card(slide, cx, top, cell_w, cell_h, role.surface, pad=12)
-        rows = [(heading, T_BODY, True, head_colour, None)]
+        card(slide, cx, top, cell_w, cell_h, role.surface, pad=12)
+        write(textbox(slide, cx + 16, head_y, inner, head_h),
+              [(heading, T_BODY, True, head_colour, None)],
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
         if body:
-            rows.append((body, T_HINT, False, BLUE, 4))
-        write(cell, rows, anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
+            write(textbox(slide, cx + 16, head_y + head_h + 10, inner,
+                          body_h),
+                  [(body, T_HINT, False, BLUE, None)],
+                  align=PP_ALIGN.CENTER)
     return cell_w
 
 

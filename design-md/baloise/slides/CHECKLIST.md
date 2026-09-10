@@ -1,5 +1,10 @@
 # Prüfliste
 
+Gilt für beide Decks: **Session 1 — Prompting Essentials** (35 Folien,
+`build_essentials.py`) und **Session 2 — Advanced** (54 Folien,
+`build_all.py`). Beide laufen auf demselben `slidekit.py`, deshalb gibt es
+jede Regel nur an einer Stelle.
+
 Jeder Punkt ist entweder **automatisch geprüft** (`check.py` bricht ab) oder
 **durch Konstruktion erzwungen** (es gibt nur einen Weg, es zu bauen).
 Nichts hier verlässt sich auf Hinschauen.
@@ -34,6 +39,10 @@ Nichts hier verlässt sich auf Hinschauen.
 | Aufzählung mit Marker, nie kahle Wörter | `bullet_list()` |
 | Chips gefüllt, nie Kontur | `card()` ignoriert `outline` |
 | Divider zeigt nur die Phasen des Blocks | `divider()` |
+| Überschriften einer Schrittreihe auf einer Linie | `flow_row()` misst die Reihe einmal und setzt jede Überschrift auf dasselbe y |
+| Lampe im Band wächst nicht mit zweizeiligem Band | `band()` deckelt sie auf 24 pt |
+| Vorher/Nachher mit Chevron dazwischen | `chevron()` auf dem breiteren Bund `BA_X`/`BA_W` |
+| Keine CAPS-LOCK-Labels | `phase_chips()` und `divider()` setzen Grossschreibung in Satzschrift zurück |
 
 ## Farbrollen
 

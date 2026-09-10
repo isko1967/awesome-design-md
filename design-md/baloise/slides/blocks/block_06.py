@@ -22,16 +22,25 @@ def _foot(slide, phase, number):
 
 
 def slide_46(prs):
-    """The Clinic opener - a full-bleed tangerine participation landmark."""
-    s = tangerine_slide(prs)
-    write(textbox(s, MARGIN, 150, CONTENT_W, 66),
-          [("Prompt Clinic", T_DIVIDER, True, BLUE, None)])
-    write(textbox(s, MARGIN, 236, CONTENT_W, 32),
+    """The Clinic opener. Naming the five techniques turns an empty field into
+    the agenda for what follows."""
+    s = blue_slide(prs)
+    write(textbox(s, MARGIN, 120, CONTENT_W, 66),
+          [("Prompt Clinic", T_DIVIDER, True, WHITE, None)])
+    write(textbox(s, MARGIN, 200, CONTENT_W, 32),
           [("Real tasks. Diagnose → change → compare.",
-            T_STATEMENT, False, BLUE, None)])
-    write(textbox(s, MARGIN, 288, CONTENT_W, 26),
-          [("Now we combine the five techniques.", T_LEAD, True,
-            ACTION.accent, None)])
+            T_STATEMENT, False, WHITE, None)])
+    write(textbox(s, MARGIN, 244, CONTENT_W, 26),
+          [("Now we combine the five techniques.", T_LEAD, True, WHITE, None)])
+
+    techniques = ["01 Few-shot", "02 Persistent context", "03 Decomposition",
+                  "04 Self-critique", "05 Debugging"]
+    width = (CONTENT_W - 16 * 4) / 5
+    for i, text in enumerate(techniques):
+        chip = card(s, MARGIN + i * (width + 16), 320, width, 84, WHITE,
+                    pad=12)
+        write(chip, [(text, T_BODY, True, BLUE, None)],
+              anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
     footer(s, LABEL, None, 46)
 
 

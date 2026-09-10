@@ -6,7 +6,7 @@ Content is verbatim from the source deck; only the layout is ours.
 """
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
-from slidekit import (WHITE, CHOICE, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
+from slidekit import (icon, WHITE, CHOICE, ACTION, BLUE, COL2_W, COL2_X, CONTENT_W, GOOD, GREEN,
                       GREY_TEXT, GUARDRAIL, MARGIN, NEUTRAL, T_BODY, T_CARD,
                       T_DIVIDER, T_HINT, T_LEAD, T_META, T_NUMBER, T_STATEMENT,
                       arrow, band, blue_slide, card, divider, eyebrow,
@@ -185,21 +185,29 @@ def slide_29(prs):
 
 
 def slide_30(prs):
-    """The break - a full-bleed tangerine participation landmark."""
-    s = tangerine_slide(prs)
-    write(textbox(s, MARGIN, 150, CONTENT_W, 66),
-          [("10-minute break", T_DIVIDER, True, BLUE, None)])
-    write(textbox(s, MARGIN, 236, CONTENT_W, 32),
-          [("Prompt Clinic submissions remain open.",
-            T_STATEMENT, False, BLUE, None)])
-    write(textbox(s, MARGIN, 290, CONTENT_W, 26),
-          [("We continue at [CLOCK TIME].", T_LEAD, True, ACTION.accent,
-            None)])
+    """The break. It was three lines on an empty field; the clock time is the
+    one thing people need to read from the back of the room."""
+    s = blue_slide(prs)
+    write(textbox(s, MARGIN, 120, CONTENT_W, 66),
+          [("10-minute break", T_DIVIDER, True, WHITE, None)])
 
-    note = card(s, MARGIN, 372, CONTENT_W, 70, ACTION.surface, pad=18)
-    runs(note, [("Submitted a case?   ", True, ACTION.accent),
-                ("The trainers are reviewing the cases during the break.",
-                 False, BLUE)], size=T_LEAD, anchor=MSO_ANCHOR.MIDDLE)
+    clock = card(s, MARGIN, 208, 428, 120, WHITE, pad=24)
+    icon(s, "clock", MARGIN + 28, 240, 30, BLUE)
+    write(textbox(s, MARGIN + 76, 234, 330, 80),
+          [("We continue at", T_BODY, False, BLUE, None),
+           ("[CLOCK TIME]", T_STATEMENT, True, BLUE, 2)])
+
+    open_note = card(s, 491, 208, 428, 120, WHITE, pad=24)
+    icon(s, "message", 491 + 28, 240, 30, BLUE)
+    write(textbox(s, 491 + 76, 234, 330, 80),
+          [("Submitted a case?", T_CARD, True, BLUE, None),
+           ("The trainers are reviewing the cases during the break.",
+            T_BODY, False, BLUE, 4)])
+
+    strip = card(s, MARGIN, 352, CONTENT_W, 48, WHITE, pad=14)
+    runs(strip, [("Still open   ", True, BLUE),
+                 ("Prompt Clinic submissions remain open until we restart.",
+                  False, BLUE)], size=T_LEAD)
     footer(s, "Break", None, 30)
 
 

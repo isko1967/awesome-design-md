@@ -46,7 +46,11 @@ RED, RED_LIGHT, RED_3 = rgb("D9304C"), rgb("FFACA6"), rgb("FFD7D7")
 TANGERINE_1, TANGERINE_LIGHT, TANGERINE_3 = (rgb("B24A00"), rgb("FAE052"),
                                              rgb("FFECBC"))
 # the corporate list has no neutral tint; these come from the design system
-GREY_SURFACE, GREY_TEXT = rgb("F6F6F6"), rgb("747474")
+GREY_SURFACE = rgb("F6F6F6")
+# There is no corporate grey for type. On a light ground text is Helvetia
+# blue, on a dark one it is white; GREY_TEXT stays as a name so the block
+# modules keep importing, but it resolves to blue.
+GREY_TEXT = BLUE
 
 
 class Role:
@@ -491,6 +495,10 @@ CHIP_W, CHIP_GAP, CHIP_H, CHIP_Y = 207, 17, 84, 376
 
 def divider(slide, number, title_lines, subline, chips=(), ghost=(),
             ink=WHITE):
+    # A hollow chip needed an outline, which the brand does not use, and it
+    # read as a mistake rather than as "this block stops here". A block now
+    # shows only the steps it runs, spread over the same width.
+    chips = tuple(c for c in chips if c not in ghost)
     """Block opener and its variants: cover, break, clinic opener, close.
 
     Grounds are structural, never semantic: technique dividers and the cover
@@ -508,26 +516,13 @@ def divider(slide, number, title_lines, subline, chips=(), ghost=(),
         write(textbox(slide, x_text, 278, 920 - x_text, 30),
               [(subline, T_CARD, False, ink, None)])
 
-    x = MARGIN
-    for text in chips:
-        faded = text in ghost
-        chip = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Pt(x),
-                                      Pt(CHIP_Y), Pt(CHIP_W), Pt(CHIP_H))
-        chip.adjustments[0] = CORNER_PT / CHIP_H
-        chip.shadow.inherit = False
-        if faded:
-            # a step this block does not contain: shown, but not filled in
-            chip.fill.background()
-            chip.line.color.rgb = ink
-            chip.line.width = Pt(2)
-        else:
-            chip.fill.solid()
-            chip.fill.fore_color.rgb = ink
-            chip.line.fill.background()
-        chip.text_frame.word_wrap = True
-        write(chip, [(text, T_LEAD, True, ink if faded else BLUE, None)],
-              anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
-        x += CHIP_W + CHIP_GAP
+    if chips:
+        width = (CONTENT_W - CHIP_GAP * (len(chips) - 1)) / len(chips)
+        for i, text in enumerate(chips):
+            chip = card(slide, MARGIN + i * (width + CHIP_GAP), CHIP_Y,
+                        width, CHIP_H, ink)
+            write(chip, [(text, T_LEAD, True, BLUE, None)],
+                  anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER)
     return slide
 
 
